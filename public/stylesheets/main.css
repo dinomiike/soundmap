@@ -1,0 +1,122 @@
+body {
+  font: 1em 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  color: #666666;
+}
+
+#userName {
+  position: relative;
+  padding: 8px 0 0 8px;
+  font-size: 0.9;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.container {
+  position: relative;
+}
+
+.playerControls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 98%;
+  padding: 8px;
+  z-index: 10;
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); 
+}
+
+.widgetBox {
+  display: none;
+  position: relative;
+}
+
+.heartBox button {
+  display: none;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 1px solid #cc5200;
+  background-image: -webkit-linear-gradient(top, #ff6600, #ff3300);
+  background-image: -moz-linear-gradient(top, #ff6600, #ff3300);
+  background-image: linear-gradient(top, #ff6600, #ff3300);
+  color: #fff;
+  cursor: pointer;
+}
+
+.heartBox button:hover {
+  background-image: -webkit-linear-gradient(top, #ff7b27, #ff582e);
+}
+
+.userBox {
+  display: none;
+  position: relative;
+  top: 320px;
+  width: 500px;
+  background: #f5f5f5;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+
+.favorite {
+  position: relative;
+  height: 100px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ccc;
+  clear: both;
+}
+
+.favorite:not(:first-child) {
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.favoriteArtwork {
+  position: relative;
+  float: left;
+}
+
+.favoriteDetails {
+  position: relative;
+  left: 10px;
+}
+
+.setTrack {
+  border-radius: 10px;
+  border: 1px solid #cc5200;
+  background-image: -webkit-linear-gradient(top, #f60, #f30);
+  background-image: -moz-linear-gradient(top, #f60, #f30);
+  background-image: linear-gradient(top, #f60, #f30);
+  color: #fff;
+}
+
+.setTrack:hover {
+  background-image: -webkit-linear-gradient(top, #ff7b27, #ff582e);
+}
+
+/* Link Styles */
+.favoriteDetails .artist a:link, a:visited, a:active {
+  text-decoration: none;
+  font-size: 0.7em;
+  color: #999;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.favoriteDetails .artist a:hover {
+  color: #333;
+}
+
+.favoriteDetails .title a:link, a:visited, a:active {
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.favoriteDetails .title a:hover {
+  color: #06c;
+}
+

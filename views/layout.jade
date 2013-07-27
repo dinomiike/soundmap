@@ -1,7 +1,13 @@
 doctype 5
-html
+html(lang="en")
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta charset='utf-8'
+    title=title
+    link(rel='stylesheet', href='stylesheets/main.css')
   body
     block content
+  script(type='text/javascript', src='lib/jquery-1.10.2.min.js')
+  script(type='text/javascript', src='lib/underscore-min.js')
+  script(type='text/javascript', src='lib/soundcloud-sdk.js')
+  script(type='text/javascript', src='lib/soundcloud-api.js')
+  script(type='text/javascript', src='javascripts/main.js')

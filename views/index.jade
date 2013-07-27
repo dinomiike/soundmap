@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .playerControls
+      .authenticateButton
+        img#authen(src="images/btn-connect-sc-l.png", width=242, height=29)
+      .widgetBox
+        iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")
+      .heartBox
+        button &lt;3
+    .userBox
+      #userName
+      #userFavorites
