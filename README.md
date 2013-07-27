@@ -1,4 +1,5 @@
-# Soundmap, a Hack Reactor Student Personal Project
+# Soundmap
+## A [Hack Reactor](http://hackreactor.com) Student Personal Project
 
 It's a visualizer for the best parts of a song on Soundcloud. Add a song you like and mark the part you like the best. Share the link with your friends to see which part they liked best.
 
