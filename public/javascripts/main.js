@@ -30,6 +30,7 @@ $(function() {
     var widget = SC.Widget(widgetIframe);
 
     widget.load(trackUrl, {
+      // auto_play: true,
       buying: false,
       liking: false,
       download: false,
@@ -49,6 +50,7 @@ $(function() {
       });
 
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
+        drawLine(pos.currentPosition);
         if (triggerPoint && pos.currentPosition > triggerPoint) {
           console.log('fire event!', index, triggerPoint);
           $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
