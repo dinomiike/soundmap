@@ -17,13 +17,15 @@ var scrubber = function(duration) {
     .style('stroke', 'rgb(0,0,0)');
 };
 
-var drawLine = function(pos) {
-  pos = (pos * 500) / songDuration;
+var drawLine = function(startPos, endPos, jump) {
+  jump = jump || 0;
+  endPos = (endPos * 500) / songDuration;
   var svg = d3.select('.scrubber');
   var line = svg.select('line')
-    .attr('x1', 0)
-    .attr('y1', 0)
-    .attr('x2', pos)
-    .attr('y2', 0)
+    .attr('x1', startPos)
+    .attr('y1', 50)
+    .attr('x2', endPos)
+    .attr('y2', jump)
     .style('stroke', 'rgb(0,0,0)');
+  startPos = endPos;
 };

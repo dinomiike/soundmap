@@ -46,7 +46,8 @@ $(function() {
       show_comments: false
     });
 
-    var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
+    // var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
+    var eventPoints = [1822, 8000, 12000, 30000];
 
     var index = 0;
     var triggerPoint = eventPoints[index];
@@ -57,13 +58,17 @@ $(function() {
         scrubber(duration);
       });
 
+      var startPos = 0;
+
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
-        drawLine(pos.currentPosition);
         if (triggerPoint && pos.currentPosition > triggerPoint) {
           console.log('fire event!', index, triggerPoint);
           $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
           index += 1;
           triggerPoint = eventPoints[index];
+          drawLine(startPos, pos.currentPosition, 0);
+        } else {
+          drawLine(startPos, pos.currentPosition);
         }
       });
     });
