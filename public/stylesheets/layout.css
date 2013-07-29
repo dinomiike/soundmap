@@ -71,12 +71,16 @@ main {
 
 .playerBox {
   position: relative;
-  height: 100px;
+  height: 300px;
   z-index: 15;
 }
 
 .player {
   display: none;
+}
+
+.scrubber {
+  height: 250px;
 }
 
 h1.logoBox {

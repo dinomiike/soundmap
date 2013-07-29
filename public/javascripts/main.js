@@ -43,6 +43,11 @@ $(function() {
     var triggerPoint = eventPoints[index];
 
     widget.bind(SC.Widget.Events.READY, function() {
+      // When the widget is ready, get the song duration and pass it to the global cache
+      widget.getDuration(function(duration) {
+        scrubber(duration);
+      });
+
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
         if (triggerPoint && pos.currentPosition > triggerPoint) {
           console.log('fire event!', index, triggerPoint);
@@ -120,7 +125,11 @@ $(function() {
 
   // Event bindings
   $("#connect").on("click", function() {
-    authenticate(this);
+    if (localStorage.token) {
+      delete localStorage.token;
+    } else {
+      authenticate(this);
+    }
   });
 
   $(".heartBox button").on("click", function() {
