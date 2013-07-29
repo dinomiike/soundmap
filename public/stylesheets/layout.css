@@ -81,7 +81,7 @@ main {
 
 .scrubber {
   position: relative;
-  height: 250px;
+  height: 100px;
   clear: both;
 }
 
@@ -92,11 +92,23 @@ main {
   height: 100px;
 }
 
+aside.marker {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 80px;
+  background: #000;
+}
+
 .line {
   position: absolute;
   top: 0;
   width: 500px;
   height: 90px;
+}
+
+canvas {
+  opacity: 0.5;
 }
 
 .waveform {

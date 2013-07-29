@@ -46,8 +46,9 @@ $(function() {
       show_comments: false
     });
 
-    // var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
-    var eventPoints = [1822, 8000, 12000, 30000];
+    var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
+    // var eventPoints = [1822, 8000, 12000, 30000];
+    // var eventPoints = [12000, 40000];
 
     var index = 0;
     var triggerPoint = eventPoints[index];
@@ -60,7 +61,14 @@ $(function() {
       });
       widget.getCurrentSound(function(sound) {
         user.waveform = sound.waveform_url;
-        $('.waveform').append('<img src="' + sound.waveform_url + '" width="500" height="80">');
+        $('.waveform').html('<img src="' + sound.waveform_url + '" width="500" height="80">');
+        // outline the heatmap based on the event points
+        var markers = $('.heatmap').html();
+        for (var i = 0; i < eventPoints.length; i+=1) {
+          var loc = (eventPoints[i] * 500) / user.soundDuration;
+          markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
+          $('.heatmap').html(markers);
+        }
       });
 
       var canvas = document.getElementById('linewave');
@@ -172,6 +180,25 @@ $(function() {
 
   $("#userFavorites").on("click", "button", function() {
     setWidget($(this).data('link'));
+  });
+
+  $('.player .controls').on('click', 'button#play', function() {
+    var iframe = document.getElementById('sc-widget');
+    var widget = SC.Widget(iframe);
+    widget.play();
+  });
+
+  $('.player .controls').on('click', 'button#pause', function() {
+    var iframe = document.getElementById('sc-widget');
+    var widget = SC.Widget(iframe);
+    widget.pause();
+  });
+
+  $('.player .controls').on('click', 'button#stop', function() {
+    var iframe = document.getElementById('sc-widget');
+    var widget = SC.Widget(iframe);
+    widget.pause();
+    widget.seekTo(0);
   });
 
   $("#userFavorites").on("dragstart", ".favorite", function() {
