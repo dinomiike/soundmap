@@ -5,13 +5,10 @@ $(function() {
     console.log('you are connected');
     SC.accessToken(localStorage['token']);
     // display the disconnect button
-    $("#authen").attr({
-      src: 'assets/img/btn-disconnect-l.png',
-      width: '140'
-    });
+    $('#connect').text('disconnect');
     // get the list of favorites
     SC.get('/me', function(me) {
-      $("#userName").append(me.username);
+      $('.userName').append(me.username);
       user = me;
       favorites();
     });
@@ -20,6 +17,11 @@ $(function() {
   }
 
   window.bgColors = ['papayawhip', 'saddlebrown', 'lightblue', 'lemonchiffon', 'slateblue', 'cornflowerblue', 'limegreen', 'darkkhaki', 'indianred', 'yellowgreen', 'tomato', 'steelblue', 'crimson'];
+
+  var loadFirstTrack = function() {
+    $('h1').slideUp('slow');
+    $('.player').fadeIn('slow').show();
+  };
 
   // Initialize the widget
   var setWidget = function(trackUrl) {
@@ -55,17 +57,13 @@ $(function() {
   // API Calls
   var authenticate = function(_this) {
     SC.initialize({
-      client_id: '7dcc81337e68537c32f77a8df06decd0',
-      redirect_uri: 'http://localhost/music/authenticated.html'
+      client_id: '94d2eca97b9355ab27efa95d60ee64ef',
+      redirect_uri: 'http://localhost:3000/authenticated.html'
     });
     SC.connect(function() {
-      SC.get('/oauth/token')
       SC.get('/me', function(me) {
-        $(_this).attr({
-          src: 'assets/img/btn-disconnect-l.png',
-          width: '140'
-        });
-        $("#userName").append(me.username);
+        $(_this).text('disconnect');
+        $(".userName").append(me.username);
         // cache the user
         user = me;
         favorites();
@@ -86,7 +84,7 @@ $(function() {
               <div class="favoriteArtist artist"><a href="' + fav.user.permalink_url + '">' + fav.user.username + '</a></div>\
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
-              <button class="setTrack" data-link="' + fav.permalink_url + '">Play</button>\
+              <button class="setTrack" data-link="' + fav.permalink_url + '"></button>\
               </div>\
             </div>\
           </div>';
@@ -94,9 +92,12 @@ $(function() {
         if (!loadedFirstTrack) {
           // Set up the widget
           setWidget(fav.permalink_url);
-          $(".widgetBox").fadeIn(1500);
-          $(".heartBox button").fadeIn(1500);
-          $(".userBox").fadeIn(1500);
+          $('.widgetBox').fadeIn(1500);
+          loadFirstTrack();
+          $('.player .trackName').text(fav.title);
+          $('.player .artist').text(fav.user.username);
+          // $(".heartBox button").fadeIn(1500);
+          // $(".userBox").fadeIn(1500);
           loadedFirstTrack = true;
         }
       });
@@ -118,7 +119,7 @@ $(function() {
   };
 
   // Event bindings
-  $("#authen").on("click", function() {
+  $("#connect").on("click", function() {
     authenticate(this);
   });
 

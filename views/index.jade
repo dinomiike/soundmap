@@ -2,13 +2,21 @@ extends layout
 
 block content
   .container
-    .playerControls
-      .authenticateButton
-        img#authen(src="images/btn-connect-sc-l.png", width=242, height=29)
-      .widgetBox
-        iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")
-      .heartBox
-        button &lt;3
-    .userBox
-      #userName
-      #userFavorites
+    header
+      nav home
+      nav popular
+      nav host
+      nav#connect connect
+    main
+      .userName
+      .playerBox
+        h1.logoBox soundmap
+        .player
+          .trackName
+          .artist
+          .scrubber
+      .userBox
+        #userFavorites
+
+  .widgetBox
+    iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")

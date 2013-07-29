@@ -1,0 +1,161 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #efecb9;
+  font: bold 1em 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'Helvetica Neue', Helvetica, sans-serif;
+  color: #1c171e;
+}
+
+.container {
+  width: 500px;
+  margin: 0 auto;
+}
+
+header {
+  position: relative;
+  height: 80px;
+  z-index: 10;
+}
+
+header nav {
+  display: relative;
+  float: left;
+  margin: 4px 2px 0 2px;
+  width: 120px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: #e1fbe0;
+  cursor: pointer;
+}
+
+header nav:nth-child(1) {
+  margin-left: 0px;
+  background: #312d2c;
+  border: 1px solid #141205;
+}
+
+header nav:nth-child(2) {
+  background: #1888ba;
+  border: 1px solid #1a7bbf;
+}
+
+header nav:nth-child(3) {
+  background: #e73c45;
+  border: 1px solid #dc2f29;
+}
+
+header nav:nth-child(4) {
+  margin-right: 0px;
+  background: #ea9713;
+  border: 1px solid #d09517;
+  -webkit-transition: all 0.5s ease;
+}
+
+header nav:nth-child(4):hover {
+  height: 65px;
+  line-height: 70px;
+  margin-right: 0px;
+  background: #f8b818;
+  border: 1px solid #d09517;
+}
+
+main {
+  clear: both;
+}
+
+.userName {
+  font-size: 0.5em;
+  text-align: right;
+}
+
+.playerBox {
+  position: relative;
+  height: 100px;
+  z-index: 15;
+}
+
+.player {
+  display: none;
+}
+
+h1.logoBox {
+  font-size: 4em;
+  letter-spacing: -7px;
+}
+
+.favorite {
+  position: relative;
+  height: 100px;
+  /*background: #1888ba;*/
+  background: #c3be87;
+  clear: both;
+  border: 1px solid #b8b37c;
+  -webkit-transition: all 0.5s ease;
+}
+
+.favorite:hover {
+  background: #1ea7d9;
+}
+
+.favoriteArtwork {
+  position: relative;
+  float: left;
+}
+
+.favoriteDetails {
+  position: relative;
+  float: left;
+  padding: 8px;
+}
+
+.favoriteArtist {
+  font-size: 0.75em;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+.favoriteTitle {
+  width: 380px;
+  font-size: 0.9em;
+}
+
+.favorite a:link, a:active, a:visited {
+  text-decoration: none;
+  /*color: #e1fbe0;*/
+  color: #2d2c2a;
+}
+
+.setTrack {
+  width: 16px;
+  height: 16px;
+  background: none;
+  border: none;
+  /*background-image: url(../images/play.png);*/
+  background-image: url(../images/play-dark.png);
+}
+
+.widgetBox {
+  visibility: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
