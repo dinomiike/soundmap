@@ -80,7 +80,30 @@ main {
 }
 
 .scrubber {
+  position: relative;
   height: 250px;
+  clear: both;
+}
+
+.heatmap {
+  position: absolute;
+  top: 0;
+  width: 500px;
+  height: 100px;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  width: 500px;
+  height: 90px;
+}
+
+.waveform {
+  position: absolute;
+  top: 0;
+  width: 500px;
+  height: 80px;
 }
 
 h1.logoBox {

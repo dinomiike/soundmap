@@ -55,20 +55,34 @@ $(function() {
     widget.bind(SC.Widget.Events.READY, function() {
       // When the widget is ready, get the song duration and pass it to the global cache
       widget.getDuration(function(duration) {
-        scrubber(duration);
+        // scrubber(duration);
+        user.soundDuration = duration;
       });
+      widget.getCurrentSound(function(sound) {
+        user.waveform = sound.waveform_url;
+        $('.waveform').append('<img src="' + sound.waveform_url + '" width="500" height="80">');
+      });
+
+      var canvas = document.getElementById('linewave');
+      var context = canvas.getContext('2d');
+      context.lineWidth = 80;
+      context.strokeStyle = '#1888ba';
+      context.beginPath();
+      context.moveTo(0,40);
 
       var startPos = 0;
 
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
+        context.lineTo((pos.currentPosition * 500) / user.soundDuration,40);
+        context.stroke();
         if (triggerPoint && pos.currentPosition > triggerPoint) {
           console.log('fire event!', index, triggerPoint);
           $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
           index += 1;
           triggerPoint = eventPoints[index];
-          drawLine(startPos, pos.currentPosition, 0);
+          // drawLine(startPos, pos.currentPosition, 0);
         } else {
-          drawLine(startPos, pos.currentPosition);
+          // drawLine(startPos, pos.currentPosition);
         }
       });
     });
