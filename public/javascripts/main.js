@@ -23,6 +23,14 @@ $(function() {
     $('.player').fadeIn('slow').show();
   };
 
+  var songIntensity = function() {
+    for (var n = 3; n < 140; n+=3) {
+      if (pixels[Math.floor(((1800 * n) + 1201.3408655357287) * 4)] === 0) {
+        console.log(n);
+      }
+    }
+  };
+
   // Initialize the widget
   var setWidget = function(trackUrl) {
     $('.container').removeAttr('style');
