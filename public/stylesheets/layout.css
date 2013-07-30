@@ -79,6 +79,14 @@ main {
   display: none;
 }
 
+.player .artist {
+  font-size: 0.75em;
+}
+
+.player .trackName {
+
+}
+
 .scrubber {
   position: relative;
   height: 100px;

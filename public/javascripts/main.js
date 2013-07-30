@@ -43,7 +43,8 @@ $(function() {
       liking: false,
       download: false,
       show_artwork: true,
-      show_comments: false
+      show_comments: false,
+      theme_color: '1c171e'
     });
 
     var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
@@ -61,7 +62,7 @@ $(function() {
       });
       widget.getCurrentSound(function(sound) {
         user.waveform = sound.waveform_url;
-        $('.waveform').html('<img src="' + sound.waveform_url + '" width="500" height="80">');
+        $('.waveform').html('<img src="' + sound.waveform_url + '" width="500" height="80" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
         // outline the heatmap based on the event points
         var markers = $('.heatmap').html();
         for (var i = 0; i < eventPoints.length; i+=1) {
@@ -85,7 +86,7 @@ $(function() {
         context.stroke();
         if (triggerPoint && pos.currentPosition > triggerPoint) {
           console.log('fire event!', index, triggerPoint);
-          $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
+          // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
           index += 1;
           triggerPoint = eventPoints[index];
           // drawLine(startPos, pos.currentPosition, 0);
@@ -136,8 +137,8 @@ $(function() {
           setWidget(fav.permalink_url);
           $('.widgetBox').fadeIn(1500);
           loadFirstTrack();
-          $('.player .trackName').text(fav.title);
           $('.player .artist').text(fav.user.username);
+          $('.player .trackName').text(fav.title);
           // $(".heartBox button").fadeIn(1500);
           // $(".userBox").fadeIn(1500);
           loadedFirstTrack = true;
@@ -199,6 +200,8 @@ $(function() {
     var widget = SC.Widget(iframe);
     widget.pause();
     widget.seekTo(0);
+    $('.linewave').remove();
+    $('.line').html('<canvas id="linewave" width="500" height="80">');
   });
 
   $("#userFavorites").on("dragstart", ".favorite", function() {

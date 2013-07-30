@@ -1,8 +1,6 @@
 extends layout
 
 block content
-  .widgetBox
-    iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")
   .container
     header
       nav soundmap
@@ -14,8 +12,8 @@ block content
       .playerBox
         h1.logoBox soundmap
         .player
-          .trackName
           .artist
+          .trackName
           .scrubber
             .heatmap
             .line
@@ -27,4 +25,5 @@ block content
             button#stop stop
       .userBox
         #userFavorites
-  img#waveform(src='images/IfiwSmjkxSyH_m.png')
+  .widgetBox
+    iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")
