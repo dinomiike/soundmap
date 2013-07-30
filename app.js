@@ -3,11 +3,18 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+var express = require('express'),
+  routes = require('./routes'),
+  user = require('./routes/user'),
+  http = require('http'),
+  path = require('path'),
+  mysql = require('mysql');
+
+var dbConnection = mysql.createConnection({
+  user: '',
+  password: '',
+  database: ''
+});
 
 var app = express();
 
