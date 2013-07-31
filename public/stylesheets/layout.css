@@ -73,7 +73,7 @@ main {
 
 .playerBox {
   position: relative;
-  height: 200px;
+  /*height: 200px;*/
   margin-bottom: 25px;
   padding: 10px;
   background: #efefef;
@@ -90,7 +90,22 @@ main {
 }
 
 .player .trackName {
+}
 
+.controls button {
+  width: 16px;
+  height: 16px;
+  background: none;
+  border: none;
+  background-image: url(../images/play-dark.png);
+}
+
+.controls button.pause {
+  width: 16px;
+  height: 16px;
+  background: none;
+  border: none;
+  background-image: url(../images/pause-dark.png);
 }
 
 .scrubber {
@@ -145,7 +160,9 @@ h1.logoBox {
 
 .favorite {
   position: relative;
+  width: 500px;
   height: 100px;
+  margin: 0 auto;
   /*background: #1888ba;*/
   background: #c3be87;
   clear: both;

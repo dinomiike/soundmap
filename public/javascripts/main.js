@@ -183,10 +183,17 @@ $(function() {
     setWidget($(this).data('link'));
   });
 
-  $('.player .controls').on('click', 'button#play', function() {
+  $('.player .controls').on('click', 'button', function() {
     var iframe = document.getElementById('sc-widget');
     var widget = SC.Widget(iframe);
-    widget.play();
+    widget.isPaused(function(paused) {
+      if (paused) {
+        widget.play();
+      } else {
+        widget.pause();
+      }
+    });
+    $(this).toggleClass('pause');
   });
 
   $('.player .controls').on('click', 'button#pause', function() {
