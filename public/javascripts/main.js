@@ -113,21 +113,31 @@ $(function() {
         // Check to see if we have a record for this user
         var found = $.ajax({
           type: 'GET',
-          url: '/find/' + me.username + '/' + me.id
+          url: '/find/' + me.username + '/' + me.id,
+          success: function(data) {
+            if (found) {
+              $.ajax({
+                type: 'GET',
+                url: '/login/' + me.username + '/' + me.id
+              });
+            } else {
+              // If not, create an account for them
+              var create = $.ajax({
+                type: 'POST',
+                url: '/create',
+                data: {
+                  sc_id: me.id,
+                  username: me.username,
+                  permalink: me.permalink_url,
+                  avatar_url: me.avatar_url,
+                  country: me.country,
+                  full_name: me.full_name,
+                  city: me.city
+                }
+              });
+            }
+          }
         });
-        // If we do, update their logged in time
-        if (found) {
-          $.ajax({
-            type: 'GET',
-            url: '/login/' + me.username + '/' + me.id
-          });
-        } else {
-          // If not, create an account for them
-          var create = $.ajax({
-            type: 'POST',
-            url: '/create/' + me.username + '/' + me.id + '/' + me.permalink_url + '/' + me.avatar_url + '/' + me.country + '/' + me.full_name + '/' + me.city
-          });
-        }
         $(_this).text('disconnect');
         $(".userName").append(me.username);
         // cache the user
