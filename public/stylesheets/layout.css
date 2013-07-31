@@ -7,13 +7,15 @@ body {
 }
 
 .container {
-  width: 500px;
+  width: 600px;
   margin: 0 auto;
 }
 
 header {
   position: relative;
+  width: 500px;
   height: 80px;
+  margin: 0 auto;
   z-index: 10;
 }
 
@@ -71,7 +73,11 @@ main {
 
 .playerBox {
   position: relative;
-  height: 300px;
+  height: 200px;
+  margin-bottom: 25px;
+  padding: 10px;
+  background: #efefef;
+  border: 1px solid #e3e3e3;
   z-index: 15;
 }
 
@@ -96,22 +102,28 @@ main {
 .heatmap {
   position: absolute;
   top: 0;
-  width: 500px;
-  height: 100px;
+  width: 580px;
+  height: 90px;
+  background: #2f2f31;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#c3c08d), to(#2f2f31));
+  background-image: -webkit-linear-gradient(top, #c3c08d, #2f2f31); 
+  background-image: -moz-linear-gradient(top, #c3c08d, #2f2f31);
+  background-image: -ms-linear-gradient(top, #c3c08d, #2f2f31);
 }
 
 aside.marker {
   position: absolute;
   top: 0;
   width: 1px;
-  height: 80px;
+  height: 90px;
   background: #000;
+  opacity: 0.5;
 }
 
 .line {
   position: absolute;
   top: 0;
-  width: 500px;
+  width: 580px;
   height: 90px;
 }
 
@@ -122,8 +134,8 @@ canvas {
 .waveform {
   position: absolute;
   top: 0;
-  width: 500px;
-  height: 80px;
+  width: 580px;
+  height: 90px;
 }
 
 h1.logoBox {

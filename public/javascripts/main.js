@@ -47,8 +47,8 @@ $(function() {
       theme_color: '1c171e'
     });
 
-    var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
-    // var eventPoints = [1822, 8000, 12000, 30000];
+    // var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
+    var eventPoints = [1822, 8000, 12000, 30000];
     // var eventPoints = [12000, 40000];
 
     var index = 0;
@@ -62,7 +62,7 @@ $(function() {
       });
       widget.getCurrentSound(function(sound) {
         user.waveform = sound.waveform_url;
-        $('.waveform').html('<img src="' + sound.waveform_url + '" width="500" height="80" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
+        $('.waveform').html('<img src="' + sound.waveform_url + '" width="580" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
         // outline the heatmap based on the event points
         var markers = $('.heatmap').html();
         for (var i = 0; i < eventPoints.length; i+=1) {
@@ -74,15 +74,15 @@ $(function() {
 
       var canvas = document.getElementById('linewave');
       var context = canvas.getContext('2d');
-      context.lineWidth = 80;
+      context.lineWidth = 100;
       context.strokeStyle = '#1888ba';
       context.beginPath();
-      context.moveTo(0,40);
+      context.moveTo(0,45);
 
       var startPos = 0;
 
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
-        context.lineTo((pos.currentPosition * 500) / user.soundDuration,40);
+        context.lineTo((pos.currentPosition * 500) / user.soundDuration,45);
         context.stroke();
         if (triggerPoint && pos.currentPosition > triggerPoint) {
           console.log('fire event!', index, triggerPoint);
