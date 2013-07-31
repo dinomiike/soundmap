@@ -1,19 +1,24 @@
 $(function() {
   window.user = {};
 
+  // Program entry point: 
+  // If local storage session is available, set user's last_login time and load the app
   if (localStorage['token']) {
-    console.log('you are connected');
+    // Get the user info from Soundcloud
+    SC.get('/me', function(me) {
+      // Update user's logged in time
+      $.ajax({
+        type: 'GET',
+        url: '/login/' + me.username + '/' + me.id
+      });
+      $('.userName').append(me.username);
+      user = me;
+      // get the list of favorites
+      favorites();
+    });
     SC.accessToken(localStorage['token']);
     // display the disconnect button
     $('#connect').text('disconnect');
-    // get the list of favorites
-    SC.get('/me', function(me) {
-      $('.userName').append(me.username);
-      user = me;
-      favorites();
-    });
-    // load the first in the player
-    // unhide shit
   }
 
   window.bgColors = ['papayawhip', 'saddlebrown', 'lightblue', 'lemonchiffon', 'slateblue', 'cornflowerblue', 'limegreen', 'darkkhaki', 'indianred', 'yellowgreen', 'tomato', 'steelblue', 'crimson'];
@@ -105,6 +110,24 @@ $(function() {
     });
     SC.connect(function() {
       SC.get('/me', function(me) {
+        // Check to see if we have a record for this user
+        var found = $.ajax({
+          type: 'GET',
+          url: '/find/' + me.username + '/' + me.id
+        });
+        // If we do, update their logged in time
+        if (found) {
+          $.ajax({
+            type: 'GET',
+            url: '/login/' + me.username + '/' + me.id
+          });
+        } else {
+          // If not, create an account for them
+          var create = $.ajax({
+            type: 'POST',
+            url: '/create/' + me.username + '/' + me.id + '/' + me.permalink_url + '/' + me.avatar_url + '/' + me.country + '/' + me.full_name + '/' + me.city
+          });
+        }
         $(_this).text('disconnect');
         $(".userName").append(me.username);
         // cache the user
