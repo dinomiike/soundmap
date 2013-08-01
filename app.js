@@ -90,9 +90,15 @@ app.get('/likes/:id', function(req, res) {
       res.end(JSON.stringify(false));
     } else {
       console.log(sql);
+      console.log(results);
+      var container = [];
+      for (var i = 0; i < results.length; i += 1) {
+        container.push(results[i].event_point);
+      }
       var output = {
-        event_points: results
+        event_points: container
       };
+      console.log('output', output);
       res.end(JSON.stringify(output));
     }
   })

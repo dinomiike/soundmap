@@ -6,6 +6,7 @@ $(function() {
   if (localStorage['token']) {
     // Get the user info from Soundcloud
     SC.get('/me', function(me) {
+      SC.accessToken(localStorage['token']);
       // Update user's logged in time
       $.ajax({
         type: 'GET',
@@ -16,7 +17,7 @@ $(function() {
       // get the list of favorites
       favorites();
     });
-    SC.accessToken(localStorage['token']);
+    // SC.accessToken(localStorage['token']);
     // display the disconnect button
     $('#connect').text('disconnect');
   }
@@ -37,7 +38,7 @@ $(function() {
   };
 
   // Initialize the widget
-  var setWidget = function(trackUrl) {
+  var setWidget = function(trackUrl, trackId) {
     $('.container').removeAttr('style');
     var widgetIframe = document.getElementById('sc-widget');
     var widget = SC.Widget(widgetIframe);
@@ -48,57 +49,66 @@ $(function() {
       liking: false,
       download: false,
       show_artwork: true,
-      show_comments: false,
-      theme_color: '1c171e'
+      show_comments: false
     });
 
-    // var eventPoints = [1822, 3500, 4500, 6000, 8000, 10000, 10500];
-    var eventPoints = [1822, 8000, 12000, 30000];
-    // var eventPoints = [12000, 40000];
+    // Get event points for this track
+    var likes = $.ajax({
+      type: 'GET',
+      url: '/likes/' + trackId,
+      success: function(data) {
+        var eventPoints = JSON.parse(data);
+        eventPoints = eventPoints.event_points;
+        console.log(eventPoints);
+        var index = 0;
+        var triggerPoint = eventPoints[index];
 
-    var index = 0;
-    var triggerPoint = eventPoints[index];
+        widget.bind(SC.Widget.Events.READY, function() {
+          // When the widget is ready, get the song duration and pass it to the global cache
+          widget.getDuration(function(duration) {
+            // scrubber(duration);
+            user.soundDuration = duration;
+          });
+          widget.getCurrentSound(function(sound) {
+            console.log(sound);
+            user.waveform = sound.waveform_url;
+            sound.waveform_url;
+            $('.player .artist').text(sound.user.username);
+            $('.player .trackName').text(sound.title);
+            $('.waveform').html('<img src="' + sound.waveform_url + '" width="580" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
+            // outline the heatmap based on the event points
+            var markers = $('.heatmap').html();
+            for (var i = 0; i < eventPoints.length; i+=1) {
+              var loc = (eventPoints[i] * 500) / sound.duration;
+              markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
+              $('.heatmap').html(markers);
+            }
+          });
 
-    widget.bind(SC.Widget.Events.READY, function() {
-      // When the widget is ready, get the song duration and pass it to the global cache
-      widget.getDuration(function(duration) {
-        // scrubber(duration);
-        user.soundDuration = duration;
-      });
-      widget.getCurrentSound(function(sound) {
-        user.waveform = sound.waveform_url;
-        $('.waveform').html('<img src="' + sound.waveform_url + '" width="580" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
-        // outline the heatmap based on the event points
-        var markers = $('.heatmap').html();
-        for (var i = 0; i < eventPoints.length; i+=1) {
-          var loc = (eventPoints[i] * 500) / user.soundDuration;
-          markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
-          $('.heatmap').html(markers);
-        }
-      });
+          var canvas = document.getElementById('linewave');
+          var context = canvas.getContext('2d');
+          context.lineWidth = 100;
+          context.strokeStyle = '#1888ba';
+          context.beginPath();
+          context.moveTo(0,45);
 
-      var canvas = document.getElementById('linewave');
-      var context = canvas.getContext('2d');
-      context.lineWidth = 100;
-      context.strokeStyle = '#1888ba';
-      context.beginPath();
-      context.moveTo(0,45);
+          var startPos = 0;
 
-      var startPos = 0;
-
-      widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
-        context.lineTo((pos.currentPosition * 500) / user.soundDuration,45);
-        context.stroke();
-        if (triggerPoint && pos.currentPosition > triggerPoint) {
-          console.log('fire event!', index, triggerPoint);
-          // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
-          index += 1;
-          triggerPoint = eventPoints[index];
-          // drawLine(startPos, pos.currentPosition, 0);
-        } else {
-          // drawLine(startPos, pos.currentPosition);
-        }
-      });
+          widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
+            context.lineTo((pos.currentPosition * 500) / user.soundDuration,45);
+            context.stroke();
+            if (triggerPoint && pos.currentPosition > triggerPoint) {
+              console.log('fire event!', index, triggerPoint);
+              // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
+              index += 1;
+              triggerPoint = eventPoints[index];
+              // drawLine(startPos, pos.currentPosition, 0);
+            } else {
+              // drawLine(startPos, pos.currentPosition);
+            }
+          });
+        });
+      }
     });
   };
 
@@ -160,14 +170,14 @@ $(function() {
               <div class="favoriteArtist artist"><a href="' + fav.user.permalink_url + '">' + fav.user.username + '</a></div>\
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
-              <button class="setTrack" data-link="' + fav.permalink_url + '"></button>\
+              <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackId="' + fav.id + '"></button>\
               </div>\
             </div>\
           </div>';
         // load the first favored track to the widget and render the track visible
         if (!loadedFirstTrack) {
           // Set up the widget
-          setWidget(fav.permalink_url);
+          setWidget(fav.permalink_url, fav.id);
           $('.widgetBox').fadeIn(1500);
           loadFirstTrack();
           $('.player .artist').text(fav.user.username);
@@ -213,7 +223,7 @@ $(function() {
   });
 
   $("#userFavorites").on("click", "button", function() {
-    setWidget($(this).data('link'));
+    setWidget($(this).data('link'), $(this).data('trackId'));
   });
 
   $('.player .controls').on('click', 'button', function() {
