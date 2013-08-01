@@ -212,6 +212,7 @@ h1.logoBox {
 }
 
 .widgetBox {
+  display: none;
 }
 
 

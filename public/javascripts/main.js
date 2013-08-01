@@ -4,9 +4,9 @@ $(function() {
   // Program entry point: 
   // If local storage session is available, set user's last_login time and load the app
   if (localStorage['token']) {
+    SC.accessToken(localStorage['token']);
     // Get the user info from Soundcloud
     SC.get('/me', function(me) {
-      SC.accessToken(localStorage['token']);
       // Update user's logged in time
       $.ajax({
         type: 'GET',
@@ -17,7 +17,6 @@ $(function() {
       // get the list of favorites
       favorites();
     });
-    // SC.accessToken(localStorage['token']);
     // display the disconnect button
     $('#connect').text('disconnect');
   }
@@ -39,6 +38,7 @@ $(function() {
 
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
+    $('.widgetBox').show();
     $('.heatmap').empty();
     $('.container').removeAttr('style');
     var widgetIframe = document.getElementById('sc-widget');
