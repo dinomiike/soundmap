@@ -170,7 +170,7 @@ $(function() {
               <div class="favoriteArtist artist"><a href="' + fav.user.permalink_url + '">' + fav.user.username + '</a></div>\
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
-              <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackId="' + fav.id + '"></button>\
+              <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '"></button>\
               </div>\
             </div>\
           </div>';
@@ -208,6 +208,7 @@ $(function() {
   $("#connect").on("click", function() {
     if (localStorage.token) {
       delete localStorage.token;
+      window.location('/');
     } else {
       authenticate(this);
     }
@@ -223,7 +224,7 @@ $(function() {
   });
 
   $("#userFavorites").on("click", "button", function() {
-    setWidget($(this).data('link'), $(this).data('trackId'));
+    setWidget($(this).data('link'), $(this).data('trackid'));
   });
 
   $('.player .controls').on('click', 'button', function() {
