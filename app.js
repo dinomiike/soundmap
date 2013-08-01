@@ -82,6 +82,22 @@ app.post('/create', function(req, res) {
   });
 });
 
+app.get('/likes/:id', function(req, res) {
+  var sql = "SELECT event_point FROM likes WHERE track_id = " + req.params.id;
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(false));
+    } else {
+      console.log(sql);
+      var output = {
+        event_points: results
+      };
+      res.end(JSON.stringify(output));
+    }
+  })
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
