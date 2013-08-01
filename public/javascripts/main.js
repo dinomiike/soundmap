@@ -39,6 +39,7 @@ $(function() {
 
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
+    $('.heatmap').empty();
     $('.container').removeAttr('style');
     var widgetIframe = document.getElementById('sc-widget');
     var widget = SC.Widget(widgetIframe);
@@ -208,7 +209,7 @@ $(function() {
   $("#connect").on("click", function() {
     if (localStorage.token) {
       delete localStorage.token;
-      window.location('/');
+      window.location = '/';
     } else {
       authenticate(this);
     }
