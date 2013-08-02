@@ -10,7 +10,18 @@ $(function() {
       // Update user's logged in time
       $.ajax({
         type: 'GET',
-        url: '/login/' + me.username + '/' + me.id
+        url: '/login/' + me.username + '/' + me.id,
+        success: function() {
+          // Get local user id
+          $.ajax({
+            type: 'GET',
+            url: '/find/' + me.username + '/' + me.id,
+            success: function(data) {
+              data = JSON.parse(data);
+              user.soundmap_id = data.id;
+            }
+          });
+        }
       });
       $('.userName').append(me.username);
       user = me;
@@ -38,11 +49,18 @@ $(function() {
 
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
+    // Cleanup on existing elements
     $('.widgetBox').show();
     $('.heatmap').empty();
     $('.container').removeAttr('style');
+
     var widgetIframe = document.getElementById('sc-widget');
     var widget = SC.Widget(widgetIframe);
+
+    // Reset the scrubber line
+    widget.seekTo(0);
+    $('.linewave').remove();
+    $('.line').html('<canvas id="linewave" width="580" height="90">');
 
     widget.load(trackUrl, {
       // auto_play: true,
@@ -71,9 +89,8 @@ $(function() {
             user.soundDuration = duration;
           });
           widget.getCurrentSound(function(sound) {
-            console.log(sound);
             user.waveform = sound.waveform_url;
-            sound.waveform_url;
+            user.currentSongId = sound.id;
             $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
             $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
             $('.waveform').html('<img src="' + sound.waveform_url + '" width="580" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
@@ -96,6 +113,7 @@ $(function() {
           var startPos = 0;
 
           widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
+            // console.log('playing the song with the following event points', eventPoints);
             context.lineTo((pos.currentPosition * 580) / user.soundDuration,45);
             context.stroke();
             if (triggerPoint && pos.currentPosition > triggerPoint) {
@@ -126,7 +144,8 @@ $(function() {
           type: 'GET',
           url: '/find/' + me.username + '/' + me.id,
           success: function(data) {
-            if (found) {
+            console.log(data);
+            if (data) {
               $.ajax({
                 type: 'GET',
                 url: '/login/' + me.username + '/' + me.id
@@ -150,7 +169,7 @@ $(function() {
           }
         });
         $(_this).text('disconnect');
-        $(".userName").append(me.username);
+        $('.userName').append(me.username);
         // cache the user
         user = me;
         favorites();
@@ -215,12 +234,24 @@ $(function() {
     }
   });
 
-  $(".heartBox button").on("click", function() {
+  $("#heart").on("click", function() {
     var widgetIframe = $("#sc-widget")[0];
     var widget = SC.Widget(widgetIframe);
     var heart, heartCursor = widget.getPosition(function(pos) {
       heart = pos;
       console.log('<3 ' + heart + '!');
+      var submitLikePoint = $.ajax({
+        type: 'POST',
+        url: '/likesong',
+        data: {
+          userId: user.soundmap_id,
+          trackId: user.currentSongId,
+          eventPoint: heart
+        },
+        success: function() {
+          console.log('like point saved!');
+        }
+      });
     });
   });
 
@@ -228,7 +259,7 @@ $(function() {
     setWidget($(this).data('link'), $(this).data('trackid'));
   });
 
-  $('.player .controls').on('click', 'button', function() {
+  $('.player .controls').on('click', '#audio', function() {
     var iframe = document.getElementById('sc-widget');
     var widget = SC.Widget(iframe);
     widget.isPaused(function(paused) {
@@ -238,23 +269,24 @@ $(function() {
         widget.pause();
       }
     });
+    $(this).toggleClass('play');
     $(this).toggleClass('pause');
   });
 
-  $('.player .controls').on('click', 'button#pause', function() {
-    var iframe = document.getElementById('sc-widget');
-    var widget = SC.Widget(iframe);
-    widget.pause();
-  });
+  // $('.player .controls').on('click', 'button#pause', function() {
+  //   var iframe = document.getElementById('sc-widget');
+  //   var widget = SC.Widget(iframe);
+  //   widget.pause();
+  // });
 
-  $('.player .controls').on('click', 'button#stop', function() {
-    var iframe = document.getElementById('sc-widget');
-    var widget = SC.Widget(iframe);
-    widget.pause();
-    widget.seekTo(0);
-    $('.linewave').remove();
-    $('.line').html('<canvas id="linewave" width="580" height="90">');
-  });
+  // $('.player .controls').on('click', 'button#stop', function() {
+  //   var iframe = document.getElementById('sc-widget');
+  //   var widget = SC.Widget(iframe);
+  //   widget.pause();
+  //   widget.seekTo(0);
+  //   $('.linewave').remove();
+  //   $('.line').html('<canvas id="linewave" width="580" height="90">');
+  // });
 
   $("#userFavorites").on("dragstart", ".favorite", function() {
     dragStart();

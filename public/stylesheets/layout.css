@@ -103,17 +103,27 @@ main {
 .controls button {
   width: 16px;
   height: 16px;
-  background: none;
   border: none;
+}
+
+.play {
+  background: none;
   background-image: url(../images/play-dark.png);
 }
 
-.controls button.pause {
-  width: 16px;
-  height: 16px;
+.pause {
   background: none;
-  border: none;
   background-image: url(../images/pause-dark.png);
+}
+
+#heart {
+  background: none;
+  background-image: url(../images/heart.png);
+  -webkit-transition: all 0.9s ease;
+}
+
+#heart:hover {
+  background-image: url(../images/heart-highlight.png);
 }
 
 .scrubber {

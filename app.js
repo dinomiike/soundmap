@@ -45,9 +45,9 @@ app.get('/login/:user/:scid', function(req, res) {
   });
 });
 
-app.get('/find/:user/:scid', function(req, res) {
+app.get('/find/:username/:scid', function(req, res) {
   // Locate a user in the local database with the username and id from the Soundcloud api
-  var sql = "SELECT id, username FROM users WHERE username = '" + req.params.user + "' AND sc_id = " + req.params.scid;
+  var sql = "SELECT id, username FROM users WHERE username = '" + req.params.username + "' AND sc_id = " + req.params.scid;
   console.log(sql);
   db.query(sql, function(err, results) {
     if (err) {
@@ -58,7 +58,7 @@ app.get('/find/:user/:scid', function(req, res) {
       if (results.length > 0) {
         console.log('found the user');
         console.log(results);
-        res.end(JSON.stringify(true));
+        res.end(JSON.stringify(results[0]));
       } else {
         res.end(JSON.stringify(false));
       }
@@ -102,6 +102,20 @@ app.get('/likes/:id', function(req, res) {
       res.end(JSON.stringify(output));
     }
   })
+});
+
+app.post('/likesong', function(req, res) {
+  var data = res.req.body;
+  var sql = "INSERT INTO likes(user_id, track_id, event_point) VALUES(" + data.userId + ", " + data.trackId + ", " + data.eventPoint + ")";
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(false));
+    } else {
+      console.log(results, sql);
+      res.end(JSON.stringify(true));
+    }
+  });
 });
 
 http.createServer(app).listen(app.get('port'), function(){
