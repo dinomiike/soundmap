@@ -6,6 +6,10 @@ body {
   color: #1c171e;
 }
 
+a:link, a:visited, a:active, a:hover {
+  text-decoration: none;
+}
+
 .container {
   width: 600px;
   margin: 0 auto;
@@ -67,8 +71,9 @@ main {
 }
 
 .userName {
-  font-size: 0.5em;
+  font-size: 0.7em;
   text-align: right;
+  letter-spacing: -1px;
 }
 
 .playerBox {
@@ -87,9 +92,12 @@ main {
 
 .player .artist {
   font-size: 0.75em;
+  font-weight: normal;
+  color: #2d2c2a;
 }
 
 .player .trackName {
+  padding-bottom: 8px;
 }
 
 .controls button {
