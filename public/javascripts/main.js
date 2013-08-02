@@ -1,5 +1,6 @@
 $(function() {
   window.user = {};
+  var WAVEFORM_LENGTH = 580;
 
   // Program entry point: 
   // If local storage session is available, set user's last_login time and load the app
@@ -53,6 +54,8 @@ $(function() {
     $('.widgetBox').show();
     $('.heatmap').empty();
     $('.container').removeAttr('style');
+    $('#audio').removeClass('pause');
+    $('#audio').addClass('play');
 
     var widgetIframe = document.getElementById('sc-widget');
     var widget = SC.Widget(widgetIframe);
@@ -60,7 +63,7 @@ $(function() {
     // Reset the scrubber line
     widget.seekTo(0);
     $('.linewave').remove();
-    $('.line').html('<canvas id="linewave" width="580" height="90">');
+    $('.line').html('<canvas id="linewave" width="' + WAVEFORM_LENGTH + '" height="90">');
 
     widget.load(trackUrl, {
       // auto_play: true,
@@ -93,11 +96,11 @@ $(function() {
             user.currentSongId = sound.id;
             $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
             $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
-            $('.waveform').html('<img src="' + sound.waveform_url + '" width="580" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
+            $('.waveform').html('<img src="' + sound.waveform_url + '" width="' + WAVEFORM_LENGTH + '" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
             // outline the heatmap based on the event points
             var markers = $('.heatmap').html();
             for (var i = 0; i < eventPoints.length; i+=1) {
-              var loc = (eventPoints[i] * 500) / sound.duration;
+              var loc = (eventPoints[i] * WAVEFORM_LENGTH) / sound.duration;
               markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
               $('.heatmap').html(markers);
             }
@@ -114,7 +117,7 @@ $(function() {
 
           widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
             // console.log('playing the song with the following event points', eventPoints);
-            context.lineTo((pos.currentPosition * 580) / user.soundDuration,45);
+            context.lineTo((pos.currentPosition * WAVEFORM_LENGTH) / user.soundDuration,45);
             context.stroke();
             if (triggerPoint && pos.currentPosition > triggerPoint) {
               console.log('fire event!', index, triggerPoint);
@@ -211,6 +214,11 @@ $(function() {
     });
   };
 
+  var setMarker = function(pos) {
+    var loc = 
+    $('.heatmap').append('<aside class="marker" style="left: ' + loc + '"></aside');
+  };
+
   // Event callbacks
   var dragStart = function() {
     console.log('drag start');
@@ -285,7 +293,7 @@ $(function() {
   //   widget.pause();
   //   widget.seekTo(0);
   //   $('.linewave').remove();
-  //   $('.line').html('<canvas id="linewave" width="580" height="90">');
+  //   $('.line').html('<canvas id="linewave" width="' + WAVEFORM_LENGTH + '" height="90">');
   // });
 
   $("#userFavorites").on("dragstart", ".favorite", function() {

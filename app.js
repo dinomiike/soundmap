@@ -106,16 +106,38 @@ app.get('/likes/:id', function(req, res) {
 
 app.post('/likesong', function(req, res) {
   var data = res.req.body;
-  var sql = "INSERT INTO likes(user_id, track_id, event_point) VALUES(" + data.userId + ", " + data.trackId + ", " + data.eventPoint + ")";
-  db.query(sql, function(err, results) {
-    if (err) {
-      console.log(err, sql);
-      res.end(JSON.stringify(false));
-    } else {
-      console.log(results, sql);
-      res.end(JSON.stringify(true));
-    }
-  });
+  var sql = '';
+
+  if (data.userId.length > 0 && data.trackId.length > 0 && data.eventPoint.length > 0) {
+    // Has this user liked this song before?
+    db.query("SELECT track_id FROM likes WHERE track_id = " + data.trackId + " AND user_id = " + data.userId, function(err, results) {
+      if (err) {
+        console.log(err, sql);
+        res.end(JSON.stringify(false));
+      }
+      console.log(results);
+      if (results.length > 0) {
+        // This like event should be an update
+        sql = "UPDATE likes SET event_point = " + data.eventPoint + " WHERE user_id = " + data.userId + " AND track_id = " + data.trackId;
+      } else {
+        // This like event should be an insert
+        sql = "INSERT INTO likes(user_id, track_id, event_point) VALUES(" + data.userId + ", " + data.trackId + ", " + data.eventPoint + ")";
+      }
+
+      db.query(sql, function(err, results) {
+        if (err) {
+          console.log(err, sql);
+          res.end(JSON.stringify(false));
+        } else {
+          console.log(results, sql);
+          res.end(JSON.stringify(true));
+        }
+      });
+    });
+  } else {
+    console.log('insufficient parameters provided');
+    res.end(JSON.stringify(false));
+  }
 });
 
 http.createServer(app).listen(app.get('port'), function(){
