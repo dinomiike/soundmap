@@ -152,6 +152,42 @@ main {
   background-image: -ms-linear-gradient(top, #c3c08d, #2f2f31);
 }
 
+.map {
+  display: none;
+}
+
+/* Temp - Delete these 3 later */
+aside.one {
+  position: absolute;
+  top: 0;
+  left: 33px;
+  width: 45px;
+  height: 90px;
+  background: #e73c45;
+  opacity: 0.3;
+}
+
+aside.two {
+  position: absolute;
+  top: 0;
+  left: 71px;
+  width: 25px;
+  height: 90px;
+  background: darkkhaki;
+  opacity: 0.3;
+}
+
+aside.three {
+  position: absolute;
+  top: 0;
+  left: 510px;
+  width: 15px;
+  height: 90px;
+  background: yellowgreen;
+  opacity: 0.3;
+}
+/* End Temp */
+
 aside.marker {
   position: absolute;
   top: 0;
