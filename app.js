@@ -140,6 +140,22 @@ app.post('/likesong', function(req, res) {
   }
 });
 
+app.get('/popular', function(req, res) {
+  sql = "SELECT COUNT(likes.track_id) AS like_count, likes.track_id, artists.artist_name, tracks.track_title, tracks.permalink_url\
+    FROM likes INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
+    INNER JOIN artists ON tracks.sc_artist_id = artists.sc_artist_id\
+    GROUP BY likes.track_id\
+    ORDER BY like_count DESC\
+    LIMIT 15";
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(false));
+    }
+    res.end(JSON.stringify(results));
+  });
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
