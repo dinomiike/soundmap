@@ -96,8 +96,16 @@ main {
   color: #2d2c2a;
 }
 
+.artist a:link, a:active, a:hover, a:visited {
+  color: #2d2c2a;
+}
+
 .player .trackName {
   padding-bottom: 8px;
+}
+
+.trackName a:link, a:active, a:hover, a:visited {
+  color: #2d2c2a;
 }
 
 .controls button {

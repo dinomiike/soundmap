@@ -52,7 +52,7 @@ $(function() {
   var setWidget = function(trackUrl, trackId) {
     // Cleanup on existing elements
     $('.widgetBox').show();
-    $('.heatmap').empty();
+    $('.markers').empty();
     $('.container').removeAttr('style');
     $('#audio').removeClass('pause');
     $('#audio').addClass('play');
@@ -97,12 +97,12 @@ $(function() {
             $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
             $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
             $('.waveform').html('<img src="' + sound.waveform_url + '" width="' + WAVEFORM_LENGTH + '" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
-            // outline the heatmap based on the event points
-            var markers = $('.heatmap').html();
+            // place the markers based on the event points
+            var markers = $('.markers').html();
             for (var i = 0; i < eventPoints.length; i+=1) {
               var loc = (eventPoints[i] * WAVEFORM_LENGTH) / sound.duration;
               markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
-              $('.heatmap').html(markers);
+              $('.markers').html(markers);
             }
           });
 
@@ -215,8 +215,8 @@ $(function() {
   };
 
   var setMarker = function(pos) {
-    var loc = 
-    $('.heatmap').append('<aside class="marker" style="left: ' + loc + '"></aside');
+    var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
+    $('.markers').append('<aside class="marker" style="left: ' + loc + 'px;"></aside');
   };
 
   // Event callbacks
@@ -258,6 +258,7 @@ $(function() {
         },
         success: function() {
           console.log('like point saved!');
+          setMarker(heart);
         }
       });
     });
