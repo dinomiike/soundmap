@@ -156,6 +156,21 @@ app.get('/popular', function(req, res) {
   });
 });
 
+app.get('/recent', function(req, res) {
+  sql = "SELECT users.username, likes.track_id, likes.user_id, likes.date_set, tracks.track_title, tracks.uri, tracks.genre\
+    FROM users RIGHT JOIN likes ON users.id = likes.user_id\
+    INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
+    ORDER BY likes.date_set DESC\
+    LIMIT 5;"
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(false));
+    }
+    res.end(JSON.stringify(results));
+  })
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

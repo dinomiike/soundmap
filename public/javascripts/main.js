@@ -220,7 +220,7 @@ $(function() {
       url: '/popular',
       success: function(data) {
         var results = JSON.parse(data);
-        var output = '';
+        var output = '<h4>Popular songs</h4>';
         for (var i = 0; i < results.length; i += 1) {
           output += '<div class="popularTracks" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].permalink_url + '">\
             <div class="likeCount">' + results[i].like_count + '<em>likes</em></div>\
@@ -228,6 +228,23 @@ $(function() {
           </div>';
         }
         $('.popularBox').append(output);
+      }
+    });
+  };
+
+  var getRecentContent = function() {
+    var recent = $.ajax({
+      type: 'GET',
+      url: '/recent',
+      success: function(data) {
+        var results = JSON.parse(data);
+        var output = '<h4>Recently liked songs</h4>';
+        for (var i = 0; i < results.length; i += 1) {
+          output += '<div>\
+            <div>' + results[i].username + ' liked <a href="' + results[i].uri + '">' + results[i].track_title + '</a>' + moment(results[i].date_set).startOf('hour').fromNow() + '</div>\
+          </div>';
+        }
+        $('.recentBox').append(output);
       }
     });
   };
@@ -253,6 +270,7 @@ $(function() {
   // Event bindings
   $('#popular').on('click', function() {
     getPopularContent();
+    getRecentContent();
   });
 
   $('#connect').on('click', function() {

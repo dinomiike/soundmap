@@ -80,6 +80,7 @@ main {
   font-size: 0.7em;
   text-align: right;
   letter-spacing: -1px;
+  clear: both;
 }
 
 .playerBox {
@@ -92,25 +93,42 @@ main {
   z-index: 15;
 }
 
+.popularBox {
+  position: relative;
+  width: 250px;
+  float: left;
+}
+
+.recentBox {
+  position: relative;
+  width; 250px;
+  float: left;
+  font-size: 0.8em;
+  line-height: 18px;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
 .popularTracks {
   padding: 10px 0 10px 0;
   width: 100px;
   border-width: 1px 0 0 0;
-  border-color: limegreen;
+  border-color: #1a7bbf;
   border-style: solid;
 }
 
 .likeCount {
   font-family: 'GothicCustom';
-  font-size: 3em;
+  font-size: 40px;
   letter-spacing: -2px;
-  color: #1a7bbf;
+  /*color: #1a7bbf;*/
+  color: #333;
 }
 
 .likeCount em {
   margin-left: 2px;
   font-style: normal;
-  font-size: 0.4em;
+  font-size: 25px;
   letter-spacing: -1px;
 }
 
