@@ -246,8 +246,10 @@ aside.marker {
   top: 0;
   width: 1px;
   height: 90px;
-  background: #000;
-  opacity: 0.5;
+  padding: 0 5px 0 5px;
+  /*background: #000;*/
+  background: indianred;
+  opacity: 0.2;
 }
 
 .line {
@@ -328,6 +330,7 @@ h1.logoBox {
 
 .widgetBox {
   display: none;
+  /*visibility: hidden;*/
 }
 
 

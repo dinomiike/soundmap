@@ -51,7 +51,7 @@ $(function() {
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
     // Cleanup on existing elements
-    $('.widgetBox').show();
+    // $('.widgetBox').show();
     $('.markers').empty();
     $('.container').removeAttr('style');
     $('#audio').removeClass('pause');
@@ -86,6 +86,15 @@ $(function() {
         var triggerPoint = eventPoints[index];
 
         widget.bind(SC.Widget.Events.READY, function() {
+          widget.bind(SC.Widget.Events.FINISH, function() {
+            // console.log('song finished!');
+            var queue = JSON.parse(localStorage.queue);
+            if (queue !== undefined && queue.length >= 1) {
+              var next = queue.pop();
+              localStorage.queue = JSON.stringify(queue);
+              setWidget(next[0], next[1]);
+            }
+          });
           // When the widget is ready, get the song duration and pass it to the global cache
           widget.getDuration(function(duration) {
             // scrubber(duration);
@@ -132,6 +141,18 @@ $(function() {
         });
       }
     });
+  };
+
+  var enqueue = function(trackUrl, trackId) {
+    // localStorage[queue].push(trackUrl, trackId);
+    if (localStorage.queue === '' || localStorage.queue === undefined) {
+      localStorage.queue = JSON.stringify([[trackUrl, trackId]]);
+    } else {
+      var queue = JSON.parse(localStorage.queue);
+      queue.push([trackUrl, trackId]);
+      localStorage.queue = JSON.stringify(queue);
+    }
+    console.log(localStorage.queue);
   };
 
   // API Calls
@@ -194,6 +215,7 @@ $(function() {
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
               <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '"></button>\
+              <button class="queueTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '">q</button>\
               </div>\
             </div>\
           </div>';
@@ -201,7 +223,7 @@ $(function() {
         if (!loadedFirstTrack) {
           // Set up the widget
           setWidget(fav.permalink_url, fav.id);
-          $('.widgetBox').fadeIn(1500);
+          // $('.widgetBox').fadeIn(1500);
           loadFirstTrack();
           $('.player .artist').text(fav.user.username);
           $('.player .trackName').text(fav.title);
@@ -304,8 +326,12 @@ $(function() {
     });
   });
 
-  $('#userFavorites').on('click', 'button', function() {
+  $('#userFavorites').on('click', '.setTrack', function() {
     setWidget($(this).data('link'), $(this).data('trackid'));
+  });
+
+  $('#userFavorites').on('click', '.queueTrack', function() {
+    enqueue($(this).data('link'), $(this).data('trackid'));
   });
 
   $('.player .controls').on('click', '#audio', function() {
