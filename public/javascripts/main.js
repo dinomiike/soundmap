@@ -214,6 +214,24 @@ $(function() {
     });
   };
 
+  var getPopularContent = function() {
+    var popular = $.ajax({
+      type: 'GET',
+      url: '/popular',
+      success: function(data) {
+        var results = JSON.parse(data);
+        var output = '';
+        for (var i = 0; i < results.length; i += 1) {
+          output += '<div class="popularTracks" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].permalink_url + '">\
+            <div class="likeCount">' + results[i].like_count + '<em>likes</em></div>\
+            <div class="likeTrackTitle">' + results[i].track_title + '</div>\
+          </div>';
+        }
+        $('.popularBox').append(output);
+      }
+    });
+  };
+
   var setMarker = function(pos) {
     var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
     $('.markers').append('<aside class="marker" style="left: ' + loc + 'px;"></aside');
@@ -233,7 +251,11 @@ $(function() {
   };
 
   // Event bindings
-  $("#connect").on("click", function() {
+  $('#popular').on('click', function() {
+    getPopularContent();
+  });
+
+  $('#connect').on('click', function() {
     if (localStorage.token) {
       delete localStorage.token;
       window.location = '/';
@@ -242,8 +264,8 @@ $(function() {
     }
   });
 
-  $("#heart").on("click", function() {
-    var widgetIframe = $("#sc-widget")[0];
+  $('#heart').on('click', function() {
+    var widgetIframe = $('#sc-widget')[0];
     var widget = SC.Widget(widgetIframe);
     var heart, heartCursor = widget.getPosition(function(pos) {
       heart = pos;
@@ -264,7 +286,7 @@ $(function() {
     });
   });
 
-  $("#userFavorites").on("click", "button", function() {
+  $('#userFavorites').on('click', 'button', function() {
     setWidget($(this).data('link'), $(this).data('trackid'));
   });
 
@@ -280,6 +302,10 @@ $(function() {
     });
     $(this).toggleClass('play');
     $(this).toggleClass('pause');
+  });
+
+  $('.popularBox').on('click', '.popularTracks', function() {
+    setWidget($(this).data('trackurl'), $(this).data('trackid'));
   });
 
   // $('.player .controls').on('click', 'button#pause', function() {

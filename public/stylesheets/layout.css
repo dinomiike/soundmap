@@ -1,3 +1,9 @@
+@font-face {
+  font-family: 'GothicCustom';
+  src: url("LeagueGothic.eot");
+  src: local('â˜º'), url("LeagueGothic.otf") format('opentype'), url("leaguegothic.svg#lg") format('svg');
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -84,6 +90,35 @@ main {
   background: #efefef;
   border: 1px solid #e3e3e3;
   z-index: 15;
+}
+
+.popularTracks {
+  padding: 10px 0 10px 0;
+  width: 100px;
+  border-width: 1px 0 0 0;
+  border-color: limegreen;
+  border-style: solid;
+}
+
+.likeCount {
+  font-family: 'GothicCustom';
+  font-size: 3em;
+  letter-spacing: -2px;
+  color: #1a7bbf;
+}
+
+.likeCount em {
+  margin-left: 2px;
+  font-style: normal;
+  font-size: 0.4em;
+  letter-spacing: -1px;
+}
+
+.likeTrackTitle {
+  font-weight: normal;
+  font-size: 0.8em;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
 .player {
