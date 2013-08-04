@@ -40,6 +40,7 @@ $(function() {
     $('.player').fadeIn('slow').show();
   };
 
+  // Helper functions
   var songIntensity = function() {
     for (var n = 3; n < 140; n+=3) {
       if (pixels[Math.floor(((1800 * n) + 1201.3408655357287) * 4)] === 0) {
@@ -290,6 +291,10 @@ $(function() {
   };
 
   // Event bindings
+  $('#host').on('click', function() {
+    getLocation();
+  });
+
   $('#popular').on('click', function() {
     getPopularContent();
     getRecentContent();
