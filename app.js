@@ -192,6 +192,7 @@ app.post('/hostroom', function(req, res) {
 app.get('/broadcasts', function(req, res) {
   var sql = "SELECT users.username, broadcast.user_id, broadcast.user_lat, broadcast.user_lon, broadcast.date_created FROM\
     users RIGHT JOIN broadcast ON users.id = broadcast.user_id\
+    WHERE broadcast.active = TRUE\
     ORDER BY broadcast.date_created DESC;";
   db.query(sql, function(err, results) {
     if (err) {

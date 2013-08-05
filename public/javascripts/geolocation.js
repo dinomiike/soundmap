@@ -26,8 +26,27 @@
   };
 
   // TODO: Refactor this using setUserLocation with a callback
-  var nearbyRooms = function(position) {
-
+  var nearbyRooms = function(data) {
+    return function(position) {
+      user.lat = position.coords.latitude;
+      user.lon = position.coords.longitude;
+      console.log('*Your* lat/lon is: ', user.lat, user.lon);
+      console.log('what is data', data);
+      var output = '', distanceOutput = '';
+      for (var i = 0; i < data.length; i += 1) {
+        var distance = distanceBetweenHostAndClient(data[i].user_lat, data[i].user_lon, user.lat, user.lon);
+        if (distance < 0.5) {
+          distanceOutput = Math.round(distance * 5280) + 'ft';
+          output += '<div>\
+            <div>' + data[i].username + ' started a room about ' +
+              moment(data[i].date_created).startOf('hour').fromNow() + ' about ' +
+              distanceOutput + ' away'
+            '</div>\
+          </div>';
+        }
+      }
+      $('.rooms').append(output);
+    }
   };
 
   var getLocation = function() {
@@ -36,9 +55,10 @@
     }
   };
 
-  var getMyLocation = function() {
+  var getMyLocation = function(data) {
+    var callback = nearbyRooms(data);
     if (navigator) {
-      navigator.geolocation.getCurrentPosition(nearbyRooms);
+      navigator.geolocation.getCurrentPosition(callback);
     }
   };
 
@@ -63,12 +83,12 @@
     lon: -21.895210
   };
 
-  var distanceBetweenHostAndClient = function(lat1, lon1, lat2, lon2) {
+  var distanceBetweenHostAndClient = function(hostLat, hostLon, clientLat, clientLon) {
     var R = 3958.756; // Radius of the earth in miles
-    var dLat = (lat2 - lat1).toRad();
-    var dLon = (lon2 - lon1).toRad();
+    var dLat = (clientLat - hostLat).toRad();
+    var dLon = (clientLon - hostLon).toRad();
     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+      Math.cos(hostLat.toRad()) * Math.cos(clientLat.toRad()) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
@@ -81,15 +101,7 @@ $(function() {
     url: '/broadcasts',
     success: function(data) {
       data = JSON.parse(data);
-      var output = '';
-      for (var i = 0; data.length > i; i += 1) {
-        console.log(data[i]);
-        output += '<div>\
-          <div>' + data[i].username + ' started a room about ' + moment(data[i].date_created).startOf('hour').fromNow() + '</div>\
-        </div>';
-      }
-      $('.rooms').append(output);
-      // TODO: SHOW the distance from the host
+      getMyLocation(data);
     }
   });
 });

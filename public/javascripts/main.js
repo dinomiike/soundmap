@@ -98,7 +98,6 @@ $(function() {
           });
           // When the widget is ready, get the song duration and pass it to the global cache
           widget.getDuration(function(duration) {
-            // scrubber(duration);
             user.soundDuration = duration;
           });
           widget.getCurrentSound(function(sound) {
