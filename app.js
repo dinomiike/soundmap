@@ -6,6 +6,7 @@
 var express = require('express'),
   routes = require('./routes'),
   user = require('./routes/user'),
+  join = require('./routes/room'),
   http = require('http'),
   path = require('path'),
   mysql = require('mysql'),
@@ -34,6 +35,8 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+
+app.get('/join', join.room);
 
 app.get('/login/:user/:scid', function(req, res) {
   // Update the user's last_login field

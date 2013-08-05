@@ -291,13 +291,22 @@ $(function() {
   };
 
   // Event bindings
-  $('#host').on('click', function() {
-    getLocation();
+  $('#queue').on('click', function() {
+    console.log('display song queue');
+    var queue = JSON.parse(localStorage.queue);
+    console.log(queue);
+    setWidget(queue[0][0], queue[0][1]);
   });
 
   $('#popular').on('click', function() {
     getPopularContent();
     getRecentContent();
+  });
+
+  $('#host').on('click', function() {
+    var output = '<div>Would you like to host a music room? Soundmap will need your location information to continue. Is that all right with you?\
+      <button id="hostAgree">Yep</button> <button id="hostReject">Hell Nah</button></div>';
+    $('.news').prepend(output);
   });
 
   $('#connect').on('click', function() {
@@ -355,6 +364,19 @@ $(function() {
 
   $('.popularBox').on('click', '.popularTracks', function() {
     setWidget($(this).data('trackurl'), $(this).data('trackid'));
+  });
+
+  $('.news').on('click', '#hostAgree', function() {
+    console.log('host ready to jam');
+    getLocation();
+    console.log('creating a database entry for this session...');
+    console.log('tying this active queue to the aforementioned session db record...');
+    console.log('done');
+    console.log('==when a nearby user connects, they will be asked if they want to join the room==');
+  });
+
+  $('.news').on('click', '#hostReject', function() {
+    console.log('host is no host at all');
   });
 
   // $('.player .controls').on('click', 'button#pause', function() {
