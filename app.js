@@ -174,6 +174,34 @@ app.get('/recent', function(req, res) {
   })
 });
 
+app.post('/hostroom', function(req, res) {
+  var data = res.req.body;
+  console.log(data);
+  if (data.userId !== undefined && data.lat !== undefined && data.lon !== undefined) {
+    var sql = "INSERT INTO broadcast(user_id, user_lat, user_lon, active) VALUES(" + data.userId + ", " + data.lat + ", " + data.lon + ", 1)";
+    db.query(sql, function(err, results) {
+      if (err) {
+        console.log(err, sql);
+        res.end(JSON.stringify(false));
+      }
+      res.end(JSON.stringify(true));
+    });
+  }
+});
+
+app.get('/broadcasts', function(req, res) {
+  var sql = "SELECT users.username, broadcast.user_id, broadcast.user_lat, broadcast.user_lon, broadcast.date_created FROM\
+    users RIGHT JOIN broadcast ON users.id = broadcast.user_id\
+    ORDER BY broadcast.date_created DESC;";
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(false));
+    }
+    res.end(JSON.stringify(results));
+  });
+});
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

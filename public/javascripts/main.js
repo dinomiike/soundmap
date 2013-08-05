@@ -368,6 +368,7 @@ $(function() {
 
   $('.news').on('click', '#hostAgree', function() {
     console.log('host ready to jam');
+    user.host = true;
     getLocation();
     console.log('creating a database entry for this session...');
     console.log('tying this active queue to the aforementioned session db record...');

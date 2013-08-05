@@ -4,3 +4,4 @@ node_modules
 dbConnection.js
 dbConnectionLive.js
 music.sql
+scratchpad.sql
