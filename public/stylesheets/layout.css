@@ -187,6 +187,11 @@ main {
   background-image: url(../images/heart-highlight.png);
 }
 
+.playtime {
+  display: inline-block;
+  margin-left: 15px;
+}
+
 .scrubber {
   position: relative;
   height: 100px;
