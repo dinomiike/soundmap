@@ -109,7 +109,37 @@ app.get('/likes/:id', function(req, res) {
 
 app.post('/likesong', function(req, res) {
   var data = res.req.body;
+  console.log('POST Body: ', data);
   var sql = '';
+
+  // Has this song been liked before? If not, we need to capture it
+  sql = "SELECT id FROM artists WHERE sc_artist_id = " + data.artistId;
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(false));
+    }
+    if (results.length === 0) {
+      // Newly voted song, add it to the artists and tracks tables
+      sql = "INSERT INTO artists(sc_artist_id, artist_name) VALUES(" + data.artistId + ", '" + data.artist + "')";
+      db.query(sql, function(err, results) {
+        if (err) {
+          console.log(err, sql);
+          res.end(JSON.stringify(false));
+        }
+        console.log('New artist added!', sql);
+        sql = "INSERT INTO tracks(sc_track_id, sc_artist_id, track_title, uri, permalink_url, genre, label_name, bpm)\
+          VALUES(" + data.trackId + ", " + data.artistId + ", '" + data.trackTitle + "', '" + data.uri + "', '" + data.permalinkUrl + "', '" + data.genre.replace(/\'/g, "") + "', '" + data.label + "', '" + data.bpm + "')";
+        db.query(sql, function(err, results) {
+          if (err) {
+            console.log(err, sql);
+            res.end(JSON.stringify(false));
+          }
+          console.log('New track added! ', sql);
+        });
+      });
+    }
+  });
 
   if (data.userId.length > 0 && data.trackId.length > 0 && data.eventPoint.length > 0) {
     // Has this user liked this song before?
@@ -141,6 +171,21 @@ app.post('/likesong', function(req, res) {
     console.log('insufficient parameters provided');
     res.end(JSON.stringify(false));
   }
+});
+
+app.get('/heatmap/:songid', function(req, res) {
+  var sql = "SELECT FLOOR(event_point / 1000) AS second_blocks, COUNT(event_point) AS count\
+    FROM likes\
+    WHERE track_id = " + req.params.songid + "\
+    GROUP BY second_blocks\
+    ORDER BY count";
+  db.query(sql, function(err, results) {
+    if (err) {
+      console.log(err, sql);
+      res.end(JSON.stringify(results));
+    }
+    res.end(JSON.stringify(results));
+  });
 });
 
 app.get('/popular', function(req, res) {

@@ -96,14 +96,16 @@
   }
 
 $(function() {
-  var broadcasts = $.ajax({
-    type: 'GET',
-    url: '/broadcasts',
-    success: function(data) {
-      data = JSON.parse(data);
-      getMyLocation(data);
-    }
-  });
+  if (user.host) {
+    var broadcasts = $.ajax({
+      type: 'GET',
+      url: '/broadcasts',
+      success: function(data) {
+        data = JSON.parse(data);
+        getMyLocation(data);
+      }
+    });
+  }
 });
 
   // function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

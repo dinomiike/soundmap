@@ -100,6 +100,21 @@ $(function() {
           // When the widget is ready, get the song duration and pass it to the global cache
           widget.getDuration(function(duration) {
             user.soundDuration = duration;
+            // Generate the heat map for this track
+            var heatmap = $.ajax({
+              type: 'GET',
+              url: '/heatmap/' + trackId,
+              success: function(data) {
+                var heatcells = JSON.parse(data);
+                var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
+                var offset = 0;
+                for (var i = 0; i < heatcells.length; i += 1) {
+                  console.log(heatcells[i]);
+                  offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                  $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
+                }
+              }
+            });
           });
           widget.getCurrentSound(function(sound) {
             user.waveform = sound.waveform_url;
@@ -224,7 +239,7 @@ $(function() {
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
               <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '"></button>\
-              <button class="queueTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '">q</button>\
+              <button class="queueTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '">queue</button>\
               </div>\
             </div>\
           </div>';
@@ -332,18 +347,28 @@ $(function() {
     var heart, heartCursor = widget.getPosition(function(pos) {
       heart = pos;
       console.log('<3 ' + heart + '!');
-      var submitLikePoint = $.ajax({
-        type: 'POST',
-        url: '/likesong',
-        data: {
-          userId: user.soundmap_id,
-          trackId: user.currentSongId,
-          eventPoint: heart
-        },
-        success: function() {
-          console.log('like point saved!');
-          setMarker(heart);
-        }
+      widget.getCurrentSound(function(sound) {
+        var submitLikePoint = $.ajax({
+          type: 'POST',
+          url: '/likesong',
+          data: {
+            userId: user.soundmap_id,
+            trackId: user.currentSongId,
+            trackTitle: sound.title,
+            artistId: sound.user.id,
+            artist: sound.user.username,
+            uri: sound.uri,
+            permalinkUrl: sound.permalink_url,
+            genre: sound.genre.replace("'", "''"),
+            label: sound.label_name,
+            bpm: sound.bpm,
+            eventPoint: heart
+          },
+          success: function() {
+            console.log('like point saved!');
+            setMarker(heart);
+          }
+        });
       });
     });
   });

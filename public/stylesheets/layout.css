@@ -215,6 +215,14 @@ main {
   background-image: -ms-linear-gradient(top, #c3c08d, #2f2f31);
 }
 
+.cell {
+  position: absolute;
+  top: 0;
+  height: 90px;
+  background: #dae289;
+  opacity: 0.5;
+}
+
 .map {
   display: none;
 }
@@ -252,14 +260,16 @@ aside.three {
 /* End Temp */
 
 aside.marker {
+  display: none;
   position: absolute;
   top: 0;
   width: 1px;
   height: 90px;
-  padding: 0 5px 0 5px;
+  /*padding: 0 5px 0 5px;*/
   /*background: #000;*/
-  background: indianred;
-  opacity: 0.2;
+  /*background: indianred;*/
+  background: #333;
+  opacity: 0.3;
 }
 
 .line {
@@ -336,6 +346,12 @@ h1.logoBox {
   border: none;
   /*background-image: url(../images/play.png);*/
   background-image: url(../images/play-dark.png);
+}
+
+.queueTrack {
+  font-size: 0.7em;
+  border: none;
+  background: none;
 }
 
 .widgetBox {
