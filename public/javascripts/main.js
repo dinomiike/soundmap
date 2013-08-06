@@ -131,13 +131,10 @@ $(function() {
             seconds = Math.floor(pos.currentPosition / 1000);
             clockSeconds = seconds % 60;
             minutes = Math.floor(seconds / 60);
-            if (clockSeconds < 9) {
+            if (clockSeconds <= 9) {
               clockSeconds = '0' + clockSeconds.toString();
             }
-            // $('.playtime').text(minutes + ':' + seconds);
-            console.log(pos.currentPosition);
             $('.playtime').text(minutes + ':' + clockSeconds);
-            // console.log('playing the song with the following event points', eventPoints);
             context.lineTo((pos.currentPosition * WAVEFORM_LENGTH) / user.soundDuration,45);
             context.stroke();
             if (triggerPoint && pos.currentPosition > triggerPoint) {
