@@ -103,16 +103,17 @@ $(function() {
             // Generate the heat map for this track
             var heatmap = $.ajax({
               type: 'GET',
-              url: '/heatmap/' + trackId,
+              url: '/heatmap/' + trackId + '/' + user.soundDuration,
               success: function(data) {
-                var heatcells = JSON.parse(data);
-                var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
-                var offset = 0;
-                for (var i = 0; i < heatcells.length; i += 1) {
-                  console.log(heatcells[i]);
-                  offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                  $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
-                }
+                // var heatcells = JSON.parse(data);
+                // var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
+                // var offset = 0;
+                // for (var i = 0; i < heatcells.length; i += 1) {
+                //   // console.log(heatcells[i]);
+                //   offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                //   $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
+                // }
+                console.log(data);
               }
             });
           });

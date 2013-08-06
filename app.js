@@ -173,19 +173,53 @@ app.post('/likesong', function(req, res) {
   }
 });
 
-app.get('/heatmap/:songid', function(req, res) {
-  var sql = "SELECT FLOOR(event_point / 1000) AS second_blocks, COUNT(event_point) AS count\
-    FROM likes\
-    WHERE track_id = " + req.params.songid + "\
-    GROUP BY second_blocks\
-    ORDER BY count";
-  db.query(sql, function(err, results) {
-    if (err) {
-      console.log(err, sql);
-      res.end(JSON.stringify(results));
+app.get('/heatmap/:songid/:duration', function(req, res) {
+  if (req.params.songid !== undefined && req.params.duration !== undefined) {
+    var sql = "SELECT FLOOR(event_point / 1000) AS second_blocks, COUNT(event_point) AS count\
+      FROM likes\
+      WHERE track_id = " + req.params.songid + "\
+      GROUP BY second_blocks\
+      ORDER BY count";
+
+    // Initialize a timespan array with zeros
+    var secondBlocks = Math.round(req.params.duration / 1000);
+    var timespan = new Array(secondBlocks);
+    while (--secondBlocks >= 0) {
+      timespan[secondBlocks] = 0;
     }
-    res.end(JSON.stringify(results));
-  });
+
+    db.query(sql, function(err, results) {
+      if (err) {
+        console.log(err, sql);
+        res.end(JSON.stringify(results));
+      }
+      console.log(results);
+      var rootPoint = 0, rootValue = 0;
+      for (var i = 0; i < results.length; i += 1) {
+        rootPoint = results[i].second_blocks - 1;
+        // Heat mark the center point
+        timespan[rootPoint] += results[i].count;
+        rootValue = timespan[rootPoint];
+        // Heat mark the points to the left and right of the center point
+        if (timespan[rootPoint - 1] !== undefined) {
+          timespan[rootPoint - 1] += Math.floor(rootValue / 2);
+        }
+        if (timespan[rootPoint + 1] !== undefined) {
+          timespan[rootPoint + 1] += Math.floor(rootValue / 2);
+        }
+        // // Heat mark the outer points to the left and right of the center point
+        if (timespan[rootPoint - 2] !== undefined) {
+          timespan[rootPoint - 2] += Math.floor(rootValue / 4);
+        }
+        if (timespan[rootPoint + 2] !== undefined) {
+          timespan[rootPoint + 2] += Math.floor(rootValue / 4);
+        }
+      }
+      res.end(JSON.stringify(timespan));
+    });
+  } else {
+    res.end(JSON.stringify(false));
+  }
 });
 
 app.get('/popular', function(req, res) {
