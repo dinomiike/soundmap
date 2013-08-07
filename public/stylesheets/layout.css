@@ -229,8 +229,8 @@ main {
   position: absolute;
   top: 0;
   height: 90px;
-  background: #dae289;
-  opacity: 0.5;
+  /*background: #dae289;*/
+  opacity: 0.8;
 }
 
 .graph {
@@ -316,10 +316,11 @@ canvas {
 
 .heatmapoverlay {
   /*fill: #e73c45;/* /* smooth red */
-  fill: #f65e66;
+  /*fill: #f65e66;*/
+  fill: none;
   stroke: #e73c45;
-  stroke-width: 6;
-  opacity: 0.9;
+  stroke-width: 2;
+  opacity: 0.6;
 }
 
 h1.logoBox {

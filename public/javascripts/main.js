@@ -49,6 +49,37 @@ $(function() {
     }
   };
 
+  var getHeatColor = function(n, max) {
+    var limiter = Math.floor(max / 4);
+    var redUpperLimit = max;
+    var redLowerLimit = max - limiter;
+    var orangeUpperLimit = redLowerLimit - 1;
+    var orangeLowerLimit = orangeUpperLimit - limiter;
+    var yellowUpperLimit = orangeLowerLimit - 1;
+    var yellowLowerLimit = yellowUpperLimit - limiter;
+    var greenUpperLimit = yellowLowerLimit - 1;
+    var greenLowerLimit = 1;
+    // console.log('redUpper', redUpperLimit);
+    // console.log('redLower', redLowerLimit);
+    // console.log('orangeUpper', orangeUpperLimit);
+    // console.log('orangeLower', orangeLowerLimit);
+    // console.log('yellowUpper', yellowUpperLimit);
+    // console.log('yellowLower', yellowLowerLimit);
+    // console.log('greenUpper', greenUpperLimit);
+    // console.log('greenLower', greenLowerLimit);
+    if (n <= redUpperLimit && n >= redLowerLimit) {
+      return 'red';
+    } else if (n <= orangeUpperLimit && n >= orangeLowerLimit) {
+      return 'orange';
+    } else if (n <= yellowUpperLimit && n >= yellowLowerLimit) {
+      return 'yellow';
+    } else if (n <= greenUpperLimit && n >= greenLowerLimit) {
+      return 'green';
+    } else {
+      return false;
+    }
+  };
+
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
     // Cleanup on existing elements
@@ -107,14 +138,22 @@ $(function() {
               // url: '/heatmap2/' + trackId,
               success: function(data) {
                 var heatcells = JSON.parse(data);
+                // Define the parameters for determining heat color once per song
+                var max = _.max(heatcells);
                 console.log(heatcells);
                 var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
-                var offset = 0;
+                var offset = 0, heatcolor;
                 for (var i = 0; i < heatcells.length; i += 1) {
                   // console.log(heatcells[i]);
                   // offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                  offset = ((heatcells[i] * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                  $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
+                  // offset = ((heatcells[i] * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                  // $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
+                  if (heatcells[i] > 0) {
+                    // console.log(i, heatcells[i]);
+                    heatcolor = getHeatColor(heatcells[i], max);
+                    offset = ((i * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                    $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px; background: ' + heatcolor + ';"></aside>');
+                  }
                 }
                 // console.log(data);
                 // Clear out the existing d3 graphic element

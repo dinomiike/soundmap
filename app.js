@@ -200,19 +200,54 @@ app.get('/heatmap/:songid/:duration', function(req, res) {
         // Heat mark the center point
         timespan[rootPoint] += results[i].count;
         rootValue = timespan[rootPoint];
+        // // Heat mark the points to the left and right of the center point
+        // if (timespan[rootPoint - 1] !== undefined) {
+        //   timespan[rootPoint - 1] += Math.floor(rootValue / 2);
+        // }
+        // if (timespan[rootPoint + 1] !== undefined) {
+        //   timespan[rootPoint + 1] += Math.floor(rootValue / 2);
+        // }
+        // // // Heat mark the outer points to the left and right of the center point
+        // if (timespan[rootPoint - 2] !== undefined) {
+        //   timespan[rootPoint - 2] += Math.floor(rootValue / 4);
+        // }
+        // if (timespan[rootPoint + 2] !== undefined) {
+        //   timespan[rootPoint + 2] += Math.floor(rootValue / 4);
+        // }
         // Heat mark the points to the left and right of the center point
         if (timespan[rootPoint - 1] !== undefined) {
-          timespan[rootPoint - 1] += Math.floor(rootValue / 2);
+          timespan[rootPoint - 1] += rootValue;
         }
         if (timespan[rootPoint + 1] !== undefined) {
-          timespan[rootPoint + 1] += Math.floor(rootValue / 2);
+          timespan[rootPoint + 1] += rootValue;
         }
-        // // Heat mark the outer points to the left and right of the center point
+        // Heat mark the outer points to the left and right of the center point
         if (timespan[rootPoint - 2] !== undefined) {
-          timespan[rootPoint - 2] += Math.floor(rootValue / 4);
+          timespan[rootPoint - 2] += Math.floor(rootValue / 2);
         }
         if (timespan[rootPoint + 2] !== undefined) {
-          timespan[rootPoint + 2] += Math.floor(rootValue / 4);
+          timespan[rootPoint + 2] += Math.floor(rootValue / 2);
+        }
+        // asdf
+        if (timespan[rootPoint - 3] !== undefined) {
+          timespan[rootPoint - 3] += Math.floor(rootValue / 2);
+        }
+        if (timespan[rootPoint + 3] !== undefined) {
+          timespan[rootPoint + 3] += Math.floor(rootValue / 2);
+        }
+        // asdf
+        if (timespan[rootPoint - 4] !== undefined) {
+          timespan[rootPoint - 4] += Math.floor(rootValue / 4);
+        }
+        if (timespan[rootPoint + 4] !== undefined) {
+          timespan[rootPoint + 4] += Math.floor(rootValue / 4);
+        }
+        // asdf
+        if (timespan[rootPoint - 5] !== undefined) {
+          timespan[rootPoint - 5] += Math.floor(rootValue / 4);
+        }
+        if (timespan[rootPoint + 5] !== undefined) {
+          timespan[rootPoint + 5] += Math.floor(rootValue / 4);
         }
       }
       // console.log(timespan);
