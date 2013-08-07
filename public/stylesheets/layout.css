@@ -208,11 +208,21 @@ main {
   top: 0;
   width: 580px;
   height: 90px;
-  background: #2f2f31;
+  /*background: #2f2f31;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#c3c08d), to(#2f2f31));
   background-image: -webkit-linear-gradient(top, #c3c08d, #2f2f31); 
   background-image: -moz-linear-gradient(top, #c3c08d, #2f2f31);
-  background-image: -ms-linear-gradient(top, #c3c08d, #2f2f31);
+  background-image: -ms-linear-gradient(top, #c3c08d, #2f2f31);*/
+  /*background: #DEEBED;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6BAED6), to(#2171B5));
+  background-image: -webkit-linear-gradient(top, #6BAED6, #2171B5); 
+  background-image: -moz-linear-gradient(top, #6BAED6, #2171B5);
+  background-image: -ms-linear-gradient(top, #6BAED6, #2171B5);*/
+  background: #434343;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#626161), to(#312d2c));
+  background-image: -webkit-linear-gradient(top, #626161, #312d2c); 
+  background-image: -moz-linear-gradient(top, #626161, #312d2c);
+  background-image: -ms-linear-gradient(top, #626161, #312d2c);
 }
 
 .cell {
@@ -221,6 +231,18 @@ main {
   height: 90px;
   background: #dae289;
   opacity: 0.5;
+}
+
+.graph {
+  /*background: indianred;*/
+}
+
+.boxOmatic {
+  position: absolute;
+  top: 0;
+  width: 580px;
+  height: 90px;
+  /*background: indianred;*/
 }
 
 .map {
@@ -280,7 +302,7 @@ aside.marker {
 }
 
 canvas {
-  opacity: 0.5;
+  /*opacity: 0.5;*/
 }
 
 .waveform {
@@ -288,6 +310,16 @@ canvas {
   top: 0;
   width: 580px;
   height: 90px;
+  background-size: 580px 180px;
+  /*overflow: hidden;*/
+}
+
+.heatmapoverlay {
+  /*fill: #e73c45;/* /* smooth red */
+  fill: #f65e66;
+  stroke: #e73c45;
+  stroke-width: 6;
+  opacity: 0.9;
 }
 
 h1.logoBox {

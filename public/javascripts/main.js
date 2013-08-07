@@ -104,16 +104,22 @@ $(function() {
             var heatmap = $.ajax({
               type: 'GET',
               url: '/heatmap/' + trackId + '/' + user.soundDuration,
+              // url: '/heatmap2/' + trackId,
               success: function(data) {
-                // var heatcells = JSON.parse(data);
-                // var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
-                // var offset = 0;
-                // for (var i = 0; i < heatcells.length; i += 1) {
-                //   // console.log(heatcells[i]);
-                //   offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                //   $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
-                // }
-                console.log(data);
+                var heatcells = JSON.parse(data);
+                console.log(heatcells);
+                var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
+                var offset = 0;
+                for (var i = 0; i < heatcells.length; i += 1) {
+                  // console.log(heatcells[i]);
+                  // offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                  offset = ((heatcells[i] * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                  $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
+                }
+                // console.log(data);
+                // Clear out the existing d3 graphic element
+                $('svg').remove();
+                renderGraph(data);
               }
             });
           });
@@ -122,7 +128,8 @@ $(function() {
             user.currentSongId = sound.id;
             $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
             $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
-            $('.waveform').html('<img src="' + sound.waveform_url + '" width="' + WAVEFORM_LENGTH + '" height="90" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
+            // $('.waveform').html('<img src="' + sound.waveform_url + '" width="' + WAVEFORM_LENGTH + '" height="180" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
+            $('.waveform').attr('style', 'background-image: url(' + sound.waveform_url + ')');
             // place the markers based on the event points
             var markers = $('.markers').html();
             for (var i = 0; i < eventPoints.length; i+=1) {
@@ -135,6 +142,12 @@ $(function() {
           var canvas = document.getElementById('linewave');
           var context = canvas.getContext('2d');
           context.lineWidth = 100;
+          // context.strokeStyle = '#1888ba';
+          // context.strokeStyle = '#08519C';
+          // var gradient = context.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height);
+          // gradient.addColorStop(0, '#000000');
+          // gradient.addColorStop(1, '#FFFFFF');
+          // context.fillStyle = gradient;
           context.strokeStyle = '#1888ba';
           context.beginPath();
           context.moveTo(0,45);
@@ -153,6 +166,7 @@ $(function() {
             $('.playtime').text(minutes + ':' + clockSeconds);
             context.lineTo((pos.currentPosition * WAVEFORM_LENGTH) / user.soundDuration,45);
             context.stroke();
+            // context.fill();
             if (triggerPoint && pos.currentPosition > triggerPoint) {
               console.log('fire event!', index, triggerPoint);
               // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);

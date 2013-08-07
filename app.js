@@ -179,7 +179,7 @@ app.get('/heatmap/:songid/:duration', function(req, res) {
       FROM likes\
       WHERE track_id = " + req.params.songid + "\
       GROUP BY second_blocks\
-      ORDER BY count";
+      ORDER BY second_blocks";
 
     // Initialize a timespan array with zeros
     var secondBlocks = Math.round(req.params.duration / 1000);
@@ -215,12 +215,30 @@ app.get('/heatmap/:songid/:duration', function(req, res) {
           timespan[rootPoint + 2] += Math.floor(rootValue / 4);
         }
       }
+      // console.log(timespan);
+      // for (var i = 0; i < results.length; i += 1) {
+      //   timespan[results[i].second_blocks] = results[i].count;
+      // }
       res.end(JSON.stringify(timespan));
     });
   } else {
     res.end(JSON.stringify(false));
   }
 });
+
+app.get('/heatmap2/:songid', function(req, res) {
+  var sql = "SELECT FLOOR(event_point / 1000) AS second_blocks FROM likes WHERE track_id = " + req.params.songid + " ORDER BY second_blocks";
+  db.query(sql, function(err, results) {
+    if (err) {
+      res.end(JSON.stringify(false));
+    }
+    var output = [];
+    for (var i = 0; i < results.length; i += 1) {
+      output.push(results[i].second_blocks);
+    }
+    res.end(JSON.stringify(output));
+  });
+})
 
 app.get('/popular', function(req, res) {
   sql = "SELECT COUNT(likes.track_id) AS like_count, likes.track_id, artists.artist_name, tracks.track_title, tracks.permalink_url\
