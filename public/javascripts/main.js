@@ -68,13 +68,22 @@ $(function() {
     // console.log('greenUpper', greenUpperLimit);
     // console.log('greenLower', greenLowerLimit);
     if (n <= redUpperLimit && n >= redLowerLimit) {
-      return 'red';
+      // return 'red';
+      // return '#08306B';
+      // return '#f8716d';
+      return '#de4d46';
     } else if (n <= orangeUpperLimit && n >= orangeLowerLimit) {
-      return 'orange';
+      // return 'orange';
+      // return '#08519C';
+      return '#fca377';
     } else if (n <= yellowUpperLimit && n >= yellowLowerLimit) {
-      return 'yellow';
+      // return 'yellow';
+      // return '#9ECAE1';
+      return '#e7e581';
     } else if (n <= greenUpperLimit && n >= greenLowerLimit) {
-      return 'green';
+      // return 'green';
+      // return '#6BAED6';
+      return '#6abf7c';
     } else {
       return false;
     }
@@ -85,6 +94,7 @@ $(function() {
     // Cleanup on existing elements
     // $('.widgetBox').show();
     $('.markers').empty();
+    $('.cells').empty();
     $('.container').removeAttr('style');
     $('#audio').removeClass('pause');
     $('#audio').addClass('play');
