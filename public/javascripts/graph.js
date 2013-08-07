@@ -36,31 +36,28 @@
 //       .attr('d', line(data));
 
 var renderGraph = function(data) {
-    // data = [3, 3, 3, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 7, 8];
-    // data = [3,3,3,3,3,9,9,9,15,16,16,17,17,17,17,17,18,18,19,20,20,80];
-    data = JSON.parse(data);
-    console.log(data);
-      var w = 580,
-      h = 90,
-      margin = 0,
-      y = d3.scale.linear().domain([0, d3.max(data)]).range([0 + margin, h - margin]),
-      x = d3.scale.linear().domain([0, data.length]).range([0 + margin, w - margin])
+  data = JSON.parse(data);
+  var w = 580,
+  h = 90,
+  margin = 0,
+  y = d3.scale.linear().domain([0, d3.max(data)]).range([0 + margin, h - margin]),
+  x = d3.scale.linear().domain([0, data.length]).range([0 + margin, w - margin]);
 
-      var vis = d3.select(".likechart")
-          .append("svg:svg")
-          .attr("width", w)
-          .attr("height", h)
+  var vis = d3.select('#likechart')
+    .append('svg:svg')
+    .attr('width', w)
+    .attr('height', h);
 
-      var g = vis.append('svg:g')
-          .attr('transform', 'translate(0, ' + h + ')')
-          .attr('class', 'heatmapoverlay');
-      
-      var line = d3.svg.line()
-          .interpolate('basis')
-          .x(function(d,i) { return x(i); })
-          .y(function(d) { return -1 * y(d); });
-      
-      g.append("svg:path").attr("d", line(data));
+  var g = vis.append('svg:g')
+    .attr('transform', 'translate(0, ' + h + ')')
+    .attr('class', 'heatmapoverlay');
+  
+  var line = d3.svg.line()
+    .interpolate('basis')
+    .x(function(d,i) { return x(i); })
+    .y(function(d) { return - 1 * y(d); });
+
+  g.append("svg:path").attr("d", line(data));
       
       // g.append("svg:line")
       //     .attr("x1", x(0))

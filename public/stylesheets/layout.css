@@ -245,41 +245,13 @@ main {
   /*background: indianred;*/
 }
 
+#likechart {
+  height: 90px;
+}
+
 .map {
   display: none;
 }
-
-/* Temp - Delete these 3 later */
-aside.one {
-  position: absolute;
-  top: 0;
-  left: 33px;
-  width: 45px;
-  height: 90px;
-  background: #e73c45;
-  opacity: 0.3;
-}
-
-aside.two {
-  position: absolute;
-  top: 0;
-  left: 71px;
-  width: 25px;
-  height: 90px;
-  background: darkkhaki;
-  opacity: 0.3;
-}
-
-aside.three {
-  position: absolute;
-  top: 0;
-  left: 510px;
-  width: 15px;
-  height: 90px;
-  background: yellowgreen;
-  opacity: 0.3;
-}
-/* End Temp */
 
 aside.marker {
   display: none;
@@ -302,7 +274,7 @@ aside.marker {
 }
 
 canvas {
-  /*opacity: 0.5;*/
+  opacity: 0.5;
 }
 
 .waveform {
@@ -312,6 +284,10 @@ canvas {
   height: 90px;
   background-size: 580px 180px;
   /*overflow: hidden;*/
+}
+
+.hideLikeGraph {
+  display: none;
 }
 
 .heatmapoverlay {

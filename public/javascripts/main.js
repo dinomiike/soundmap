@@ -427,6 +427,10 @@ $(function() {
     });
   });
 
+  $('#toggleGraph').on('click', function() {
+    $('#likechart').toggleClass('hideLikeGraph');
+  });
+
   $('#userFavorites').on('click', '.setTrack', function() {
     setWidget($(this).data('link'), $(this).data('trackid'));
   });
