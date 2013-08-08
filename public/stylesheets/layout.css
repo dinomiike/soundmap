@@ -341,12 +341,12 @@ canvas {
 
 .heatmapoverlay {
   /*fill: #e73c45;*/ /* smooth red */
-  fill: #ffffff;
-  /*fill: none;*/
+  /*fill: #ffffff;*/
+  fill: none;
   /*stroke: #e73c45;*/
   stroke: #1888ba;
   stroke-width: 5;
-  fill-opacity: 0.5;
+  /*fill-opacity: 0.5;*/
 }
 
 h1.logoBox {

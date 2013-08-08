@@ -533,9 +533,8 @@ $(function() {
   });
 
   $('.player .controls').on('click', '#next', function() {
-    var queue = localStorage.queue;
-    if (queue) {
-      queue = JSON.parse(queue);
+    var queue = !!(localStorage.queue) ? JSON.parse(localStorage.queue) : false;
+    if (queue && queue.length > 0) {
       setWidget(queue[0][0], queue[0][1], queue[0][2]);
       renderQueueList('remove');
       queue.shift();
