@@ -1,6 +1,8 @@
 $(function() {
   window.user = {};
   user.hotspots = [];
+  user.triggerPoint = '';
+  user.triggerIndex = 0;
   var WAVEFORM_LENGTH = 580;
 
   // Program entry point: 
@@ -98,6 +100,8 @@ $(function() {
 
     // Reset the hotspot cache
     user.hotspots = [];
+    user.triggerPoint = '';
+    user.triggerIndex = 0;
 
     // Reset the scrubber line
     widget.seekTo(0);
@@ -121,8 +125,8 @@ $(function() {
         // var eventPoints = JSON.parse(data);
         // eventPoints = eventPoints.event_points;
         // console.log('event points', eventPoints);
-        var index = 0;
-        var triggerPoint = '';
+        // var index = 0;
+        // var triggerPoint = '';
         // var triggerPoint = hotspots[index];
         // var triggerPoint = eventPoints[index];
         // Define the parameters for determining heat color once per song
@@ -172,7 +176,7 @@ $(function() {
                 $('svg').remove();
                 renderGraph(data);
 
-                triggerPoint = user.hotspots[index];
+                user.triggerPoint = user.hotspots[user.triggerIndex];
               }
             });
           });
@@ -223,11 +227,11 @@ $(function() {
             context.lineTo((pos.currentPosition * WAVEFORM_LENGTH) / user.soundDuration,45);
             context.stroke();
             // context.fill();
-            if (triggerPoint && pos.currentPosition > triggerPoint) {
-              console.log('fire event!', index, triggerPoint);
+            if (user.triggerPoint && pos.currentPosition > user.triggerPoint) {
+              console.log('fire event!', user.triggerIndex, user.triggerPoint);
               // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
-              index += 1;
-              triggerPoint = user.hotspots[index];
+              user.triggerIndex += 1;
+              user.triggerPoint = user.hotspots[user.triggerIndex];
               $('#cheer').show('fast');
               if (cheerTimer >= 0) {
                 cheerTimer = setTimeout(function() {
