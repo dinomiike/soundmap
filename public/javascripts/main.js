@@ -135,6 +135,7 @@ $(function() {
               localStorage.queue = JSON.stringify(queue);
               setWidget(next[0], next[1]);
               setQueueDisplay(queue);
+              // renderQueueList('remove');
             }
           });
           // When the widget is ready, get the song duration and pass it to the global cache
@@ -254,31 +255,41 @@ $(function() {
   };
 
   var setQueueDisplay = function(queue) {
-    queue = queue || JSON.parse(localStorage.queue);
-    if (queue.length > 0) {
-      $('.upNext').text(queue[0][2]);
+    if (localStorage.queue) {
+      queue = queue || JSON.parse(localStorage.queue);
+      if (queue && queue.length > 0) {
+        // $('.upNext').text('Up next: ' + queue[0][2]);
+        $('.upNext').text('Up next:');
+      } else {
+        $('.upNext').text('');
+      }
     }
   };
 
   var renderQueueList = function(option) {
-    var queue = JSON.parse(localStorage.queue);
-    var output = '';
-    // Ensure there are items in the queue
-    if (queue.length > 0) {
-      if (option === 'add') {
-        // Add the last song added to the queue
-        output = '<li class="queueItems">' + queue[queue.length - 1][2] + '</li>';
-      } else if (option === 'initialize') {
-        // Initialize all items in the queue
-        for (var i = 0; i < queue.length; i += 1) {
-          output += '<li class="queueItems">' + queue[i][2] + '</li>';
+    if (localStorage.queue) {
+      var queue = JSON.parse(localStorage.queue);
+      var output = '';
+      // Ensure there are items in the queue
+      if (queue.length > 0) {
+        if (option === 'add') {
+          // Add the last song added to the queue
+          output = '<li class="queueItems">' + queue[queue.length - 1][2] + '</li>';
+        } else if (option === 'initialize') {
+          // Initialize all items in the queue
+          for (var i = 0; i < queue.length; i += 1) {
+            output += '<li class="queueItems">' + queue[i][2] + '</li>';
+          }
+        } else if (option === 'remove') {
+          // Remove the first song in the queue
+          if (queue.length === 1) {
+            $('.upNext').text('');
+          }
+          $('.queueList :first-child').remove();
         }
-      } else if (option === 'remove') {
-        // Remove the first song in the queue
-        $('.queueList :first-child').remove();
       }
+      $('.queueList').append(output);
     }
-    $('.queueList').append(output);
   };
 
   // API Calls
@@ -442,6 +453,7 @@ $(function() {
     var output = '<div>Would you like to host a music room? Soundmap will need your location information to continue. Is that all right with you?\
       <button id="hostAgree">Yep</button> <button id="hostReject">Hell Nah</button></div>';
     $('.news').prepend(output);
+    $('.news').show();
   });
 
   $('#connect').on('click', function() {
@@ -495,8 +507,9 @@ $(function() {
 
   $('#userFavorites').on('click', '.queueTrack', function() {
     enqueue($(this).data('link'), $(this).data('trackid'), $(this).data('title'));
-    var queue = JSON.parse(localStorage.queue);
-    $('.upNext').text(queue[0][2]);
+    // var queue = JSON.parse(localStorage.queue);
+    setQueueDisplay();
+    // $('.upNext').text(queue[0][2]);
     renderQueueList('add');
   });
 
@@ -512,6 +525,17 @@ $(function() {
     });
     $(this).toggleClass('play');
     $(this).toggleClass('pause');
+  });
+
+  $('.player .controls').on('click', '#next', function() {
+    var queue = localStorage.queue;
+    if (queue) {
+      queue = JSON.parse(queue);
+      setWidget(queue[0][0], queue[0][1], queue[0][2]);
+      renderQueueList('remove');
+      queue.shift();
+      localStorage.queue = JSON.stringify(queue);
+    }
   });
 
   $('.popularBox').on('click', '.popularTracks', function() {
@@ -530,6 +554,7 @@ $(function() {
 
   $('.news').on('click', '#hostReject', function() {
     console.log('host is no host at all');
+    $('.news').hide();
   });
 
   // $('.player .controls').on('click', 'button#pause', function() {

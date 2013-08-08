@@ -192,13 +192,20 @@ main {
   background-image: url(../images/pause-dark.png);
 }
 
+.next {
+  margin-left: 8px;
+  background: none;
+  background-image: url(../images/next.png);
+}
+
 .upNext {
   display: inline-block;
-  width: 445px;
+  width: 435px;
   height: 18px;
-  margin-left: 50px;
+  margin-left: 35px;
   font-size: 0.8em;
   text-align: right;
+  overflow-x: hidden;
 }
 
 .queueListContainer {
