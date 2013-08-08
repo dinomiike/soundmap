@@ -76,6 +76,19 @@ main {
   clear: both;
 }
 
+#cheer {
+  display: none;
+  position: absolute;
+  top: 180px;
+  left: 0;
+  width: 30%;
+  text-align: right;
+  font-size: 2em;
+  color: #e73c45;
+  text-shadow: 1px 1px 1px #000;
+  z-index: 100;
+}
+
 .userName {
   font-size: 0.7em;
   text-align: right;
@@ -85,7 +98,6 @@ main {
 
 .playerBox {
   position: relative;
-  /*height: 200px;*/
   margin-bottom: 25px;
   padding: 10px;
   background: #efefef;
@@ -378,24 +390,3 @@ h1.logoBox {
   display: none;
   /*visibility: hidden;*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -86,7 +86,7 @@ app.post('/create', function(req, res) {
 });
 
 app.get('/likes/:id', function(req, res) {
-  var sql = "SELECT event_point FROM likes WHERE track_id = " + req.params.id;
+  var sql = "SELECT event_point FROM likes WHERE track_id = " + req.params.id + " ORDER BY event_point";
   db.query(sql, function(err, results) {
     if (err) {
       console.log(err, sql);

@@ -59,14 +59,6 @@ $(function() {
     var yellowLowerLimit = yellowUpperLimit - limiter;
     var greenUpperLimit = yellowLowerLimit - 1;
     var greenLowerLimit = 1;
-    // console.log('redUpper', redUpperLimit);
-    // console.log('redLower', redLowerLimit);
-    // console.log('orangeUpper', orangeUpperLimit);
-    // console.log('orangeLower', orangeLowerLimit);
-    // console.log('yellowUpper', yellowUpperLimit);
-    // console.log('yellowLower', yellowLowerLimit);
-    // console.log('greenUpper', greenUpperLimit);
-    // console.log('greenLower', greenLowerLimit);
     if (n <= redUpperLimit && n >= redLowerLimit) {
       // return 'red';
       // return '#08306B';
@@ -99,9 +91,12 @@ $(function() {
     $('#audio').removeClass('pause');
     $('#audio').addClass('play');
     $('.playtime').text('0:00');
+    $('#cheer').hide();
 
     var widgetIframe = document.getElementById('sc-widget');
     var widget = SC.Widget(widgetIframe);
+
+    var hotspots = [];
 
     // Reset the scrubber line
     widget.seekTo(0);
@@ -122,12 +117,15 @@ $(function() {
       type: 'GET',
       url: '/likes/' + trackId,
       success: function(data) {
-        var eventPoints = JSON.parse(data);
-        eventPoints = eventPoints.event_points;
-        console.log(eventPoints);
+        // var eventPoints = JSON.parse(data);
+        // eventPoints = eventPoints.event_points;
+        // console.log('event points', eventPoints);
         var index = 0;
-        var triggerPoint = eventPoints[index];
-
+        var triggerPoint = '';
+        // var triggerPoint = hotspots[index];
+        // var triggerPoint = eventPoints[index];
+        // Define the parameters for determining heat color once per song
+        var max = 0;
         widget.bind(SC.Widget.Events.READY, function() {
           widget.bind(SC.Widget.Events.FINISH, function() {
             // console.log('song finished!');
@@ -148,9 +146,8 @@ $(function() {
               // url: '/heatmap2/' + trackId,
               success: function(data) {
                 var heatcells = JSON.parse(data);
-                // Define the parameters for determining heat color once per song
-                var max = _.max(heatcells);
-                console.log(heatcells);
+                max = _.max(heatcells);
+                // console.log(heatcells);
                 var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
                 var offset = 0, heatcolor;
                 for (var i = 0; i < heatcells.length; i += 1) {
@@ -161,14 +158,20 @@ $(function() {
                   if (heatcells[i] > 0) {
                     // console.log(i, heatcells[i]);
                     heatcolor = getHeatColor(heatcells[i], max);
+                    if (heatcolor === '#de4d46') {
+                      hotspots.push(i * 1000);
+                    }
                     offset = ((i * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
                     $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px; background: ' + heatcolor + ';"></aside>');
                   }
                 }
+                console.log('hotspots: ', hotspots);
                 // console.log(data);
                 // Clear out the existing d3 graphic element
                 $('svg').remove();
                 renderGraph(data);
+
+                triggerPoint = hotspots[index];
               }
             });
           });
@@ -180,12 +183,12 @@ $(function() {
             // $('.waveform').html('<img src="' + sound.waveform_url + '" width="' + WAVEFORM_LENGTH + '" height="180" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
             $('.waveform').attr('style', 'background-image: url(' + sound.waveform_url + ')');
             // place the markers based on the event points
-            var markers = $('.markers').html();
-            for (var i = 0; i < eventPoints.length; i+=1) {
-              var loc = (eventPoints[i] * WAVEFORM_LENGTH) / sound.duration;
-              markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
-              $('.markers').html(markers);
-            }
+            // var markers = $('.markers').html();
+            // for (var i = 0; i < eventPoints.length; i+=1) {
+            //   var loc = (eventPoints[i] * WAVEFORM_LENGTH) / sound.duration;
+            //   markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
+            //   $('.markers').html(markers);
+            // }
           });
 
           var canvas = document.getElementById('linewave');
@@ -203,7 +206,10 @@ $(function() {
 
           var startPos = 0;
 
+          var cheerTimer = 0;
+
           var minutes = 0, seconds = 0;
+          console.log(hotspots);
 
           widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
             seconds = Math.floor(pos.currentPosition / 1000);
@@ -220,7 +226,13 @@ $(function() {
               console.log('fire event!', index, triggerPoint);
               // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
               index += 1;
-              triggerPoint = eventPoints[index];
+              triggerPoint = hotspots[index];
+              $('#cheer').show('fast');
+              if (cheerTimer >= 0) {
+                cheerTimer = setTimeout(function() {
+                  $('#cheer').fadeOut(500);
+                }, 1000);
+              }
               // drawLine(startPos, pos.currentPosition, 0);
             } else {
               // drawLine(startPos, pos.currentPosition);
