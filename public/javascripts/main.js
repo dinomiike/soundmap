@@ -165,8 +165,6 @@ $(function() {
                     $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px; background: ' + heatcolor + ';"></aside>');
                   }
                 }
-                console.log('hotspots: ', hotspots);
-                // console.log(data);
                 // Clear out the existing d3 graphic element
                 $('svg').remove();
                 renderGraph(data);
@@ -398,8 +396,16 @@ $(function() {
   });
 
   $('#popular').on('click', function() {
-    getPopularContent();
-    getRecentContent();
+    $('.news').toggleClass('hide');
+    if ($('.news').hasClass('hide')) {
+      console.log('emptying');
+      $('.popularBox').empty();
+      $('.recentBox').empty();
+    } else {
+      console.log('populating');
+      getPopularContent();
+      getRecentContent();
+    }
   });
 
   $('#host').on('click', function() {
