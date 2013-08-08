@@ -1,5 +1,6 @@
 $(function() {
   window.user = {};
+  user.hotspots = [];
   var WAVEFORM_LENGTH = 580;
 
   // Program entry point: 
@@ -25,7 +26,7 @@ $(function() {
         }
       });
       $('.userName').append(me.username);
-      user = me;
+      _.extend(user, me);
       // get the list of favorites
       favorites();
     });
@@ -84,7 +85,6 @@ $(function() {
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
     // Cleanup on existing elements
-    // $('.widgetBox').show();
     $('.markers').empty();
     $('.cells').empty();
     $('.container').removeAttr('style');
@@ -96,7 +96,8 @@ $(function() {
     var widgetIframe = document.getElementById('sc-widget');
     var widget = SC.Widget(widgetIframe);
 
-    var hotspots = [];
+    // Reset the hotspot cache
+    user.hotspots = [];
 
     // Reset the scrubber line
     widget.seekTo(0);
@@ -161,7 +162,7 @@ $(function() {
                     // console.log(i, heatcells[i]);
                     heatcolor = getHeatColor(heatcells[i], max);
                     if (heatcolor === '#de4d46') {
-                      hotspots.push(i * 1000);
+                      user.hotspots.push(i * 1000);
                     }
                     offset = ((i * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
                     $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px; background: ' + heatcolor + ';"></aside>');
@@ -171,7 +172,7 @@ $(function() {
                 $('svg').remove();
                 renderGraph(data);
 
-                triggerPoint = hotspots[index];
+                triggerPoint = user.hotspots[index];
               }
             });
           });
@@ -209,9 +210,9 @@ $(function() {
           var cheerTimer = 0;
 
           var minutes = 0, seconds = 0;
-          console.log(hotspots);
 
           widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
+            // console.log(user.hotspots);
             seconds = Math.floor(pos.currentPosition / 1000);
             clockSeconds = seconds % 60;
             minutes = Math.floor(seconds / 60);
@@ -226,7 +227,7 @@ $(function() {
               console.log('fire event!', index, triggerPoint);
               // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
               index += 1;
-              triggerPoint = hotspots[index];
+              triggerPoint = user.hotspots[index];
               $('#cheer').show('fast');
               if (cheerTimer >= 0) {
                 cheerTimer = setTimeout(function() {
@@ -332,7 +333,7 @@ $(function() {
         $(_this).text('disconnect');
         $('.userName').append(me.username);
         // cache the user
-        user = me;
+        _.extend(user, me);
         favorites();
       });
       localStorage['token'] = SC.accessToken();
