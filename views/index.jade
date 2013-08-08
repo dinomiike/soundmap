@@ -5,7 +5,8 @@ block content
     header
       nav#queue soundmap
       nav#popular popular
-      nav#host host
+      //nav#host host
+      nav#queue queue
       nav#connect connect
     main
       .playerBox
@@ -28,7 +29,10 @@ block content
             button#audio.play
             button#heart
             button#toggleGraph graph
+            span.upNext
             span.playtime 0:00
+            div.queueListContainer
+              ul.queueList
       .news.hide
         .popularBox
         .recentBox

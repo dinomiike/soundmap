@@ -137,7 +137,6 @@ main {
   font-family: 'GothicCustom';
   font-size: 40px;
   letter-spacing: -2px;
-  /*color: #1a7bbf;*/
   color: #333;
 }
 
@@ -193,6 +192,40 @@ main {
   background-image: url(../images/pause-dark.png);
 }
 
+.upNext {
+  display: inline-block;
+  width: 445px;
+  height: 18px;
+  margin-left: 50px;
+  font-size: 0.8em;
+  text-align: right;
+}
+
+.queueListContainer {
+  /*display: none;*/
+}
+
+.queueList {
+  list-style: none;
+  margin: 5px 0 0 0;
+  padding: 0;
+  font-size: 0.6em;
+}
+
+.queueItems {
+  margin-bottom: 4px;
+  padding: 3px;
+  background: #1888ba;
+  color: #efecb9;
+  line-height: 50px;
+  height: 30px;
+  -webkit-transition: all 0.5s ease;
+}
+
+.queueItems:hover {
+  background: #e73c45;
+}
+
 #heart {
   background: none;
   background-image: url(../images/heart.png);
@@ -233,16 +266,6 @@ main {
   top: 0;
   width: 580px;
   height: 90px;
-  /*background: #2f2f31;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#c3c08d), to(#2f2f31));
-  background-image: -webkit-linear-gradient(top, #c3c08d, #2f2f31); 
-  background-image: -moz-linear-gradient(top, #c3c08d, #2f2f31);
-  background-image: -ms-linear-gradient(top, #c3c08d, #2f2f31);*/
-  /*background: #DEEBED;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6BAED6), to(#2171B5));
-  background-image: -webkit-linear-gradient(top, #6BAED6, #2171B5); 
-  background-image: -moz-linear-gradient(top, #6BAED6, #2171B5);
-  background-image: -ms-linear-gradient(top, #6BAED6, #2171B5);*/
   background: #434343;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#626161), to(#312d2c));
   background-image: -webkit-linear-gradient(top, #626161, #312d2c); 
@@ -255,12 +278,10 @@ main {
   position: absolute;
   top: 0;
   height: 90px;
-  /*background: #dae289;*/
   opacity: 0.9;
 }
 
 .graph {
-  /*background: indianred;*/
 }
 
 .boxOmatic {
@@ -268,7 +289,6 @@ main {
   top: 0;
   width: 580px;
   height: 90px;
-  /*background: indianred;*/
 }
 
 #likechart {
@@ -285,9 +305,6 @@ aside.marker {
   top: 0;
   width: 1px;
   height: 90px;
-  /*padding: 0 5px 0 5px;*/
-  /*background: #000;*/
-  /*background: indianred;*/
   background: #333;
   opacity: 0.3;
 }
@@ -309,7 +326,6 @@ canvas {
   width: 580px;
   height: 90px;
   background-size: 580px 180px;
-  /*overflow: hidden;*/
 }
 
 .hideLikeGraph {
@@ -371,7 +387,6 @@ h1.logoBox {
 
 .favorite a:link, a:active, a:visited {
   text-decoration: none;
-  /*color: #e1fbe0;*/
   color: #2d2c2a;
 }
 
@@ -380,7 +395,6 @@ h1.logoBox {
   height: 16px;
   background: none;
   border: none;
-  /*background-image: url(../images/play.png);*/
   background-image: url(../images/play-dark.png);
 }
 
@@ -392,5 +406,4 @@ h1.logoBox {
 
 .widgetBox {
   display: none;
-  /*visibility: hidden;*/
 }

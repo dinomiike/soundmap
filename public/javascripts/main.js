@@ -131,9 +131,10 @@ $(function() {
             // console.log('song finished!');
             var queue = JSON.parse(localStorage.queue);
             if (queue !== undefined && queue.length >= 1) {
-              var next = queue.pop();
+              var next = queue.shift();
               localStorage.queue = JSON.stringify(queue);
               setWidget(next[0], next[1]);
+              setQueueDisplay(queue);
             }
           });
           // When the widget is ready, get the song duration and pass it to the global cache
@@ -241,16 +242,43 @@ $(function() {
     });
   };
 
-  var enqueue = function(trackUrl, trackId) {
-    // localStorage[queue].push(trackUrl, trackId);
+  var enqueue = function(trackUrl, trackId, trackTitle) {
+    // trackTitle.replace(/\"/g, '&quot;');
     if (localStorage.queue === '' || localStorage.queue === undefined) {
-      localStorage.queue = JSON.stringify([[trackUrl, trackId]]);
+      localStorage.queue = JSON.stringify([[trackUrl, trackId, trackTitle]]);
     } else {
       var queue = JSON.parse(localStorage.queue);
-      queue.push([trackUrl, trackId]);
+      queue.push([trackUrl, trackId, trackTitle]);
       localStorage.queue = JSON.stringify(queue);
     }
-    console.log(localStorage.queue);
+  };
+
+  var setQueueDisplay = function(queue) {
+    queue = queue || JSON.parse(localStorage.queue);
+    if (queue.length > 0) {
+      $('.upNext').text(queue[0][2]);
+    }
+  };
+
+  var renderQueueList = function(option) {
+    var queue = JSON.parse(localStorage.queue);
+    var output = '';
+    // Ensure there are items in the queue
+    if (queue.length > 0) {
+      if (option === 'add') {
+        // Add the last song added to the queue
+        output = '<li class="queueItems">' + queue[queue.length - 1][2] + '</li>';
+      } else if (option === 'initialize') {
+        // Initialize all items in the queue
+        for (var i = 0; i < queue.length; i += 1) {
+          output += '<li class="queueItems">' + queue[i][2] + '</li>';
+        }
+      } else if (option === 'remove') {
+        // Remove the first song in the queue
+        $('.queueList :first-child').remove();
+      }
+    }
+    $('.queueList').append(output);
   };
 
   // API Calls
@@ -302,7 +330,7 @@ $(function() {
 
   var favorites = function() {
     var loadedFirstTrack = false;
-    SC.get('/users/' + user.id + '/favorites', function(favs) {
+    SC.get('/users/' + user.id + '/favorites', {limit: 200}, function(favs) {
       var output = '';
       _(favs).each(function(fav) {
         var imgArtworkUrl = fav.artwork_url || 'https://a2.sndcdn.com/assets/images/default/cloudx120-1ec56ce9.png';
@@ -313,7 +341,7 @@ $(function() {
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
               <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '"></button>\
-              <button class="queueTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '">queue</button>\
+              <button class="queueTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '" data-title="' + fav.title.replace(/\"/g, '&quot;') + '">queue</button>\
               </div>\
             </div>\
           </div>';
@@ -325,6 +353,8 @@ $(function() {
           loadFirstTrack();
           $('.player .artist').text(fav.user.username);
           $('.player .trackName').text(fav.title);
+          setQueueDisplay();
+          renderQueueList('initialize');
           // $(".heartBox button").fadeIn(1500);
           // $(".userBox").fadeIn(1500);
           loadedFirstTrack = true;
@@ -464,7 +494,10 @@ $(function() {
   });
 
   $('#userFavorites').on('click', '.queueTrack', function() {
-    enqueue($(this).data('link'), $(this).data('trackid'));
+    enqueue($(this).data('link'), $(this).data('trackid'), $(this).data('title'));
+    var queue = JSON.parse(localStorage.queue);
+    $('.upNext').text(queue[0][2]);
+    renderQueueList('add');
   });
 
   $('.player .controls').on('click', '#audio', function() {
