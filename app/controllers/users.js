@@ -4,9 +4,8 @@
  */
 
 exports.operations = function(req, res){
-  // res.send("respond with a resource");
-  this.greet = function() {
-    console.log('hello');
-    res.end('world');
-  };
+  var sound = [];
+  sound.push(req.query.cow);
+  sound.push(req.query.horse);
+  res.end(JSON.stringify(sound));
 };

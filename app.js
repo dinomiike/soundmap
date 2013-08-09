@@ -6,7 +6,7 @@
 var express = require('express'),
   routes = require('./routes'),
   controller = new require('./app/controllers/index'),
-  users = require('./app/controllers/users'),
+  users = require('./app/controllers/users.js'),
   rooms = require('./routes/room'),
   http = require('http'),
   path = require('path'),
@@ -34,6 +34,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+// db.prototype.easyQuery = function() {
+//   console.log('easy query');
+// };
 
 app.get('/', routes.index);
 

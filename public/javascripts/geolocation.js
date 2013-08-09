@@ -1,4 +1,3 @@
-// $(function() {
 var user = user || {};
 
 Number.prototype.toRad = function() {
@@ -82,12 +81,12 @@ var bestFishAndChips = {
   lon: -21.895210
 };
 
-var distanceBetweenHostAndClient = function(hostLat, hostLon, clientLat, clientLon) {
+var geoDistance = function(lat1, lng1, lat2, lng2) {
   var R = 3958.756; // Radius of the earth in miles
-  var dLat = (clientLat - hostLat).toRad();
-  var dLon = (clientLon - hostLon).toRad();
+  var dLat = (lat2 - lat1).toRad();
+  var dLon = (lng2 - lng1).toRad();
   var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(hostLat.toRad()) * Math.cos(clientLat.toRad()) *
+    Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
     Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
@@ -95,7 +94,7 @@ var distanceBetweenHostAndClient = function(hostLat, hostLon, clientLat, clientL
 }
 
 $(function() {
-  // if (user.host) {
+  if (user.host) {
     var broadcasts = $.ajax({
       type: 'GET',
       url: '/broadcasts',
@@ -110,6 +109,5 @@ $(function() {
       localStorage.room = $(this).attr('id');
       window.location = '/';
     });
-  // }
+  }
 });
-// });
