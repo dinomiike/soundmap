@@ -150,7 +150,6 @@ $(function() {
             var heatmap = $.ajax({
               type: 'GET',
               url: '/heatmap/' + trackId + '/' + user.soundDuration,
-              // url: '/heatmap2/' + trackId,
               success: function(data) {
                 var heatcells = JSON.parse(data);
                 max = _.max(heatcells);
