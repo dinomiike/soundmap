@@ -7,17 +7,13 @@ var express = require('express'),
   routes = require('./routes'),
   users = require('./app/controllers/users.js'),
   songs = require('./app/controllers/songs'),
+  popular = require('./app/controllers/popular.js'),
+  host = require('./app/controllers/host.js'),
   rooms = require('./routes/room'),
   http = require('http'),
-  path = require('path'),
-  mysql = require('mysql'),
-  dbConnection = require('./dbConnection').dbConnection;
-
-var db = mysql.createConnection(dbConnection);
+  path = require('path');
 
 var app = express();
-
-db.connect();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -37,91 +33,20 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/join', rooms.room);
+// User Operations
 app.get('/login', users.userController.login);
 app.get('/find', users.userController.find);
 app.post('/create', users.userController.create);
-
+// Song Operations
 app.get('/likes/:id', songs.songController.likes);
-// app.get('/likes/:id', function(req, res) {
-//   var sql = "SELECT event_point FROM likes WHERE track_id = " + req.params.id + " ORDER BY event_point";
-//   db.query(sql, function(err, results) {
-//     if (err) {
-//       console.log(err, sql);
-//       res.end(JSON.stringify(false));
-//     } else {
-//       console.log(sql, results);
-//       var container = [];
-//       for (var i = 0; i < results.length; i += 1) {
-//         container.push(results[i].event_point);
-//       }
-//       res.end(JSON.stringify({ event_points: container }));
-//     }
-//   });
-// });
-
 app.post('/likesong', songs.songController.likeSong);
-
 app.get('/heatmap/:songid/:duration', songs.songController.heatMap);
-
-app.get('/popular', function(req, res) {
-  sql = "SELECT COUNT(likes.track_id) AS like_count, likes.track_id, artists.artist_name, tracks.track_title, tracks.permalink_url\
-    FROM likes INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
-    INNER JOIN artists ON tracks.sc_artist_id = artists.sc_artist_id\
-    GROUP BY likes.track_id\
-    ORDER BY like_count DESC\
-    LIMIT 15";
-  db.query(sql, function(err, results) {
-    if (err) {
-      console.log(err, sql);
-      res.end(JSON.stringify(false));
-    }
-    res.end(JSON.stringify(results));
-  });
-});
-
-app.get('/recent', function(req, res) {
-  sql = "SELECT users.username, likes.track_id, likes.user_id, likes.date_set, tracks.track_title, tracks.uri, tracks.genre\
-    FROM users RIGHT JOIN likes ON users.id = likes.user_id\
-    INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
-    ORDER BY likes.date_set DESC\
-    LIMIT 5;"
-  db.query(sql, function(err, results) {
-    if (err) {
-      console.log(err, sql);
-      res.end(JSON.stringify(false));
-    }
-    res.end(JSON.stringify(results));
-  })
-});
-
-app.post('/hostroom', function(req, res) {
-  var data = res.req.body;
-  console.log(data);
-  if (data.userId !== undefined && data.lat !== undefined && data.lon !== undefined) {
-    var sql = "INSERT INTO broadcast(user_id, user_lat, user_lon, active) VALUES(" + data.userId + ", " + data.lat + ", " + data.lon + ", 1)";
-    db.query(sql, function(err, results) {
-      if (err) {
-        console.log(err, sql);
-        res.end(JSON.stringify(false));
-      }
-      res.end(JSON.stringify(true));
-    });
-  }
-});
-
-app.get('/broadcasts', function(req, res) {
-  var sql = "SELECT broadcast.id AS broadcast_id, users.username, broadcast.user_id, broadcast.user_lat, broadcast.user_lon, broadcast.date_created FROM\
-    users RIGHT JOIN broadcast ON users.id = broadcast.user_id\
-    WHERE broadcast.active = TRUE\
-    ORDER BY broadcast.date_created DESC;";
-  db.query(sql, function(err, results) {
-    if (err) {
-      console.log(err, sql);
-      res.end(JSON.stringify(false));
-    }
-    res.end(JSON.stringify(results));
-  });
-});
+// Popular Content Operations
+app.get('/popular', popular.popularController.popularContent);
+app.get('/recent', popular.popularController.recentContent);
+// Host Tab Operations
+app.post('/hostroom', host.hostController.hostSession);
+app.get('/broadcasts', host.hostController.broadcasts);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
