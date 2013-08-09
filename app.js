@@ -35,10 +35,6 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// db.prototype.easyQuery = function() {
-//   console.log('easy query');
-// };
-
 app.get('/', routes.index);
 
 app.get('/join', rooms.room);
@@ -110,10 +106,6 @@ app.get('/likes/:id', function(req, res) {
       for (var i = 0; i < results.length; i += 1) {
         container.push(results[i].event_point);
       }
-      // var output = {
-      //   event_points: container
-      // };
-      // console.log('output', output);
       res.end(JSON.stringify({ event_points: container }));
     }
   })

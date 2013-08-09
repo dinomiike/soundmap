@@ -33,7 +33,7 @@ var nearbyRooms = function(data) {
     console.log('what is data', data);
     var output = '', distanceOutput = '';
     for (var i = 0; i < data.length; i += 1) {
-      var distance = distanceBetweenHostAndClient(data[i].user_lat, data[i].user_lon, user.lat, user.lon);
+      var distance = geoDistance(data[i].user_lat, data[i].user_lon, user.lat, user.lon);
       // if (distance < 0.5) {
       if (distance < 25) {
         distanceOutput = Math.round(distance * 5280) + 'ft';
@@ -60,27 +60,6 @@ var getMyLocation = function(data) {
   }
 };
 
-// Testing locations
-var peets = {
-  lat: 37.774929,
-  lon: -122.419416
-};
-
-var hackReactor = {
-  lat: 37.783594,
-  lon: -122.408904
-};
-
-var hell = {
-  lat: 37.790514,
-  lon: -122.399161
-};
-
-var bestFishAndChips = {
-  lat: 64.135338,
-  lon: -21.895210
-};
-
 var geoDistance = function(lat1, lng1, lat2, lng2) {
   var R = 3958.756; // Radius of the earth in miles
   var dLat = (lat2 - lat1).toRad();
@@ -94,7 +73,7 @@ var geoDistance = function(lat1, lng1, lat2, lng2) {
 }
 
 $(function() {
-  if (user.host) {
+  if (window.pathname = '/join') {
     var broadcasts = $.ajax({
       type: 'GET',
       url: '/broadcasts',
