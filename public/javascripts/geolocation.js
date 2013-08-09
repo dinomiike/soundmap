@@ -32,16 +32,20 @@ var nearbyRooms = function(data) {
     console.log('*Your* lat/lon is: ', user.lat, user.lon);
     console.log('what is data', data);
     var output = '', distanceOutput = '';
-    for (var i = 0; i < data.length; i += 1) {
-      var distance = geoDistance(data[i].user_lat, data[i].user_lon, user.lat, user.lon);
-      // if (distance < 0.5) {
-      if (distance < 25) {
-        distanceOutput = Math.round(distance * 5280) + 'ft';
-        output += '<div id="' + data[i].broadcast_id + '" class="joinRoom">' + 
-          data[i].username + ' started a room about ' +
-          moment(data[i].date_created).startOf('hour').fromNow() + ' about ' +
-          distanceOutput + ' away</div>';
+    if (data.length > 0) {
+      for (var i = 0; i < data.length; i += 1) {
+        var distance = geoDistance(data[i].user_lat, data[i].user_lon, user.lat, user.lon);
+        // if (distance < 0.5) {
+        if (distance < 25) {
+          distanceOutput = Math.round(distance * 5280) + 'ft';
+          output += '<div id="' + data[i].broadcast_id + '" class="joinRoom">' + 
+            data[i].username + ' started a room about ' +
+            moment(data[i].date_created).startOf('hour').fromNow() + ' about ' +
+            distanceOutput + ' away</div>';
+        }
       }
+    } else {
+      output = '<div>There are no nearby rooms</div>';
     }
     $('.rooms').append(output);
   }

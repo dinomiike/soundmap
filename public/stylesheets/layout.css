@@ -414,3 +414,7 @@ h1.logoBox {
 .widgetBox {
   display: none;
 }
+
+.joinRoom {
+  font-size: 0.9em;
+}
