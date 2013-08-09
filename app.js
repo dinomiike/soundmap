@@ -6,7 +6,7 @@
 var express = require('express'),
   routes = require('./routes'),
   controller = new require('./app/controllers/index'),
-  user = require('./routes/user'),
+  users = require('./app/controllers/users'),
   join = require('./routes/room'),
   http = require('http'),
   path = require('path'),
@@ -353,11 +353,7 @@ app.get('/core', function(req, res) {
   // controller.test(req, res);
 });
 
-app.get('/test', function(req, res) {
-  console.log(req);
-  console.log('params', req.query);
-  res.end();
-});
+app.get('/test', users.operations);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
