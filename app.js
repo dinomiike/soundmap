@@ -7,7 +7,7 @@ var express = require('express'),
   routes = require('./routes'),
   controller = new require('./app/controllers/index'),
   users = require('./app/controllers/users'),
-  join = require('./routes/room'),
+  rooms = require('./routes/room'),
   http = require('http'),
   path = require('path'),
   mysql = require('mysql'),
@@ -37,7 +37,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 
-app.get('/join', join.room);
+app.get('/join', rooms.room);
 
 app.get('/login', function(req, res) {
   // Update the user's last_login field
@@ -50,8 +50,6 @@ app.get('/login', function(req, res) {
       }
       res.end();
     });
-  } else {
-    res.end();
   }
 });
 
@@ -103,17 +101,16 @@ app.get('/likes/:id', function(req, res) {
       console.log(err, sql);
       res.end(JSON.stringify(false));
     } else {
-      console.log(sql);
-      console.log(results);
+      console.log(sql, results);
       var container = [];
       for (var i = 0; i < results.length; i += 1) {
         container.push(results[i].event_point);
       }
-      var output = {
-        event_points: container
-      };
-      console.log('output', output);
-      res.end(JSON.stringify(output));
+      // var output = {
+      //   event_points: container
+      // };
+      // console.log('output', output);
+      res.end(JSON.stringify({ event_points: container }));
     }
   })
 });
@@ -333,7 +330,7 @@ app.post('/hostroom', function(req, res) {
 });
 
 app.get('/broadcasts', function(req, res) {
-  var sql = "SELECT users.username, broadcast.user_id, broadcast.user_lat, broadcast.user_lon, broadcast.date_created FROM\
+  var sql = "SELECT broadcast.id AS broadcast_id, users.username, broadcast.user_id, broadcast.user_lat, broadcast.user_lon, broadcast.date_created FROM\
     users RIGHT JOIN broadcast ON users.id = broadcast.user_id\
     WHERE broadcast.active = TRUE\
     ORDER BY broadcast.date_created DESC;";
