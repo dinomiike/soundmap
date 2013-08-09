@@ -5,12 +5,13 @@
 
 var express = require('express'),
   routes = require('./routes'),
+  controller = new require('./app/controllers/index'),
   user = require('./routes/user'),
   join = require('./routes/room'),
   http = require('http'),
   path = require('path'),
   mysql = require('mysql'),
-  dbConnection = require('./dbConnection.js').dbConnection;
+  dbConnection = require('./dbConnection').dbConnection;
 
 var db = mysql.createConnection(dbConnection);
 
@@ -38,35 +39,45 @@ app.get('/', routes.index);
 
 app.get('/join', join.room);
 
-app.get('/login/:user/:scid', function(req, res) {
+app.get('/login', function(req, res) {
   // Update the user's last_login field
-  db.query("UPDATE users SET last_login = NOW() WHERE username = '" + req.params.user + "' AND sc_id = " + req.params.scid, function(err, results) {
-    if (err) {
+  var user = req.query.user;
+  var scid = req.query.scid;
+  if (user && scid) {
+    db.query("UPDATE users SET last_login = NOW() WHERE username = '" + user + "' AND sc_id = " + scid, function(err, results) {
+      if (err) {
+        res.end();
+      }
       res.end();
-    }
-    res.end('ok');
-  });
+    });
+  } else {
+    res.end();
+  }
 });
 
-app.get('/find/:username/:scid', function(req, res) {
+app.get('/find', function(req, res) {
   // Locate a user in the local database with the username and id from the Soundcloud api
-  var sql = "SELECT id, username FROM users WHERE username = '" + req.params.username + "' AND sc_id = " + req.params.scid;
-  console.log(sql);
-  db.query(sql, function(err, results) {
-    if (err) {
-      // User not found
-      console.log(err);
-      res.end(JSON.stringify(false));
-    } else {
-      if (results.length > 0) {
-        console.log('found the user');
-        console.log(results);
-        res.end(JSON.stringify(results[0]));
-      } else {
+  var username = req.query.username;
+  var scid = req.query.scid;
+  if (username && scid) {
+    var sql = "SELECT id, username FROM users WHERE username = '" + username + "' AND sc_id = " + scid;
+    console.log(sql);
+    db.query(sql, function(err, results) {
+      if (err) {
+        // User not found
+        console.log(err);
         res.end(JSON.stringify(false));
+      } else {
+        if (results.length > 0) {
+          console.log('found the user');
+          console.log(results);
+          res.end(JSON.stringify(results[0]));
+        } else {
+          res.end(JSON.stringify(false));
+        }
       }
-    }
-  });
+    });
+  }
 });
 
 app.post('/create', function(req, res) {
@@ -333,6 +344,19 @@ app.get('/broadcasts', function(req, res) {
     }
     res.end(JSON.stringify(results));
   });
+});
+
+app.get('/core', function(req, res) {
+  console.log(controller.controller().test());
+  res.end();
+  // console.log(controller.core.test());
+  // controller.test(req, res);
+});
+
+app.get('/test', function(req, res) {
+  console.log(req);
+  console.log('params', req.query);
+  res.end();
 });
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -14,12 +14,12 @@ $(function() {
       // Update user's logged in time
       $.ajax({
         type: 'GET',
-        url: '/login/' + me.username + '/' + me.id,
+        url: '/login/?user=' + me.username + '&scid=' + me.id,
         success: function() {
           // Get local user id
           $.ajax({
             type: 'GET',
-            url: '/find/' + me.username + '/' + me.id,
+            url: '/find/?username=' + me.username + '&scid=' + me.id,
             success: function(data) {
               data = JSON.parse(data);
               user.soundmap_id = data.id;
@@ -308,13 +308,13 @@ $(function() {
         // Check to see if we have a record for this user
         var found = $.ajax({
           type: 'GET',
-          url: '/find/' + me.username + '/' + me.id,
+          url: '/find/?username=' + me.username + '&scid=' + me.id,
           success: function(data) {
             console.log(data);
             if (data) {
               $.ajax({
                 type: 'GET',
-                url: '/login/' + me.username + '/' + me.id
+                url: '/login/?user=' + me.username + '&scid=' + me.id
               });
             } else {
               // If not, create an account for them
@@ -350,7 +350,7 @@ $(function() {
       var output = '';
       _(favs).each(function(fav) {
         var imgArtworkUrl = fav.artwork_url || 'https://a2.sndcdn.com/assets/images/default/cloudx120-1ec56ce9.png';
-        output += '<div class="favorite" draggable="true">\
+        output += '<div class="favorite" draggable="true" title="Click to play">\
             <div class="favoriteArtwork"><img src="' + imgArtworkUrl + '" width="100" height="100"></div>\
             <div class="favoriteDetails">\
               <div class="favoriteArtist artist"><a href="' + fav.user.permalink_url + '">' + fav.user.username + '</a></div>\
@@ -575,6 +575,10 @@ $(function() {
   //   $('.linewave').remove();
   //   $('.line').html('<canvas id="linewave" width="' + WAVEFORM_LENGTH + '" height="90">');
   // });
+
+  $('#userFavorites').on('click', '.favorite', function() {
+    console.log('favorite clicked');
+  });
 
   $("#userFavorites").on("dragstart", ".favorite", function() {
     dragStart();
