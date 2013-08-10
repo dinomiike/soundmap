@@ -378,12 +378,23 @@ $(function() {
       url: '/recent',
       success: function(data) {
         var results = JSON.parse(data);
-        var output = '<h4>Recently liked songs</h4>';
+        var toggle = ' right';
+        var output = '<h4>Recently liked songs</h4>\
+          <div class="recentLikes">';
         for (var i = 0; i < results.length; i += 1) {
-          output += '<div>\
-            <div>' + results[i].username + ' liked <a href="' + results[i].uri + '">' + results[i].track_title + '</a>' + moment(results[i].date_set).startOf('hour').fromNow() + '</div>\
+          if (toggle === '') {
+            toggle = ' right';
+          } else {
+            toggle = '';
+          }
+          output += '<div class="recentLike">\
+            <div class="userLike">\
+            <div class="likeBlockUserName' + toggle + '"><a href="' + results[i].uri + '">' + results[i].track_title + '</a> liked by ' + results[i].username + ' ' + moment(results[i].date_set).startOf('hour').fromNow() + '</div>\
+            <div class="likeBlockUserAvatar' + toggle + '"><img src="' + results[i].avatar_url + '"></div>\
+            </div>\
           </div>';
         }
+        output += '</div>';
         $('.recentBox').append(output);
       }
     });

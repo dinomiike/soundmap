@@ -2,7 +2,7 @@ var songDuration = 0;
 
 var scrubber = function(duration) {
   songDuration = duration;
-  var width = 500;
+  var width = 668;//500;
   var height = 200;
 
   var svg = d3.select('.scrubber').append('svg')
@@ -19,7 +19,7 @@ var scrubber = function(duration) {
 
 var drawLine = function(startPos, endPos, jump) {
   jump = jump || 0;
-  endPos = (endPos * 500) / songDuration;
+  endPos = (endPos * 668) / songDuration;
   var svg = d3.select('.scrubber');
   var line = svg.select('line')
     .attr('x1', startPos)

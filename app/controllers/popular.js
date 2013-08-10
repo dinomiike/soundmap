@@ -26,7 +26,7 @@ exports.popularController = {
   },
 
   recentContent: function(req, res) {
-    sql = "SELECT users.username, likes.track_id, likes.user_id, likes.date_set, tracks.track_title, tracks.uri, tracks.genre\
+    sql = "SELECT users.username, users.avatar_url, likes.track_id, likes.user_id, likes.date_set, tracks.track_title, tracks.uri, tracks.genre\
       FROM users RIGHT JOIN likes ON users.id = likes.user_id\
       INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
       ORDER BY likes.date_set DESC\

@@ -118,7 +118,7 @@ main {
 .news {
   position: relative;
   background: #efc437;
-  overflow: auto;
+  overflow: hidden;
 }
 
 h4 {
@@ -147,6 +147,62 @@ h4 {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
 }
 
+.recentLikes {
+  position: relative;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.recentLike {
+  position: relative;
+  height: 100px;
+  overflow: none;
+  clear: both;
+}
+
+.recentLike:nth-child(even) {
+  float: right;
+}
+
+.recentLike:nth-child(odd) {
+  position: relative;
+  float: left;
+  text-align: right;
+}
+
+.userLike {
+  width: 300px;
+}
+
+.likeBlockUserName {
+  position: relative;
+  top: 25px;
+  float: left;
+  width: 190px;
+  padding: 0 5px 0 5px;
+  margin: 0;
+  /*font-size: 0.8em;*/
+  font-weight: normal;
+  line-height: 14px;
+}
+
+.likeBlockUserAvatar {
+  position: relative;
+  float: left;
+  width: 100px;
+  height: 100px;
+}
+
+.right {
+  float: right;
+}
+
+.likeBlockUserAvatar img {
+  width: 100px;
+  height: 100px;
+  border: 0;
+}
+
 .popularTracks {
   position: relative;
   float: left;
@@ -156,6 +212,21 @@ h4 {
   /*border-width: 1px 0 0 0;
   border-color: #1a7bbf;
   border-style: solid;*/
+}
+
+.popularTracks img {
+  border-style: inset;
+  border-width: 2px;
+  border-top-color: rgba(0,0,0,0.3);
+  border-left-color: rgba(0,0,0,0.3);
+  border-right-color: rgba(255,255,255,0.3);
+  border-bottom-color: rgba(255,255,255,0.3);
+  border-radius: 55px;
+  -webkit-transition: all 0.9s ease;
+}
+
+.popularTracks img:hover {
+  border-radius: 0;
 }
 
 .likeCount {
