@@ -108,11 +108,22 @@ main {
 
 .playerBox {
   position: relative;
-  margin-bottom: 25px;
+  /*margin-bottom: 25px;*/
   padding: 10px;
   background: #efefef;
   /*border: 1px solid #e3e3e3;*/
   z-index: 15;
+}
+
+.news {
+  position: relative;
+  background: #efc437;
+  overflow: auto;
+}
+
+h4 {
+  margin: 0;
+  padding: 0;
 }
 
 .hide {
@@ -121,26 +132,30 @@ main {
 
 .popularBox {
   position: relative;
-  width: 250px;
-  float: left;
+  /*width: 250px;*/
+  /*float: left;*/
+  overflow: auto;
 }
 
 .recentBox {
   position: relative;
-  width; 250px;
-  float: left;
+  /*width: 250px;*/
+  /*float: left;*/
   font-size: 0.8em;
   line-height: 18px;
   color: #fff;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
 }
 
 .popularTracks {
+  position: relative;
+  float: left;
   padding: 10px 0 10px 0;
-  width: 100px;
-  border-width: 1px 0 0 0;
+  width: 135px;
+  text-align: center;
+  /*border-width: 1px 0 0 0;
   border-color: #1a7bbf;
-  border-style: solid;
+  border-style: solid;*/
 }
 
 .likeCount {
@@ -148,6 +163,10 @@ main {
   font-size: 40px;
   letter-spacing: -2px;
   color: #333;
+  text-align: right;
+  margin-right: 20px;
+  line-height: 25px;
+  text-shadow: 1px 1px 1px rgba(188,138,3,0.6);
 }
 
 .likeCount em {
@@ -161,7 +180,7 @@ main {
   font-weight: normal;
   font-size: 0.8em;
   color: #fff;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
 }
 
 .player {
