@@ -1,4 +1,4 @@
 exports.room = function(req, res){
-  console.log(req.query);
+  console.log('inside the room route');
   res.render('room', { title: 'soundmap join a room' });
 };

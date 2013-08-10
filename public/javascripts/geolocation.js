@@ -77,7 +77,7 @@ var geoDistance = function(lat1, lng1, lat2, lng2) {
 }
 
 $(function() {
-  if (window.pathname = '/join') {
+  if (window.location.pathname === '/join') {
     var broadcasts = $.ajax({
       type: 'GET',
       url: '/broadcasts',

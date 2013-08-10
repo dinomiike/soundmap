@@ -3,7 +3,7 @@ $(function() {
   user.hotspots = [];
   user.triggerPoint = '';
   user.triggerIndex = 0;
-  var WAVEFORM_LENGTH = 580;
+  var WAVEFORM_LENGTH = 668; //580;
 
   // Program entry point: 
   // If local storage session is available, set user's last_login time and load the app
@@ -122,13 +122,6 @@ $(function() {
       type: 'GET',
       url: '/likes/' + trackId,
       success: function(data) {
-        // var eventPoints = JSON.parse(data);
-        // eventPoints = eventPoints.event_points;
-        // console.log('event points', eventPoints);
-        // var index = 0;
-        // var triggerPoint = '';
-        // var triggerPoint = hotspots[index];
-        // var triggerPoint = eventPoints[index];
         // Define the parameters for determining heat color once per song
         var max = 0;
         widget.bind(SC.Widget.Events.READY, function() {
@@ -140,7 +133,6 @@ $(function() {
               localStorage.queue = JSON.stringify(queue);
               setWidget(next[0], next[1]);
               setQueueDisplay(queue);
-              // renderQueueList('remove');
             }
           });
           // When the widget is ready, get the song duration and pass it to the global cache
@@ -153,16 +145,10 @@ $(function() {
               success: function(data) {
                 var heatcells = JSON.parse(data);
                 max = _.max(heatcells);
-                // console.log(heatcells);
                 var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
                 var offset = 0, heatcolor;
                 for (var i = 0; i < heatcells.length; i += 1) {
-                  // console.log(heatcells[i]);
-                  // offset = ((heatcells[i].second_blocks * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                  // offset = ((heatcells[i] * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                  // $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px"></aside>')
                   if (heatcells[i] > 0) {
-                    // console.log(i, heatcells[i]);
                     heatcolor = getHeatColor(heatcells[i], max);
                     if (heatcolor === '#de4d46') {
                       user.hotspots.push(i * 1000);
@@ -184,9 +170,8 @@ $(function() {
             user.currentSongId = sound.id;
             $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
             $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
-            // $('.waveform').html('<img src="' + sound.waveform_url + '" width="' + WAVEFORM_LENGTH + '" height="180" style="-webkit-mask-box-image: url(\'' + sound.waveform_url + '\');">');
             $('.waveform').attr('style', 'background-image: url(' + sound.waveform_url + ')');
-            // place the markers based on the event points
+            // place the markers based on the event points -- hiding this feature for now
             // var markers = $('.markers').html();
             // for (var i = 0; i < eventPoints.length; i+=1) {
             //   var loc = (eventPoints[i] * WAVEFORM_LENGTH) / sound.duration;
@@ -215,7 +200,6 @@ $(function() {
           var minutes = 0, seconds = 0;
 
           widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(pos) {
-            // console.log(user.hotspots);
             seconds = Math.floor(pos.currentPosition / 1000);
             clockSeconds = seconds % 60;
             minutes = Math.floor(seconds / 60);
@@ -225,10 +209,8 @@ $(function() {
             $('.playtime').text(minutes + ':' + clockSeconds);
             context.lineTo((pos.currentPosition * WAVEFORM_LENGTH) / user.soundDuration,45);
             context.stroke();
-            // context.fill();
             if (user.triggerPoint && pos.currentPosition > user.triggerPoint) {
               console.log('fire event!', user.triggerIndex, user.triggerPoint);
-              // $('.container').attr('style', 'background: ' + bgColors[Math.floor(Math.random() * bgColors.length)]);
               user.triggerIndex += 1;
               user.triggerPoint = user.hotspots[user.triggerIndex];
               $('#cheer').show('fast');
@@ -237,9 +219,6 @@ $(function() {
                   $('#cheer').fadeOut(500);
                 }, 1000);
               }
-              // drawLine(startPos, pos.currentPosition, 0);
-            } else {
-              // drawLine(startPos, pos.currentPosition);
             }
           });
         });
@@ -248,7 +227,6 @@ $(function() {
   };
 
   var enqueue = function(trackUrl, trackId, trackTitle) {
-    // trackTitle.replace(/\"/g, '&quot;');
     if (localStorage.queue === '' || localStorage.queue === undefined) {
       localStorage.queue = JSON.stringify([[trackUrl, trackId, trackTitle]]);
     } else {
@@ -262,7 +240,6 @@ $(function() {
     if (localStorage.queue) {
       queue = queue || JSON.parse(localStorage.queue);
       if (queue && queue.length > 0) {
-        // $('.upNext').text('Up next: ' + queue[0][2]);
         $('.upNext').text('Up next:');
       } else {
         $('.upNext').text('');
@@ -364,14 +341,11 @@ $(function() {
         if (!loadedFirstTrack) {
           // Set up the widget
           setWidget(fav.permalink_url, fav.id);
-          // $('.widgetBox').fadeIn(1500);
           loadFirstTrack();
           $('.player .artist').text(fav.user.username);
           $('.player .trackName').text(fav.title);
           setQueueDisplay();
           renderQueueList('initialize');
-          // $(".heartBox button").fadeIn(1500);
-          // $(".userBox").fadeIn(1500);
           loadedFirstTrack = true;
         }
       });
@@ -389,6 +363,7 @@ $(function() {
         for (var i = 0; i < results.length; i += 1) {
           output += '<div class="popularTracks" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].permalink_url + '">\
             <div class="likeCount">' + results[i].like_count + '<em>likes</em></div>\
+            <div><img src="' + results[i].artwork_url + '"></div>\
             <div class="likeTrackTitle">' + results[i].track_title + '</div>\
           </div>';
         }
@@ -511,9 +486,7 @@ $(function() {
 
   $('#userFavorites').on('click', '.queueTrack', function() {
     enqueue($(this).data('link'), $(this).data('trackid'), $(this).data('title'));
-    // var queue = JSON.parse(localStorage.queue);
     setQueueDisplay();
-    // $('.upNext').text(queue[0][2]);
     renderQueueList('add');
   });
 
@@ -559,21 +532,6 @@ $(function() {
     console.log('host is no host at all');
     $('.news').hide();
   });
-
-  // $('.player .controls').on('click', 'button#pause', function() {
-  //   var iframe = document.getElementById('sc-widget');
-  //   var widget = SC.Widget(iframe);
-  //   widget.pause();
-  // });
-
-  // $('.player .controls').on('click', 'button#stop', function() {
-  //   var iframe = document.getElementById('sc-widget');
-  //   var widget = SC.Widget(iframe);
-  //   widget.pause();
-  //   widget.seekTo(0);
-  //   $('.linewave').remove();
-  //   $('.line').html('<canvas id="linewave" width="' + WAVEFORM_LENGTH + '" height="90">');
-  // });
 
   $('#userFavorites').on('click', '.favorite', function() {
     console.log('favorite clicked');

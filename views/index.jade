@@ -1,13 +1,15 @@
 extends layout
 
 block content
-  .container
-    header
-      nav#queue soundmap
+  header
+    .container
+      nav#logo soundmap
+      nav#queue queue
       nav#popular popular
       nav#host host
       nav#connect connect
-    main
+  main
+    .container
       .playerBox
         .userName
         h1.logoBox soundmap
@@ -19,7 +21,7 @@ block content
               .cells
               .markers
             .line
-              canvas#linewave(width=580, height=90)
+              canvas#linewave(width=668, height=90)
             .waveform
             .boxOmatic
               #likechart.hideLikeGraph
@@ -33,11 +35,12 @@ block content
             span.playtime 0:00
             div.queueListContainer
               ul.queueList
-      .news.hide
-        .popularBox
-        .recentBox
-      .userBox
-        #userFavorites
+  .news.hide
+    .container
+      .popularBox
+      .recentBox
+  .userBox
+    #userFavorites
   .widgetBox
     iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")
-  #cheer Oh yeah!
+  #cheer Yeah!

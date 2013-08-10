@@ -17,13 +17,13 @@ a:link, a:visited, a:active, a:hover {
 }
 
 .container {
-  width: 600px;
+  width: 690px;
   margin: 0 auto;
 }
 
 header {
   position: relative;
-  width: 500px;
+  /*width: 500px;*/
   height: 80px;
   margin: 0 auto;
   z-index: 10;
@@ -34,38 +34,47 @@ header nav {
   float: left;
   margin: 4px 2px 0 2px;
   width: 120px;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 42px;
   text-align: center;
   color: #e1fbe0;
   cursor: pointer;
+  font-size: 0.9em;
 }
 
 header nav:nth-child(1) {
+  width: 185px;
+  height: 42px;
+  line-height: 42px;
+  color: #141205;
+  text-align: left;
+}
+
+header nav:nth-child(2) {
   margin-left: 0px;
   background: #312d2c;
   border: 1px solid #141205;
 }
 
-header nav:nth-child(2) {
+header nav:nth-child(3) {
   background: #1888ba;
   border: 1px solid #1a7bbf;
 }
 
-header nav:nth-child(3) {
+header nav:nth-child(4) {
   background: #e73c45;
   border: 1px solid #dc2f29;
 }
 
-header nav:nth-child(4) {
+header nav:nth-child(5) {
   margin-right: 0px;
   background: #ea9713;
   border: 1px solid #d09517;
   -webkit-transition: all 0.5s ease;
 }
 
-header nav:nth-child(4):hover {
-  height: 65px;
+header nav:nth-child(5):hover {
+  height: 52px;
   line-height: 70px;
   margin-right: 0px;
   background: #f8b818;
@@ -74,6 +83,7 @@ header nav:nth-child(4):hover {
 
 main {
   clear: both;
+  background: #efefef;
 }
 
 #cheer {
@@ -101,7 +111,7 @@ main {
   margin-bottom: 25px;
   padding: 10px;
   background: #efefef;
-  border: 1px solid #e3e3e3;
+  /*border: 1px solid #e3e3e3;*/
   z-index: 15;
 }
 
@@ -271,7 +281,8 @@ main {
 .heatmap {
   position: absolute;
   top: 0;
-  width: 580px;
+  /*width: 580px;*/
+  width: 668px;
   height: 90px;
   background: #434343;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#626161), to(#312d2c));
@@ -294,7 +305,8 @@ main {
 .boxOmatic {
   position: absolute;
   top: 0;
-  width: 580px;
+  /*width: 580px;*/
+  width: 668px;
   height: 90px;
 }
 
@@ -319,7 +331,8 @@ aside.marker {
 .line {
   position: absolute;
   top: 0;
-  width: 580px;
+  /*width: 580px;*/
+  width: 668px;
   height: 90px;
 }
 
@@ -330,9 +343,11 @@ canvas {
 .waveform {
   position: absolute;
   top: 0;
-  width: 580px;
+  /*width: 580px;*/
+  width: 668px;
   height: 90px;
-  background-size: 580px 180px;
+  /*background-size: 580px 180px;*/
+  background-size: 668px 180px;
 }
 
 .hideLikeGraph {

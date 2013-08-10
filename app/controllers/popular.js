@@ -10,7 +10,7 @@ db.connect();
 
 exports.popularController = {
   popularContent: function(req, res) {
-    sql = "SELECT COUNT(likes.track_id) AS like_count, likes.track_id, artists.artist_name, tracks.track_title, tracks.permalink_url\
+    sql = "SELECT COUNT(likes.track_id) AS like_count, likes.track_id, artists.artist_name, tracks.track_title, tracks.permalink_url, tracks.artwork_url\
       FROM likes INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
       INNER JOIN artists ON tracks.sc_artist_id = artists.sc_artist_id\
       GROUP BY likes.track_id\
