@@ -323,16 +323,16 @@ $(function() {
   var favorites = function() {
     var loadedFirstTrack = false;
     SC.get('/users/' + user.id + '/favorites', {limit: 200}, function(favs) {
-      var output = '';
+      var output = '<h4>Your SoundCloud Favorites</h4>';
       _(favs).each(function(fav) {
         var imgArtworkUrl = fav.artwork_url || 'https://a2.sndcdn.com/assets/images/default/cloudx120-1ec56ce9.png';
-        output += '<div class="favorite" draggable="true" title="Click to play">\
+        output += '<div class="favorite" draggable="true" data-trackid="' + fav.id + '" data-trackurl="' + fav.permalink_url + '">\
             <div class="favoriteArtwork"><img src="' + imgArtworkUrl + '" width="100" height="100"></div>\
             <div class="favoriteDetails">\
               <div class="favoriteArtist artist"><a href="' + fav.user.permalink_url + '">' + fav.user.username + '</a></div>\
               <div class="favoriteTitle title"><a href="' + fav.permalink_url + '">' + fav.title + '</a></div>\
               <div class="favoriteLink">\
-              <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '"></button>\
+              <button class="setTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '">play</button>\
               <button class="queueTrack" data-link="' + fav.permalink_url + '" data-trackid="' + fav.id + '" data-title="' + fav.title.replace(/\"/g, '&quot;') + '">queue</button>\
               </div>\
             </div>\
@@ -545,7 +545,7 @@ $(function() {
   });
 
   $('#userFavorites').on('click', '.favorite', function() {
-    console.log('favorite clicked');
+    setWidget($(this).data('trackurl'), $(this).data('trackid'));
   });
 
   $("#userFavorites").on("dragstart", ".favorite", function() {
