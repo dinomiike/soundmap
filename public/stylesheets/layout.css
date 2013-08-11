@@ -8,6 +8,7 @@ body {
   margin: 0;
   padding: 0;
   background: #efecb9;
+  background-image: url(../images/texture.png);
   font: bold 1em 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', 'Helvetica Neue', Helvetica, sans-serif;
   color: #1c171e;
 }
@@ -469,7 +470,7 @@ h1.logoBox {
 
 .userBox {
   padding: 35px 0 35px 0;
-  background-image: url(../images/texture.png);
+  /*background-image: url(../images/texture.png);*/
 }
 
 .favorite {
@@ -481,9 +482,9 @@ h1.logoBox {
   /*background: #c3be87;*/
   clear: both;
   /*border: 1px solid #b8b37c;*/
-  border-style: solid;
+  /*border-style: solid;
   border-width: 0 3px 0 0;
-  border-color: #1888ba;
+  border-color: #1888ba;*/
   -webkit-transition: all 0.5s ease;
 }
 

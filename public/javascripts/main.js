@@ -4,6 +4,8 @@ $(function() {
   user.triggerPoint = '';
   user.triggerIndex = 0;
   var WAVEFORM_LENGTH = 668; //580;
+  var canvas = document.getElementById('sc-widget');
+  var context = '';
 
   // Program entry point: 
   // If local storage session is available, set user's last_login time and load the app
@@ -180,8 +182,10 @@ $(function() {
             // }
           });
 
-          var canvas = document.getElementById('linewave');
-          var context = canvas.getContext('2d');
+          // var canvas = document.getElementById('linewave');
+          // var context = canvas.getContext('2d');
+          canvas = document.getElementById('linewave');
+          context = canvas.getContext('2d');
           context.lineWidth = 100;
           // context.strokeStyle = '#1888ba';
           // context.strokeStyle = '#08519C';
@@ -558,5 +562,26 @@ $(function() {
 
   $("#userFavorites").on("drop", ".favorite", function() {
     drop();
+  });
+
+  $('.scrubber').on('mouseup', function(e) {
+    var iframe = document.getElementById('sc-widget');
+    var widget = SC.Widget(iframe);
+    widget.isPaused(function(isPaused) {
+      if (!isPaused) {
+        var seekTime = ((user.soundDuration * e.offsetX) / WAVEFORM_LENGTH);
+        widget.seekTo(seekTime);
+        $('.linewave').remove();
+        $('.line').html('<canvas id="linewave" width="' + WAVEFORM_LENGTH + '" height="90">');
+        canvas = document.getElementById('linewave');
+        context = canvas.getContext('2d');
+        context.lineWidth = 100;
+        context.strokeStyle = '#1888ba';
+        context.beginPath();
+        context.moveTo(0,45);
+        context.lineTo(e.offsetX,45);
+        context.stroke();
+      }
+    });
   });
 });
