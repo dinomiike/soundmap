@@ -14,6 +14,7 @@ block content
         .userName
         h1.logoBox soundmap
         .player
+          span.playtime 0:00
           .artist
           .trackName
           .scrubber
@@ -27,12 +28,11 @@ block content
               #likechart.hideLikeGraph
                 script(type='text/javascript', src='javascripts/graph.js')
           .controls
-            button#audio.play
             button#heart
+            button#audio.play
             button#next.next
             button#toggleGraph graph
             span.upNext
-            span.playtime 0:00
             div.queueListContainer
               ul.queueList
   .news.hide

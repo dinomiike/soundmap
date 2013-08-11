@@ -265,6 +265,7 @@ h4 {
 
 .player {
   display: none;
+  position: relative;
 }
 
 .player .artist {
@@ -283,6 +284,10 @@ h4 {
 
 .trackName a:link, a:active, a:hover, a:visited {
   color: #2d2c2a;
+}
+
+.controls {
+  position: relative;
 }
 
 .controls button {
@@ -343,13 +348,20 @@ h4 {
 }
 
 #heart {
+  /*position: relative;
+  top: -17px;
+  left: 285px;*/
   background: none;
-  background-image: url(../images/heart.png);
+  /*background-image: url(../images/heart.png);*/
+  width: 65px;
+  height: 56px;
+  background-image: url(../images/heart-btn.png);
   -webkit-transition: all 0.9s ease;
 }
 
 #heart:hover {
-  background-image: url(../images/heart-highlight.png);
+  /*background-image: url(../images/heart-highlight.png);*/
+  background-image: url(../images/heart-btn-hover.png);
 }
 
 #toggleGraph {
@@ -364,10 +376,12 @@ h4 {
 .playtime {
   display: inline-block;
   position: absolute;
-  top: 10px;
+  /*top: 10px;*/
+  top: 0;
   right: 0;
   margin-left: 15px;
-  padding: 10px;
+  /*padding: 10px;*/
+  padding: 0;
   font: normal 1.6em 'GothicCustom', 'Lucida Grande';
 }
 
