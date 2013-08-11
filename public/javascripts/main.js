@@ -427,7 +427,8 @@ $(function() {
     console.log('display song queue');
     var queue = JSON.parse(localStorage.queue);
     console.log(queue);
-    setWidget(queue[0][0], queue[0][1]);
+    // setWidget(queue[0][0], queue[0][1]);
+    $('.queue').toggleClass('hide');
   });
 
   $('#popular').on('click', function() {

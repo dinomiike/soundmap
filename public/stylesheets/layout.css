@@ -322,6 +322,19 @@ h4 {
   overflow-x: hidden;
 }
 
+.queue {
+  position: relative;
+  background: #312d2c;
+  background-image: url(../images/texture.png);
+  padding: 35px 0 35px 0;
+  overflow: hidden;
+}
+
+.queue h4 {
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,1);
+}
+
 .queueListContainer {
   /*display: none;*/
 }
@@ -348,9 +361,9 @@ h4 {
 }
 
 #heart {
-  /*position: relative;
+  position: relative;
   top: -17px;
-  left: 285px;*/
+  left: 285px;
   background: none;
   /*background-image: url(../images/heart.png);*/
   width: 65px;
@@ -376,11 +389,9 @@ h4 {
 .playtime {
   display: inline-block;
   position: absolute;
-  /*top: 10px;*/
   top: 0;
   right: 0;
   margin-left: 15px;
-  /*padding: 10px;*/
   padding: 0;
   font: normal 1.6em 'GothicCustom', 'Lucida Grande';
 }
