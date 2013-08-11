@@ -257,6 +257,7 @@ $(function() {
       var output = '';
       // Ensure there are items in the queue
       if (queue.length > 0) {
+        $('.queue').show();
         if (option === 'add') {
           // Add the last song added to the queue
           output = '<li class="queueItems">' + queue[queue.length - 1][2] + '</li>';
@@ -267,11 +268,13 @@ $(function() {
           }
         } else if (option === 'remove') {
           // Remove the first song in the queue
-          if (queue.length === 1) {
-            $('.upNext').text('');
-          }
+          // if (queue.length === 1) {
+          //   $('.upNext').text('');
+          // }
           $('.queueList :first-child').remove();
         }
+      } else {
+        $('.queue').hide();
       }
       $('.queueList').append(output);
     }
@@ -424,11 +427,20 @@ $(function() {
 
   // Event bindings
   $('#queue').on('click', function() {
-    console.log('display song queue');
-    var queue = JSON.parse(localStorage.queue);
-    console.log(queue);
-    // setWidget(queue[0][0], queue[0][1]);
-    $('.queue').toggleClass('hide');
+    // var queueVisible = $('.queue').is(':visible');
+    // if (queueVisible) {
+    //   $('.queue').slideUp();
+    // } else {
+    //   $('.queue').slideDown();
+    // }
+
+    ($('.queue').is(':visible')) ? $('.queue').slideUp() : $('.queue').slideDown();
+
+    // console.log('display song queue');
+    // var queue = JSON.parse(localStorage.queue);
+    // console.log(queue);
+    // // setWidget(queue[0][0], queue[0][1]);
+    // $('.queue').toggleClass('hide');
   });
 
   $('#popular').on('click', function() {
@@ -527,6 +539,9 @@ $(function() {
       renderQueueList('remove');
       queue.shift();
       localStorage.queue = JSON.stringify(queue);
+      if (queue.length === 0) {
+        $('.queue').slideUp('slow');
+      }
     }
   });
 
@@ -549,21 +564,21 @@ $(function() {
     $('.news').hide();
   });
 
-  $('#userFavorites').on('click', '.favorite', function() {
-    setWidget($(this).data('trackurl'), $(this).data('trackid'));
-  });
+  // $('#userFavorites').on('click', '.favorite', function() {
+  //   setWidget($(this).data('trackurl'), $(this).data('trackid'));
+  // });
 
-  $("#userFavorites").on("dragstart", ".favorite", function() {
-    dragStart();
-  });
+  // $("#userFavorites").on("dragstart", ".favorite", function() {
+  //   dragStart();
+  // });
 
-  $("#userFavorites").on("dragover", ".favorite", function() {
-    dragOver();
-  });
+  // $("#userFavorites").on("dragover", ".favorite", function() {
+  //   dragOver();
+  // });
 
-  $("#userFavorites").on("drop", ".favorite", function() {
-    drop();
-  });
+  // $("#userFavorites").on("drop", ".favorite", function() {
+  //   drop();
+  // });
 
   $('.scrubber').on('mouseup', function(e) {
     var iframe = document.getElementById('sc-widget');
