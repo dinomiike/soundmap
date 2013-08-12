@@ -188,8 +188,8 @@ $(function() {
         // Define the parameters for determining heat color once per song
         var max = 0;
         widget.bind(SC.Widget.Events.READY, function() {
+          $('.loadingScreen').fadeOut();
           widget.bind(SC.Widget.Events.FINISH, function() {
-            // console.log('song finished!');
             var queue = JSON.parse(localStorage.queue);
             if (queue !== undefined && queue.length >= 1) {
               var next = queue.shift();
@@ -207,7 +207,6 @@ $(function() {
               url: '/hasliked/?userid=' + user.soundmap_id + '&trackid=' + sound.id,
               success: function(data) {
                 var hasLiked = JSON.parse(data);
-                console.log('hasLiked check: ', hasLiked);
                 if (hasLiked) {
                   // Generate the heat map for this track
                   var heatmap = $.ajax({
@@ -507,8 +506,9 @@ $(function() {
 
   var setMarker = function(pos) {
     var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
+    console.log(loc);
     $('.markers').append('<aside class="marker" style="left: ' + loc + 'px;"></aside');
-    $('.markers').append('<aside class="note" style="left: ' + (loc + 2) + 'px;">Mine</aside>');
+    $('.markers').append('<aside class="note" style="left: ' + (loc - 23) + 'px;">Me</aside>');
   };
 
   // Event callbacks
@@ -592,10 +592,20 @@ $(function() {
   });
 
   $('#toggleGraph').on('click', function() {
-    $('#likechart').toggleClass('hideLikeGraph');
+    // $('#likechart').toggleClass('hideLikeGraph');
+    if ($('#likechart').is(':visible')) {
+      $('#likechart').hide();
+      $('.heatmap').show();
+      $('.waveform').show();
+    } else {
+      $('#likechart').show();
+      $('.heatmap').hide();
+      $('.waveform').hide();
+    }
   });
 
   $('#userFavorites').on('click', '.setTrack', function() {
+    $('.loadingScreen').show();
     setWidget($(this).data('link'), $(this).data('trackid'));
   });
 

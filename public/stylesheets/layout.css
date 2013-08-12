@@ -459,7 +459,20 @@ h4 {
   height: 90px;
 }
 
+.loadingScreen {
+  position: absolute;
+  top: 41px;
+  width: 668px;
+  height: 90px;
+  background: #efefef;
+}
+
+.loadingScreen .spinner {
+  margin-left: 10px;
+}
+
 #likechart {
+  position: absolute;
   height: 90px;
 }
 
@@ -470,7 +483,7 @@ h4 {
 .markers {
   position: relative;
   height: 90px;
-  overflow: auto;
+  /*overflow: auto;*/
 }
 
 aside.marker {
@@ -478,17 +491,18 @@ aside.marker {
   top: 0;
   width: 1px;
   height: 90px;
-  background: #ea9713;
+  background: rgba(234,151,19,0.7);
   opacity: 0.8;
   padding: 0 1px 0 1px;
 }
 
 aside.note {
   position: absolute;
-  bottom: 0;
+  top: 0;
   font-size: 0.7em;
   background: #ea9713;
   border: 1px solid #d09517;
+  padding: 0 3px 0 3px;
 }
 
 .line {
