@@ -379,7 +379,10 @@ $(function() {
             if (data) {
               $.ajax({
                 type: 'GET',
-                url: '/login/?user=' + me.username + '&scid=' + me.id
+                url: '/login/?user=' + me.username + '&scid=' + me.id,
+                success: function() {
+                  user.soundmap_id = data.id;
+                }
               });
             } else {
               // If not, create an account for them
@@ -506,7 +509,6 @@ $(function() {
 
   var setMarker = function(pos) {
     var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
-    console.log(loc);
     $('.markers').append('<aside class="marker" style="left: ' + loc + 'px;"></aside');
     $('.markers').append('<aside class="note" style="left: ' + (loc - 23) + 'px;">Me</aside>');
   };
