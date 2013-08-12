@@ -235,6 +235,8 @@ $(function() {
                       user.triggerPoint = user.hotspots[user.triggerIndex];
                     }
                   });
+                  // Display a marker where the user has liked the song
+                  setMarker(hasLiked[0].event_point);
                 } // else: don't generate a heat map in this scenario
               }
             });
@@ -489,6 +491,7 @@ $(function() {
           } else {
             toggle = '';
           }
+          console.log('time stamp: ', results[i].date_set);
           output += '<div class="recentLike">\
             <div class="userLike">\
             <div class="likeBlockUserName' + toggle + '"><a href="' + results[i].uri + '">' + results[i].track_title + '</a> liked by ' + results[i].username + ' ' + moment(results[i].date_set).startOf('hour').fromNow() + '</div>\
@@ -505,6 +508,7 @@ $(function() {
   var setMarker = function(pos) {
     var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
     $('.markers').append('<aside class="marker" style="left: ' + loc + 'px;"></aside');
+    $('.markers').append('<aside class="note" style="left: ' + (loc + 2) + 'px;">Mine</aside>');
   };
 
   // Event callbacks
@@ -522,20 +526,7 @@ $(function() {
 
   // Event bindings
   $('#queue').on('click', function() {
-    // var queueVisible = $('.queue').is(':visible');
-    // if (queueVisible) {
-    //   $('.queue').slideUp();
-    // } else {
-    //   $('.queue').slideDown();
-    // }
-
     ($('.queue').is(':visible')) ? $('.queue').slideUp() : $('.queue').slideDown();
-
-    // console.log('display song queue');
-    // var queue = JSON.parse(localStorage.queue);
-    // console.log(queue);
-    // // setWidget(queue[0][0], queue[0][1]);
-    // $('.queue').toggleClass('hide');
   });
 
   $('#popular').on('click', function() {
@@ -549,17 +540,6 @@ $(function() {
       getRecentContent();
       $('.news').slideDown('slow');
     }
-
-    // $('.news').toggleClass('hide');
-    // if ($('.news').hasClass('hide')) {
-    //   console.log('emptying');
-    //   $('.popularBox').empty();
-    //   $('.recentBox').empty();
-    // } else {
-    //   console.log('populating');
-    //   getPopularContent();
-    //   getRecentContent();
-    // }
   });
 
   $('#host').on('click', function() {

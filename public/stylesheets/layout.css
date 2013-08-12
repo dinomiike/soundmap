@@ -467,14 +467,28 @@ h4 {
   display: none;
 }
 
+.markers {
+  position: relative;
+  height: 90px;
+  overflow: auto;
+}
+
 aside.marker {
-  display: none;
   position: absolute;
   top: 0;
   width: 1px;
   height: 90px;
-  background: #333;
-  opacity: 0.3;
+  background: #ea9713;
+  opacity: 0.8;
+  padding: 0 1px 0 1px;
+}
+
+aside.note {
+  position: absolute;
+  bottom: 0;
+  font-size: 0.7em;
+  background: #ea9713;
+  border: 1px solid #d09517;
 }
 
 .line {
