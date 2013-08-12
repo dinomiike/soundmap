@@ -30,8 +30,8 @@ exports.songController = {
     var data = res.req.body;
     var sql = '';
 
-    // Has this song been liked before? If not, we need to capture it
-    sql = "SELECT id FROM artists WHERE sc_artist_id = " + data.artistId;
+    // Has this artist/track been liked before? If not, we need to capture it
+    sql = "SELECT id FROM tracks WHERE sc_artist_id = " + data.artistId + " AND sc_track_id = " + data.trackId;
     db.query(sql, function(err, results) {
       if (err) {
         console.log(err, sql);
@@ -46,8 +46,8 @@ exports.songController = {
             res.end(JSON.stringify(false));
           }
           console.log('New artist added!', sql);
-          sql = "INSERT INTO tracks(sc_track_id, sc_artist_id, track_title, uri, permalink_url, genre, label_name, bpm)\
-            VALUES(" + data.trackId + ", " + data.artistId + ", '" + data.trackTitle + "', '" + data.uri + "', '" + data.permalinkUrl + "', '" + data.genre.replace(/\'/g, "") + "', '" + data.label + "', '" + data.bpm + "')";
+          sql = "INSERT INTO tracks(sc_track_id, sc_artist_id, track_title, uri, permalink_url, artwork_url, genre, label_name, bpm)\
+            VALUES(" + data.trackId + ", " + data.artistId + ", '" + data.trackTitle + "', '" + data.uri + "', '" + data.permalinkUrl + "', '" + data.artworkUrl + "', '" + data.genre.replace(/\'/g, "") + "', '" + data.label + "', '" + data.bpm + "')";
           db.query(sql, function(err, results) {
             if (err) {
               console.log(err, sql);

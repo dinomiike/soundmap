@@ -272,6 +272,8 @@ h4 {
 .player {
   display: none;
   position: relative;
+  /*position: absolute;
+  top: 0;*/
 }
 
 .player .artist {
@@ -297,25 +299,69 @@ h4 {
 }
 
 .controls button {
-  width: 16px;
+  /*width: 16px;
   height: 16px;
-  border: none;
+  border: none;*/
+  width: 30px;
+  height: 30px;
+  border: 0px;
+  border-radius: 16px;
 }
 
 .play {
-  background: none;
+  /*background: none;*/
+  background: #1888ba;
   background-image: url(../images/play-dark.png);
+  background-repeat: no-repeat;
+  background-position-x: 12px;
+  background-position-y: 7px;
 }
 
 .pause {
-  background: none;
+  /*background: none;*/
+  background: #ea9713;
   background-image: url(../images/pause-dark.png);
+  background-repeat: no-repeat;
+  background-position-x: 12px;
+  background-position-y: 7px;
 }
 
 .next {
   margin-left: 8px;
-  background: none;
+  /*background: none;*/
+  background: #e73c45;
   background-image: url(../images/next.png);
+  background-repeat: no-repeat;
+  background-position-x: 8px;
+  background-position-y: 7px;
+}
+
+#toggleGraph {
+  position: absolute;
+  right: 0px;
+  background: #1888ba;
+  width: 40px;
+  font-size: 0.5em;
+  margin: 0 0 0 10px;
+  border-radius: 16px;
+  color: #e1fbe0;
+}
+
+#heart {
+  position: absolute;
+  top: -17px;
+  left: 285px;
+  background: none;
+  /*background-image: url(../images/heart.png);*/
+  width: 65px;
+  height: 56px;
+  background-image: url(../images/heart-btn.png);
+  -webkit-transition: all 0.9s ease;
+}
+
+#heart:hover {
+  /*background-image: url(../images/heart-highlight.png);*/
+  background-image: url(../images/heart-btn-hover.png);
 }
 
 .upNext {
@@ -367,32 +413,6 @@ h4 {
   background: #e73c45;
 }
 
-#heart {
-  position: absolute;
-  top: -17px;
-  left: 285px;
-  background: none;
-  /*background-image: url(../images/heart.png);*/
-  width: 65px;
-  height: 56px;
-  background-image: url(../images/heart-btn.png);
-  -webkit-transition: all 0.9s ease;
-}
-
-#heart:hover {
-  /*background-image: url(../images/heart-highlight.png);*/
-  background-image: url(../images/heart-btn-hover.png);
-}
-
-#toggleGraph {
-  background: #1888ba;
-  width: 40px;
-  font-size: 0.5em;
-  margin-left: 10px;
-  border-radius: 10px;
-  color: #e1fbe0;
-}
-
 .playtime {
   display: inline-block;
   position: absolute;
@@ -418,6 +438,7 @@ h4 {
   background: #434343;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#626161), to(#312d2c));
   background-image: -webkit-linear-gradient(top, #626161, #312d2c); 
+  /*background-image: -webkit-linear-gradient(top, #549651, #437941);*/
   background-image: -moz-linear-gradient(top, #626161, #312d2c);
   background-image: -ms-linear-gradient(top, #626161, #312d2c);
   opacity: 0.7;
@@ -496,8 +517,13 @@ canvas {
 }
 
 h1.logoBox {
+  /*position: absolute;*/
   font-size: 4em;
   letter-spacing: -7px;
+}
+
+.spinner {
+  margin-left: 100px;
 }
 
 .userBox {

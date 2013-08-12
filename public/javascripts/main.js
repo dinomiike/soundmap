@@ -51,7 +51,8 @@ $(function() {
   window.bgColors = ['papayawhip', 'saddlebrown', 'lightblue', 'lemonchiffon', 'slateblue', 'cornflowerblue', 'limegreen', 'darkkhaki', 'indianred', 'yellowgreen', 'tomato', 'steelblue', 'crimson'];
 
   var loadFirstTrack = function() {
-    $('h1').slideUp('slow');
+    $('h1').fadeOut('slow');
+    // $('.spinner').hide();
     $('.player').fadeIn('slow').show();
   };
 
@@ -101,6 +102,29 @@ $(function() {
       return false;
     }
   };
+
+  // var getHeatColor = function(n, max) {
+  //   var limiter = Math.floor(max / 4);
+  //   var redUpperLimit = max;
+  //   var redLowerLimit = max - limiter;
+  //   var orangeUpperLimit = redLowerLimit - 1;
+  //   var orangeLowerLimit = orangeUpperLimit - limiter;
+  //   var yellowUpperLimit = orangeLowerLimit - 1;
+  //   var yellowLowerLimit = yellowUpperLimit - limiter;
+  //   var greenUpperLimit = yellowLowerLimit - 1;
+  //   var greenLowerLimit = 1;
+  //   if (n <= redUpperLimit && n >= redLowerLimit) {
+  //     return '#c4451c';
+  //   } else if (n <= orangeUpperLimit && n >= orangeLowerLimit) {
+  //     return '#aa5828';
+  //   } else if (n <= yellowUpperLimit && n >= yellowLowerLimit) {
+  //     return '#906a34';
+  //   } else if (n <= greenUpperLimit && n >= greenLowerLimit) {
+  //     return '#767d41';
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
@@ -517,6 +541,7 @@ $(function() {
             artist: sound.user.username,
             uri: sound.uri,
             permalinkUrl: sound.permalink_url,
+            artworkUrl: sound.artwork_url || 'https://a2.sndcdn.com/assets/images/default/cloudx120-1ec56ce9.png',
             genre: sound.genre.replace("'", "''"),
             label: sound.label_name,
             bpm: sound.bpm,
