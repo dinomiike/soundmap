@@ -26,6 +26,23 @@ exports.songController = {
     });
   },
 
+  hasLiked: function(req, res) {
+    console.log('hasLiked query params: ', req.query);
+    var sql = "SELECT event_point FROM likes WHERE user_id = " + req.query.userid + " AND track_id = " + req.query.trackid;
+    db.query(sql, function(err, results) {
+      if (err) {
+        console.log(err, sql);
+        res.end(JSON.stringify(false));
+      }
+      console.log(sql, results);
+      if (results.length > 0) {
+        res.end(JSON.stringify(results));
+      } else {
+        res.end(JSON.stringify(false));
+      }
+    });
+  },
+
   likeSong: function(req, res) {
     var data = res.req.body;
     var sql = '';

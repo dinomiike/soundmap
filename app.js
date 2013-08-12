@@ -40,6 +40,7 @@ app.post('/create', users.userController.create);
 // Song Operations
 app.get('/likes/:id', songs.songController.likes);
 app.post('/likesong', songs.songController.likeSong);
+app.get('/hasliked', songs.songController.hasLiked);
 app.get('/heatmap/:songid/:duration', songs.songController.heatMap);
 // Popular Content Operations
 app.get('/popular', popular.popularController.popularContent);

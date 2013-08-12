@@ -199,41 +199,60 @@ $(function() {
             }
           });
           // When the widget is ready, get the song duration and pass it to the global cache
-          widget.getDuration(function(duration) {
-            user.soundDuration = duration;
-            // Generate the heat map for this track
-            var heatmap = $.ajax({
+          widget.getCurrentSound(function(sound) {
+            user.soundDuration = sound.duration;
+            // Has the user liked this song before?
+            var userLikeCheck = $.ajax({
               type: 'GET',
-              url: '/heatmap/' + trackId + '/' + user.soundDuration,
+              url: '/hasliked/?userid=' + user.soundmap_id + '&trackid=' + sound.id,
               success: function(data) {
-                var heatcells = JSON.parse(data);
-                max = _.max(heatcells);
-                var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
-                var offset = 0, heatcolor;
-                for (var i = 0; i < heatcells.length; i += 1) {
-                  if (heatcells[i] > 0) {
-                    heatcolor = getHeatColor(heatcells[i], max);
-                    if (heatcolor === '#de4d46') {
-                      user.hotspots.push(i * 1000);
-                    }
-                    offset = ((i * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
-                    $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px; background: ' + heatcolor + ';"></aside>');
-                  }
-                }
-                // Clear out the existing d3 graphic element
-                $('svg').remove();
-                renderGraph(data);
+                var hasLiked = JSON.parse(data);
+                console.log('hasLiked check: ', hasLiked);
+                if (hasLiked) {
+                  // Generate the heat map for this track
+                  var heatmap = $.ajax({
+                    type: 'GET',
+                    url: '/heatmap/' + trackId + '/' + user.soundDuration,
+                    success: function(data) {
+                      var heatcells = JSON.parse(data);
+                      max = _.max(heatcells);
+                      var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
+                      var offset = 0, heatcolor;
+                      for (var i = 0; i < heatcells.length; i += 1) {
+                        if (heatcells[i] > 0) {
+                          heatcolor = getHeatColor(heatcells[i], max);
+                          if (heatcolor === '#de4d46') {
+                            user.hotspots.push(i * 1000);
+                          }
+                          offset = ((i * 1000) * WAVEFORM_LENGTH) / user.soundDuration;
+                          $('.cells').append('<aside class="cell" style="left: ' + offset + 'px; width: ' + cellWidth + 'px; background: ' + heatcolor + ';"></aside>');
+                        }
+                      }
+                      // Clear out the existing d3 graphic element
+                      $('svg').remove();
+                      renderGraph(data);
 
-                user.triggerPoint = user.hotspots[user.triggerIndex];
+                      user.triggerPoint = user.hotspots[user.triggerIndex];
+                    }
+                  });
+                } // else: don't generate a heat map in this scenario
               }
             });
-          });
-          widget.getCurrentSound(function(sound) {
+
             user.waveform = sound.waveform_url;
             user.currentSongId = sound.id;
             $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
             $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
             $('.waveform').attr('style', 'background-image: url(' + sound.waveform_url + ')');
+
+          });
+          // widget.getCurrentSound(function(sound) {
+            // user.waveform = sound.waveform_url;
+            // user.currentSongId = sound.id;
+            // $('.player .artist').html('<a href="' + sound.user.permalink_url + '">' + sound.user.username + '</a>');
+            // $('.player .trackName').html('<a href="' + sound.permalink_url + '">' + sound.title + '</a>');
+            // $('.waveform').attr('style', 'background-image: url(' + sound.waveform_url + ')');
+
             // place the markers based on the event points -- hiding this feature for now
             // var markers = $('.markers').html();
             // for (var i = 0; i < eventPoints.length; i+=1) {
@@ -241,7 +260,7 @@ $(function() {
             //   markers += '<aside class="marker" style="left: ' + loc + 'px"></aside>'
             //   $('.markers').html(markers);
             // }
-          });
+          // });
 
           // var canvas = document.getElementById('linewave');
           // var context = canvas.getContext('2d');
@@ -431,7 +450,7 @@ $(function() {
         for (var i = 0; i < results.length; i += 1) {
           output += '<div class="popularTracks" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].permalink_url + '">\
             <div class="likeCount">' + results[i].like_count + '<em>' + pluralize(results[i].like_count, 'like') + '</em></div>\
-            <div><img src="' + results[i].artwork_url + '"></div>\
+            <div><img src="' + results[i].artwork_url + '" width="100" height="100"></div>\
             <div class="likeTrackTitle">' + simplifyOutput(results[i].track_title) + '</div>\
           </div>';
         }
