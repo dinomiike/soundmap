@@ -222,6 +222,7 @@ h4 {
   float: left;
   padding: 10px 0 10px 0;
   width: 135px;
+  height: 170px;
   text-align: center;
   cursor: pointer;
   /*border-width: 1px 0 0 0;
@@ -238,10 +239,6 @@ h4 {
   border-bottom-color: rgba(255,255,255,0.3);
   border-radius: 55px;
   -webkit-transition: all 0.5s ease;
-}
-
-.popularTracks img:hover {
-  border-radius: 0;
 }
 
 .likeCount {

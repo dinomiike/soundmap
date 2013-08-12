@@ -30,15 +30,16 @@ exports.songController = {
     var data = res.req.body;
     var sql = '';
 
-    // Has this artist/track been liked before? If not, we need to capture it
-    sql = "SELECT id FROM tracks WHERE sc_artist_id = " + data.artistId + " AND sc_track_id = " + data.trackId;
+    // Has this artist been liked before? If not, we need to make an entry for them
+    sql = "SELECT id FROM artists WHERE sc_artist_id = " + data.artistId;
     db.query(sql, function(err, results) {
       if (err) {
         console.log(err, sql);
         res.end(JSON.stringify(false));
       }
+      console.log('search for artist returned: ', results);
       if (results.length === 0) {
-        // Newly voted song, add it to the artists and tracks tables
+        // We don't have a record of this artist; create one
         sql = "INSERT INTO artists(sc_artist_id, artist_name) VALUES(" + data.artistId + ", '" + data.artist + "')";
         db.query(sql, function(err, results) {
           if (err) {
@@ -46,19 +47,32 @@ exports.songController = {
             res.end(JSON.stringify(false));
           }
           console.log('New artist added!', sql);
-          sql = "INSERT INTO tracks(sc_track_id, sc_artist_id, track_title, uri, permalink_url, artwork_url, genre, label_name, bpm)\
-            VALUES(" + data.trackId + ", " + data.artistId + ", '" + data.trackTitle + "', '" + data.uri + "', '" + data.permalinkUrl + "', '" + data.artworkUrl + "', '" + data.genre.replace(/\'/g, "") + "', '" + data.label + "', '" + data.bpm + "')";
-          db.query(sql, function(err, results) {
-            if (err) {
-              console.log(err, sql);
-              res.end(JSON.stringify(false));
-            }
-            console.log('New track added! ', sql);
-          });
         });
       }
     });
 
+    // Check if we have this track
+    sql = "SELECT id FROM tracks WHERE sc_track_id = " + data.trackId;
+    db.query(sql, function(err, results) {
+      if (err) {
+        console.log(err, sql);
+        res.end(JSON.stringify(false));
+      }
+      if (results.length === 0) {
+        // We don't have a record of this track; create one
+        sql = "INSERT INTO tracks(sc_track_id, sc_artist_id, track_title, uri, permalink_url, artwork_url, genre, label_name, bpm)\
+          VALUES(" + data.trackId + ", " + data.artistId + ", '" + data.trackTitle + "', '" + data.uri + "', '" + data.permalinkUrl + "', '" + data.artworkUrl + "', '" + data.genre.replace(/\'/g, "") + "', '" + data.label + "', '" + data.bpm + "')";
+        db.query(sql, function(err, results) {
+          if (err) {
+            console.log(err, sql);
+            res.end(JSON.stringify(false));
+          }
+          console.log('New track added! ', sql);
+        });
+      }
+    });
+
+    // Record the like point
     if (data.userId.length > 0 && data.trackId.length > 0 && data.eventPoint.length > 0) {
       // Has this user liked this song before?
       db.query("SELECT track_id FROM likes WHERE track_id = " + data.trackId + " AND user_id = " + data.userId, function(err, results) {

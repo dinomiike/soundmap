@@ -71,6 +71,27 @@ $(function() {
     });
   }();
 
+  var simplifyOutput = function(str) {
+    if (str.length > 50) {
+      var pos = 50;
+      debugger;
+      while (str[pos-1] === ' ') {
+        pos -= 1;
+        console.log('str: [' + str.substring(0,pos) + '] - ', str[pos]);
+      }
+      return str.substring(0, pos) + '...';
+    }
+    return str;
+  };
+
+  var pluralize = function(num, word) {
+    if (num > 1) {
+      return word + 's';
+    } else {
+      return word;
+    }
+  };
+
   var getHeatColor = function(n, max) {
     var limiter = Math.floor(max / 4);
     var redUpperLimit = max;
@@ -409,9 +430,9 @@ $(function() {
         var output = '<h4>Popular songs</h4>';
         for (var i = 0; i < results.length; i += 1) {
           output += '<div class="popularTracks" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].permalink_url + '">\
-            <div class="likeCount">' + results[i].like_count + '<em>likes</em></div>\
+            <div class="likeCount">' + results[i].like_count + '<em>' + pluralize(results[i].like_count, 'like') + '</em></div>\
             <div><img src="' + results[i].artwork_url + '"></div>\
-            <div class="likeTrackTitle">' + results[i].track_title + '</div>\
+            <div class="likeTrackTitle">' + simplifyOutput(results[i].track_title) + '</div>\
           </div>';
         }
         $('.popularBox').append(output);
