@@ -374,6 +374,7 @@ $(function() {
           url: '/find/?username=' + me.username + '&scid=' + me.id,
           success: function(data) {
             console.log(data);
+            data = JSON.parse(data);
             if (data) {
               $.ajax({
                 type: 'GET',
@@ -392,6 +393,20 @@ $(function() {
                   country: me.country,
                   full_name: me.full_name,
                   city: me.city
+                },
+                success: function() {
+                  // User has been created. Now to retrieve their id and log them in
+                  var findUser = $.ajax({
+                    type: 'GET',
+                    url: '/find/?username=' + me.username + '&scid=' + me.id,
+                    success: function(data) {
+                      data = JSON.parse(data);
+                      if (data) {
+                        user.soundmap_id = data.id;
+                        alert(user.soundmap_id);
+                      }
+                    }
+                  });
                 }
               });
             }
