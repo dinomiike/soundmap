@@ -6,6 +6,7 @@ $(function() {
   var WAVEFORM_LENGTH = 668; //580;
   var canvas = document.getElementById('sc-widget');
   var context = '';
+  var imageCache = ['/images/heart-btn-hover.png'];
 
   // Program entry point: 
   // If local storage session is available, set user's last_login time and load the app
@@ -36,6 +37,15 @@ $(function() {
     });
     // display the disconnect button
     $('#connect').text('disconnect');
+
+    // Show the queue initially if there are items in the queue
+    var queueCheck = localStorage.queue;
+    if (queueCheck) {
+      queueCheck = JSON.parse(queueCheck);
+      if (queueCheck.length > 0) {
+        $('.queue').show();
+      }
+    }
   }
 
   window.bgColors = ['papayawhip', 'saddlebrown', 'lightblue', 'lemonchiffon', 'slateblue', 'cornflowerblue', 'limegreen', 'darkkhaki', 'indianred', 'yellowgreen', 'tomato', 'steelblue', 'crimson'];
@@ -53,6 +63,12 @@ $(function() {
       }
     }
   };
+
+  var imagePreloader = function() {
+    $(imageCache).each(function() {
+      $('<img>')[0].src = this;
+    });
+  }();
 
   var getHeatColor = function(n, max) {
     var limiter = Math.floor(max / 4);
@@ -444,16 +460,27 @@ $(function() {
   });
 
   $('#popular').on('click', function() {
-    $('.news').toggleClass('hide');
-    if ($('.news').hasClass('hide')) {
-      console.log('emptying');
+    var popularVisible = $('.news').is(':visible');
+    if (popularVisible) {
+      $('.news').slideUp('fast');
       $('.popularBox').empty();
       $('.recentBox').empty();
     } else {
-      console.log('populating');
       getPopularContent();
       getRecentContent();
+      $('.news').slideDown('slow');
     }
+
+    // $('.news').toggleClass('hide');
+    // if ($('.news').hasClass('hide')) {
+    //   console.log('emptying');
+    //   $('.popularBox').empty();
+    //   $('.recentBox').empty();
+    // } else {
+    //   console.log('populating');
+    //   getPopularContent();
+    //   getRecentContent();
+    // }
   });
 
   $('#host').on('click', function() {

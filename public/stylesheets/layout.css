@@ -44,11 +44,17 @@ header nav {
 }
 
 header nav:nth-child(1) {
-  width: 185px;
+  width: 135px;
   height: 42px;
   line-height: 42px;
+  padding-left: 50px;
   color: #141205;
   text-align: left;
+  background-image: url(../images/soundmap-logo-small.png);
+  background-repeat: no-repeat;
+  font-size: 1.3em;
+  letter-spacing: -0.1em;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
 
 header nav:nth-child(2) {
@@ -323,6 +329,7 @@ h4 {
 }
 
 .queue {
+  display: none;
   position: relative;
   background: #312d2c;
   background-image: url(../images/texture.png);
@@ -361,7 +368,7 @@ h4 {
 }
 
 #heart {
-  position: relative;
+  position: absolute;
   top: -17px;
   left: 285px;
   background: none;
