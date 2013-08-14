@@ -11,9 +11,15 @@ $(function() {
   // Program entry point: 
   // If local storage session is available, set user's last_login time and load the app
   if (localStorage['token']) {
+    $('.header').attr('visibility: visible');
+    $('.intro').hide();
+    $('#sc-nav-login').hide();
     SC.accessToken(localStorage['token']);
     // Get the user info from Soundcloud
     SC.get('/me', function(me) {
+      $('.splash').hide();
+      $('header').attr('style', 'visibility: visible');
+      $('#sc-nav-login').hide();
       // Update user's logged in time
       $.ajax({
         type: 'GET',
@@ -46,6 +52,12 @@ $(function() {
         $('.queue').show();
       }
     }
+  } else {
+    console.log('render home page!');
+    // $('header').attr('style', 'visibility: hidden');
+    $('.logoBox img').hide();
+    $('.splash').show();
+    $('.intro').show();
   }
 
   window.bgColors = ['papayawhip', 'saddlebrown', 'lightblue', 'lemonchiffon', 'slateblue', 'cornflowerblue', 'limegreen', 'darkkhaki', 'indianred', 'yellowgreen', 'tomato', 'steelblue', 'crimson'];
@@ -363,6 +375,7 @@ $(function() {
 
   // API Calls
   var authenticate = function(_this) {
+    var logoutButton = _this || $('#connect');
     SC.initialize({
       client_id: '94d2eca97b9355ab27efa95d60ee64ef',
       redirect_uri: 'http://localhost:3000/authenticated.html'
@@ -374,6 +387,9 @@ $(function() {
           type: 'GET',
           url: '/find/?username=' + me.username + '&scid=' + me.id,
           success: function(data) {
+            $('.splash').hide();
+            $('#sc-nav-login').hide();
+            $('header').attr('style', 'visibility: visible');
             console.log(data);
             data = JSON.parse(data);
             if (data) {
@@ -399,6 +415,8 @@ $(function() {
                   city: me.city
                 },
                 success: function() {
+                  $('.splash').hide();
+                  $('header').attr('style', 'visibility: visible');
                   // User has been created. Now to retrieve their id and log them in
                   var findUser = $.ajax({
                     type: 'GET',
@@ -416,7 +434,7 @@ $(function() {
             }
           }
         });
-        $(_this).text('disconnect');
+        $(logoutButton).text('disconnect');
         $('.userName').append(me.username);
         // cache the user
         _.extend(user, me);
@@ -545,10 +563,15 @@ $(function() {
   });
 
   $('#host').on('click', function() {
-    var output = '<div>Would you like to host a music room? Soundmap will need your location information to continue. Is that all right with you?\
-      <button id="hostAgree">Yep</button> <button id="hostReject">Hell Nah</button></div>';
-    $('.news').prepend(output);
-    $('.news').show();
+    if ($('.host').is(':visible')) {
+      $('.host').hide();
+      $('.host .container').empty();
+    } else {
+      var output = '<div>Would you like to host a music room? Soundmap will need your location information to continue. Is that all right with you?\
+        <button id="hostAgree">Yep</button> <button id="hostReject">Hell Nah</button></div>';
+      $('.host .container').prepend(output);
+      $('.host').show();
+    }
   });
 
   $('#connect').on('click', function() {
@@ -558,6 +581,11 @@ $(function() {
     } else {
       authenticate(this);
     }
+  });
+
+  $('#sc-connect').on('click', function() {
+    console.log('login');
+    authenticate();
   });
 
   $('#heart').on('click', function() {

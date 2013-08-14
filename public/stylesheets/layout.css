@@ -28,6 +28,7 @@ header {
   height: 80px;
   margin: 0 auto;
   z-index: 10;
+  visibility: hidden;
 }
 
 header nav {
@@ -88,9 +89,73 @@ header nav:nth-child(5):hover {
   border: 1px solid #d09517;
 }
 
+#sc-nav-login {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.sc-login-btn {
+  position: relative;
+  top: 33px;
+  text-align: right;
+}
+
+.sc-login-btn img {
+  cursor: pointer;
+}
+
 main {
   clear: both;
   background: #efefef;
+}
+
+.splash {
+  display: none;
+}
+
+.intro {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 340px;
+  font-size: 0.45em;
+  font-style: italic;
+  letter-spacing: -0.11em;
+  color: #1888ba;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+.pad {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.homeItems {
+  list-style-type: none;
+}
+
+.homeItem {
+  position: relative;
+  float: left;
+  width: 175px;
+  height: 100px;
+  margin: 0 20px 0 20px;
+  text-align: center;
+  color: #fff;
+  padding-top: 80px;
+}
+
+.homeItem:nth-child(1) {
+  background: #1888ba;
+}
+
+.homeItem:nth-child(2) {
+  background: #e73c45;
+}
+
+.homeItem:nth-child(3) {
+  background: #ea9713;
 }
 
 #cheer {
@@ -125,6 +190,15 @@ main {
 .news {
   position: relative;
   background: #efc437;
+  background-image: url(../images/texture.png);
+  padding: 35px 0 35px 0;
+  overflow: hidden;
+}
+
+.host {
+  display: none;
+  position: relative;
+  background: #e73c45;
   background-image: url(../images/texture.png);
   padding: 35px 0 35px 0;
   overflow: hidden;
@@ -222,7 +296,7 @@ h4 {
   float: left;
   padding: 10px 0 10px 0;
   width: 135px;
-  height: 170px;
+  height: 190px;
   text-align: center;
   cursor: pointer;
   /*border-width: 1px 0 0 0;
@@ -260,6 +334,7 @@ h4 {
 }
 
 .likeTrackTitle {
+  padding: 0 7px 0 7px;
   font-weight: normal;
   font-size: 0.8em;
   color: #fff;

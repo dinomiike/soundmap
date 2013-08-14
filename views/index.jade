@@ -8,12 +8,17 @@ block content
       nav#popular popular
       nav#host host
       nav#connect connect
+  div#sc-nav-login
+    .container
+      div.sc-login-btn
+        img(id='sc-connect', src='images/btn-connect-sc-l.png')
   main
     .container
       .playerBox
         .userName
         h1.logoBox soundmap
           img(class='spinner', src='images/spinner.gif')
+          .intro show musicians what you like about their music
         .player
           span.playtime 0:00
           .artist
@@ -36,6 +41,12 @@ block content
             button#toggleGraph graph
             button#heart
             //span.upNext
+  section.splash
+    .container
+      .pad
+        img(src='images/tweetpic.png')
+  section.host
+    .container
   section.queue
     .container
       h4 Music Queue
@@ -50,4 +61,4 @@ block content
       #userFavorites
   .widgetBox
     iframe#sc-widget(src="http://w.soundcloud.com/player/?url=http://api.soundcloud.com/", width="100%", height="165", scrolling="no", frameborder="no")
-  #cheer Yeah!
+  #cheer !!
