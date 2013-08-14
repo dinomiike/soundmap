@@ -550,6 +550,10 @@ $(function() {
   };
 
   // Event bindings
+  $('#logo').on('click', function() {
+    window.location = '/';
+  });
+
   $('#queue').on('click', function() {
     ($('.queue').is(':visible')) ? $('.queue').slideUp() : $('.queue').slideDown();
   });
