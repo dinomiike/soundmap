@@ -205,6 +205,7 @@ $(function() {
             if (queue !== undefined && queue.length >= 1) {
               var next = queue.shift();
               localStorage.queue = JSON.stringify(queue);
+              $('.loadingScreen').show();
               setWidget(next[0], next[1]);
               setQueueDisplay(queue);
             }
@@ -241,13 +242,17 @@ $(function() {
                       // Clear out the existing d3 graphic element
                       $('svg').remove();
                       renderGraph(data);
+                      $('#toggleGraph').show();
 
                       user.triggerPoint = user.hotspots[user.triggerIndex];
                     }
                   });
                   // Display a marker where the user has liked the song
                   setMarker(hasLiked[0].event_point);
-                } // else: don't generate a heat map in this scenario
+                } else {
+                  // Don't generate a heat map in this scenario
+                  $('#toggleGraph').hide();
+                }
               }
             });
 
@@ -463,6 +468,7 @@ $(function() {
         // load the first favored track to the widget and render the track visible
         if (!loadedFirstTrack) {
           // Set up the widget
+          $('.loadingScreen').show();
           setWidget(fav.permalink_url, fav.id);
           loadFirstTrack();
           $('.player .artist').text(fav.user.username);
@@ -636,6 +642,7 @@ $(function() {
   $('#userFavorites').on('click', '.setTrack', function() {
     $('.loadingScreen').show();
     setWidget($(this).data('link'), $(this).data('trackid'));
+    $("html, body").animate({ scrollTop: 0 }, "slow");
   });
 
   $('#userFavorites').on('click', '.queueTrack', function() {
@@ -661,6 +668,7 @@ $(function() {
   $('.player .controls').on('click', '#next', function() {
     var queue = !!(localStorage.queue) ? JSON.parse(localStorage.queue) : false;
     if (queue && queue.length > 0) {
+      $('.loadingScreen').show();
       setWidget(queue[0][0], queue[0][1], queue[0][2]);
       renderQueueList('remove');
       queue.shift();
@@ -672,11 +680,13 @@ $(function() {
   });
 
   $('.popularBox').on('click', '.popularTracks', function() {
+    $('.loadingScreen').show();
     setWidget($(this).data('trackurl'), $(this).data('trackid'));
+    $("html, body").animate({ scrollTop: 0 }, "slow");
   });
 
   $('.recentBox').on('click', '.likeBlockUserName', function() {
-    console.log('invoke setWidget with ' + $(this).data('trackurl') + ' - ' + $(this).data('trackid'));
+    $('.loadingScreen').show();
     setWidget($(this).data('trackurl'), $(this).data('trackid'));
     $("html, body").animate({ scrollTop: 0 }, "slow");
   });
@@ -692,7 +702,6 @@ $(function() {
   });
 
   $('.news').on('click', '#hostReject', function() {
-    console.log('host is no host at all');
     $('.news').hide();
   });
 
