@@ -86,7 +86,6 @@ $(function() {
   var simplifyOutput = function(str) {
     if (str.length > 50) {
       var pos = 50;
-      debugger;
       while (str[pos-1] === ' ') {
         pos -= 1;
         console.log('str: [' + str.substring(0,pos) + '] - ', str[pos]);
@@ -514,7 +513,7 @@ $(function() {
           console.log('time stamp: ', results[i].date_set);
           output += '<div class="recentLike">\
             <div class="userLike">\
-            <div class="likeBlockUserName' + toggle + '"><a href="' + results[i].uri + '">' + results[i].track_title + '</a> liked by ' + results[i].username + ' ' + moment(results[i].date_set).startOf('hour').fromNow() + '</div>\
+            <div class="likeBlockUserName' + toggle + '" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].uri + '">' + results[i].track_title + ' liked by ' + results[i].username + ' ' + moment(results[i].date_set).startOf('hour').fromNow() + '</div>\
             <div class="likeBlockUserAvatar' + toggle + '"><img src="' + results[i].avatar_url + '"></div>\
             </div>\
           </div>';
@@ -674,6 +673,12 @@ $(function() {
 
   $('.popularBox').on('click', '.popularTracks', function() {
     setWidget($(this).data('trackurl'), $(this).data('trackid'));
+  });
+
+  $('.recentBox').on('click', '.likeBlockUserName', function() {
+    console.log('invoke setWidget with ' + $(this).data('trackurl') + ' - ' + $(this).data('trackid'));
+    setWidget($(this).data('trackurl'), $(this).data('trackid'));
+    $("html, body").animate({ scrollTop: 0 }, "slow");
   });
 
   $('.news').on('click', '#hostAgree', function() {

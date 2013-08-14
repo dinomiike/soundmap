@@ -269,9 +269,9 @@ h4 {
   width: 190px;
   padding: 0 5px 0 5px;
   margin: 0;
-  /*font-size: 0.8em;*/
   font-weight: normal;
   line-height: 14px;
+  cursor: pointer;
 }
 
 .likeBlockUserAvatar {
