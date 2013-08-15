@@ -26,10 +26,10 @@ exports.popularController = {
   },
 
   recentContent: function(req, res) {
-    sql = "SELECT users.username, users.avatar_url, likes.track_id, likes.user_id, likes.date_set, tracks.track_title, tracks.uri, tracks.genre\
+    sql = "SELECT users.username, users.avatar_url, likes.track_id, likes.user_id, DATE_FORMAT(likes.date_set, '%m-%d-%Y %H:%i') AS date_set, tracks.track_title, tracks.uri, tracks.genre\
       FROM users RIGHT JOIN likes ON users.id = likes.user_id\
       INNER JOIN tracks ON likes.track_id = tracks.sc_track_id\
-      ORDER BY likes.date_set DESC\
+      ORDER BY date_set DESC\
       LIMIT 5;"
     db.query(sql, function(err, results) {
       if (err) {
