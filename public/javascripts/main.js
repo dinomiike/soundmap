@@ -242,7 +242,7 @@ $(function() {
                       // Clear out the existing d3 graphic element
                       $('svg').remove();
                       renderGraph(data);
-                      $('#toggleGraph').show();
+                      $('.controls').append('<button id="toggleGraph">graph</button>');
 
                       user.triggerPoint = user.hotspots[user.triggerIndex];
                     }
@@ -251,7 +251,7 @@ $(function() {
                   setMarker(hasLiked[0].event_point);
                 } else {
                   // Don't generate a heat map in this scenario
-                  $('#toggleGraph').hide();
+                  $('#toggleGraph').remove();
                 }
               }
             });
@@ -630,7 +630,7 @@ $(function() {
     });
   });
 
-  $('#toggleGraph').on('click', function() {
+  $('.controls').on('click', '#toggleGraph', function() {
     // $('#likechart').toggleClass('hideLikeGraph');
     if ($('#likechart').is(':visible')) {
       $('#likechart').hide();
