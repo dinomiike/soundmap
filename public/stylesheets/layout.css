@@ -371,9 +371,6 @@ h4 {
 }
 
 .controls button {
-  /*width: 16px;
-  height: 16px;
-  border: none;*/
   width: 30px;
   height: 30px;
   border: 0px;
@@ -381,12 +378,10 @@ h4 {
 }
 
 .play {
-  /*background: none;*/
   background: #1888ba;
   background-image: url(../images/play-dark.png);
   background-repeat: no-repeat;
-  background-position-x: 12px;
-  background-position-y: 7px;
+  background-position: 12px 7px;
 }
 
 .pause {
@@ -394,18 +389,30 @@ h4 {
   background: #ea9713;
   background-image: url(../images/pause-dark.png);
   background-repeat: no-repeat;
-  background-position-x: 12px;
-  background-position-y: 7px;
+  background-position: 12px 7px;
 }
 
 .next {
   margin-left: 8px;
-  /*background: none;*/
   background: #e73c45;
   background-image: url(../images/next.png);
   background-repeat: no-repeat;
-  background-position-x: 8px;
-  background-position-y: 7px;
+  background-position: 8px 7px;
+}
+
+.mute {
+  margin-left: 8px;
+  background: #ea9713;
+  background-image: url(../images/mute.png);
+  background-repeat: no-repeat;
+  background-position: 8px 7px;
+}
+
+.unmute {
+  background: #C0C0C0;
+  background-image: url(../images/unmute.png);
+  background-repeat: no-repeat;
+  background-position: 8px 7px;
 }
 
 #toggleGraph {
@@ -678,11 +685,6 @@ h1.logoBox {
 }
 
 .setTrack {
-  /*width: 16px;
-  height: 16px;
-  background: none;
-  border: none;*/
-  /*background-image: url(../images/play-dark.png);*/
   font-size: 0.7em;
   border-style: inset;
   background: rgba(0,0,0,0.2);

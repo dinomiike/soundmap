@@ -663,21 +663,14 @@ $(function() {
     renderQueueList('add');
   });
 
-  $('.player .controls').on('click', '#audio', function() {
-    var iframe = document.getElementById('sc-widget');
-    var widget = SC.Widget(iframe);
-    widget.isPaused(function(paused) {
-      if (paused) {
-        widget.play();
-      } else {
-        widget.pause();
-      }
-    });
+  $('.controls').on('click', '#audio', function() {
+    var widget = SC.Widget(document.getElementById('sc-widget'));
+    widget.toggle();
     $(this).toggleClass('play');
     $(this).toggleClass('pause');
   });
 
-  $('.player .controls').on('click', '#next', function() {
+  $('.controls').on('click', '#next', function() {
     var queue = !!(localStorage.queue) ? JSON.parse(localStorage.queue) : false;
     if (queue && queue.length > 0) {
       $('.loadingScreen').show();
@@ -689,6 +682,18 @@ $(function() {
         $('.queue').slideUp('slow');
       }
     }
+  });
+
+  $('.controls').on('click', '#mute', function() {
+    var widget = SC.Widget(document.getElementById('sc-widget'));
+    widget.getVolume(function(volume) {
+      if (volume > 0) {
+        widget.setVolume(0);
+      } else {
+        widget.setVolume(100);
+      }
+    });
+    $('#mute').toggleClass('unmute');
   });
 
   $('.popularBox').on('click', '.popularTracks', function() {
