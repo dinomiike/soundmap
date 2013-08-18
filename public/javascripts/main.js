@@ -103,16 +103,40 @@ $(function() {
     }
   };
 
-  var getHeatColor = function(n, max) {
-    var limiter = Math.floor(max / 4);
+  var getHeatColor = function(n, max, min) {
+    // var limiter = Math.floor(max / 4);
+    var limiter = Math.abs((min - max) / 4);
+    console.log('new limiter', limiter);
     var redUpperLimit = max;
     var redLowerLimit = max - limiter;
+    console.log('red', redUpperLimit, redLowerLimit);
     var orangeUpperLimit = redLowerLimit - 1;
     var orangeLowerLimit = orangeUpperLimit - limiter;
+    console.log('orange', orangeUpperLimit, orangeLowerLimit);
     var yellowUpperLimit = orangeLowerLimit - 1;
     var yellowLowerLimit = yellowUpperLimit - limiter;
+    console.log('yellow', yellowUpperLimit, yellowLowerLimit);
     var greenUpperLimit = yellowLowerLimit - 1;
     var greenLowerLimit = 1;
+    console.log('green', greenUpperLimit, greenLowerLimit);
+
+    console.log('============================================');
+
+    var oldLimiter = Math.abs((min - max) / 4);
+    console.log('old limiter', oldLimiter);
+    var _redUpperLimit = max;
+    var _redLowerLimit = max - limiter;
+    console.log('red', _redUpperLimit, _redLowerLimit);
+    var _orangeUpperLimit = _redLowerLimit - 1;
+    var _orangeLowerLimit = _orangeUpperLimit - oldLimiter;
+    console.log('orange', _orangeUpperLimit, _orangeLowerLimit);
+    var _yellowUpperLimit = _orangeLowerLimit - 1;
+    var _yellowLowerLimit = _yellowUpperLimit - oldLimiter;
+    console.log('yellow', _yellowUpperLimit, _yellowLowerLimit);
+    var _greenUpperLimit = _yellowLowerLimit - 1;
+    var _greenLowerLimit = 1;
+    console.log('green', _greenUpperLimit, _greenLowerLimit);
+
     if (n <= redUpperLimit && n >= redLowerLimit) {
       // return 'red';
       // return '#08306B';
@@ -197,7 +221,7 @@ $(function() {
       url: '/likes/' + trackId,
       success: function(data) {
         // Define the parameters for determining heat color once per song
-        var max = 0;
+        var max = 0, min = 0;
         widget.bind(SC.Widget.Events.READY, function() {
           $('.loadingScreen').fadeOut();
           widget.bind(SC.Widget.Events.FINISH, function() {
@@ -227,12 +251,14 @@ $(function() {
                     success: function(data) {
                       var heatcells = JSON.parse(data);
                       // console.log(heatcells);
+                      window._heatcells = heatcells;
                       max = _.max(heatcells);
+                      min = _.min(heatcells);
                       var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
                       var offset = 0, heatcolor;
                       for (var i = 0; i < heatcells.length; i += 1) {
                         if (heatcells[i] > 0) {
-                          heatcolor = getHeatColor(heatcells[i], max);
+                          heatcolor = getHeatColor(heatcells[i], max, min);
                           if (heatcolor === '#de4d46') {
                             user.hotspots.push(i * 1000);
                           }
