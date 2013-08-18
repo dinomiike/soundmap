@@ -88,7 +88,7 @@ $(function() {
       var pos = 50;
       while (str[pos-1] === ' ') {
         pos -= 1;
-        console.log('str: [' + str.substring(0,pos) + '] - ', str[pos]);
+        // console.log('str: [' + str.substring(0,pos) + '] - ', str[pos]);
       }
       return str.substring(0, pos) + '...';
     }
@@ -226,6 +226,7 @@ $(function() {
                     url: '/heatmap/' + trackId + '/' + user.soundDuration,
                     success: function(data) {
                       var heatcells = JSON.parse(data);
+                      // console.log(heatcells);
                       max = _.max(heatcells);
                       var cellWidth = (1000 * WAVEFORM_LENGTH) / user.soundDuration;
                       var offset = 0, heatcolor;
@@ -531,9 +532,16 @@ $(function() {
   };
 
   var setMarker = function(pos) {
+    // Grab the existing marker for this user (if any)
+    var currentMarker = $('.markers .me');
+    if (currentMarker.length > 0) {
+      for (var i = 0; i < currentMarker.length; i += 1) {
+        $(currentMarker[i]).remove();
+      }
+    }
     var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
-    $('.markers').append('<aside class="marker" style="left: ' + loc + 'px;"></aside');
-    $('.markers').append('<aside class="note" style="left: ' + (loc - 23) + 'px;">Me</aside>');
+    $('.markers').append('<aside class="marker me" style="left: ' + loc + 'px;"></aside');
+    $('.markers').append('<aside class="note me" style="left: ' + (loc - 23) + 'px;">Me</aside>');
   };
 
   // Event callbacks
