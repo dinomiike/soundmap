@@ -103,6 +103,18 @@ $(function() {
     }
   };
 
+  // Decrement a decimal or integer by 1
+  var decrement = function(n) {
+    if ((n % 1) > 0) {
+      // A decimal number
+      var decimals = n.toString().split('.');
+      return parseFloat(decimals[0] + '.' + ((decimals[1] * 1) - 1));
+    } else {
+      // An integer
+      return n - 1;
+    }
+  };
+
   var getHeatColor = function(n, max, min) {
     // var limiter = Math.floor(max / 4);
     var limiter = Math.abs((min - max) / 4);
@@ -110,13 +122,13 @@ $(function() {
     var redUpperLimit = max;
     var redLowerLimit = max - limiter;
     console.log('red', redUpperLimit, redLowerLimit);
-    var orangeUpperLimit = redLowerLimit - 1;
+    var orangeUpperLimit = decrement(redLowerLimit);
     var orangeLowerLimit = orangeUpperLimit - limiter;
     console.log('orange', orangeUpperLimit, orangeLowerLimit);
-    var yellowUpperLimit = orangeLowerLimit - 1;
+    var yellowUpperLimit = decrement(orangeLowerLimit);
     var yellowLowerLimit = yellowUpperLimit - limiter;
     console.log('yellow', yellowUpperLimit, yellowLowerLimit);
-    var greenUpperLimit = yellowLowerLimit - 1;
+    var greenUpperLimit = decrement(yellowLowerLimit);
     var greenLowerLimit = 1;
     console.log('green', greenUpperLimit, greenLowerLimit);
 
@@ -127,13 +139,13 @@ $(function() {
     var _redUpperLimit = max;
     var _redLowerLimit = max - limiter;
     console.log('red', _redUpperLimit, _redLowerLimit);
-    var _orangeUpperLimit = _redLowerLimit - 1;
+    var _orangeUpperLimit = decrement(_redLowerLimit);
     var _orangeLowerLimit = _orangeUpperLimit - oldLimiter;
     console.log('orange', _orangeUpperLimit, _orangeLowerLimit);
-    var _yellowUpperLimit = _orangeLowerLimit - 1;
+    var _yellowUpperLimit = decrement(_orangeLowerLimit);
     var _yellowLowerLimit = _yellowUpperLimit - oldLimiter;
     console.log('yellow', _yellowUpperLimit, _yellowLowerLimit);
-    var _greenUpperLimit = _yellowLowerLimit - 1;
+    var _greenUpperLimit = decrement(_yellowLowerLimit);
     var _greenLowerLimit = 1;
     console.log('green', _greenUpperLimit, _greenLowerLimit);
 
