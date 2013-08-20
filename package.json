@@ -8,5 +8,9 @@
   "dependencies": {
     "express": "3.3.4",
     "jade": "*"
+  },
+  "devDependencies": {
+    "chai": "~1.7.2",
+    "mocha": "~1.12.0"
   }
 }

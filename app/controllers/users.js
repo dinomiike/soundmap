@@ -62,6 +62,13 @@ exports.userController = {
         res.end(JSON.stringify(true));
       }
     });
+  },
+
+  authenticate: function(req, res) {
+    console.log(process.env);
+    console.log(process.env.SOUNDCLOUD_CLIENT_ID);
+    console.log(process.env.SOUNDCLOUD_REDIRECT_URL);
+    res.end();
   }
 };
 

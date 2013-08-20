@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express'),
   routes = require('./routes'),
   users = require('./app/controllers/users.js'),
@@ -37,6 +32,7 @@ app.get('/join', rooms.room);
 app.get('/login', users.userController.login);
 app.get('/find', users.userController.find);
 app.post('/create', users.userController.create);
+app.get('/authenticate', users.userController.authenticate);
 // Song Operations
 app.get('/likes/:id', songs.songController.likes);
 app.post('/likesong', songs.songController.likeSong);

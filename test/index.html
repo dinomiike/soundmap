@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mocha Tests</title>
+<link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+</head>
+<body>
+<div id="mocha"></div>
+
+<script src="../underbar.js"></script>
+
+<script src="../node_modules/chai/chai.js"></script>
+<script src="../node_modules/mocha/mocha.js"></script>
+<script>
+  expect = chai.expect;
+  mocha.setup('bdd');
+</script>
+
+<script src="underbar.js"></script>
+
+<script>
+  mocha.checkLeaks();
+  mocha.run();
+</script>
+</body>
+</html>
