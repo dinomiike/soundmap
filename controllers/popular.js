@@ -1,12 +1,12 @@
 
 /*
- * All operations related to songs.
+ * All operations related to popular content.
  */
-var mysql = require('mysql');
-var dbConnection = require('../../dbConnection').dbConnection;
-var db = mysql.createConnection(dbConnection);
+// var mysql = require('mysql');
+// var dbConnection = require('../../dbConnection').dbConnection;
+// var db = mysql.createConnection(dbConnection);
 
-db.connect();
+// db.connect();
 
 exports.popularController = {
   popularContent: function(req, res) {

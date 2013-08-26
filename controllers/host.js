@@ -2,11 +2,11 @@
 /*
  * All operations related to hosting a session.
  */
-var mysql = require('mysql');
-var dbConnection = require('../../dbConnection').dbConnection;
-var db = mysql.createConnection(dbConnection);
+// var mysql = require('mysql');
+// var dbConnection = require('../../dbConnection').dbConnection;
+// var db = mysql.createConnection(dbConnection);
 
-db.connect();
+// db.connect();
 
 exports.hostController = {
   hostSession: function(req, res) {

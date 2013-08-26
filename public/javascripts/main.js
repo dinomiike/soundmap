@@ -59,8 +59,6 @@ $(function() {
     $('.intro').show();
   }
 
-  window.bgColors = ['papayawhip', 'saddlebrown', 'lightblue', 'lemonchiffon', 'slateblue', 'cornflowerblue', 'limegreen', 'darkkhaki', 'indianred', 'yellowgreen', 'tomato', 'steelblue', 'crimson'];
-
   var loadFirstTrack = function() {
     $('h1').fadeOut('slow');
     $('.player').fadeIn('slow').show();
