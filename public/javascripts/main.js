@@ -53,8 +53,7 @@ $(function() {
       }
     }
   } else {
-    console.log('render home page!');
-    // $('header').attr('style', 'visibility: hidden');
+    // Render the home page
     $('.logoBox img').hide();
     $('.splash').show();
     $('.intro').show();
@@ -64,7 +63,6 @@ $(function() {
 
   var loadFirstTrack = function() {
     $('h1').fadeOut('slow');
-    // $('.spinner').hide();
     $('.player').fadeIn('slow').show();
   };
 
@@ -77,18 +75,11 @@ $(function() {
     }
   };
 
-  var imagePreloader = function() {
-    $(imageCache).each(function() {
-      $('<img>')[0].src = this;
-    });
-  }();
-
   var simplifyOutput = function(str) {
     if (str.length > 50) {
       var pos = 50;
       while (str[pos-1] === ' ') {
         pos -= 1;
-        // console.log('str: [' + str.substring(0,pos) + '] - ', str[pos]);
       }
       return str.substring(0, pos) + '...';
     }
