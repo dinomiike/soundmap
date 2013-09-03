@@ -409,71 +409,78 @@ $(function() {
   // API Calls
   var authenticate = function(_this) {
     var logoutButton = _this || $('#connect');
-    SC.initialize({
-      client_id: '94d2eca97b9355ab27efa95d60ee64ef',
-      redirect_uri: 'http://localhost:3000/authenticated.html'
-    });
-    SC.connect(function() {
-      SC.get('/me', function(me) {
-        // Check to see if we have a record for this user
-        var found = $.ajax({
-          type: 'GET',
-          url: '/find/?username=' + me.username + '&scid=' + me.id,
-          success: function(data) {
-            $('.splash').hide();
-            $('#sc-nav-login').hide();
-            $('header').attr('style', 'visibility: visible');
-            console.log(data);
-            data = JSON.parse(data);
-            if (data) {
-              $.ajax({
-                type: 'GET',
-                url: '/login/?user=' + me.username + '&scid=' + me.id,
-                success: function() {
-                  user.soundmap_id = data.id;
-                }
-              });
-            } else {
-              // If not, create an account for them
-              var create = $.ajax({
-                type: 'POST',
-                url: '/create',
-                data: {
-                  sc_id: me.id,
-                  username: me.username,
-                  permalink: me.permalink_url,
-                  avatar_url: me.avatar_url,
-                  country: me.country,
-                  full_name: me.full_name,
-                  city: me.city
-                },
-                success: function() {
-                  $('.splash').hide();
-                  $('header').attr('style', 'visibility: visible');
-                  // User has been created. Now to retrieve their id and log them in
-                  var findUser = $.ajax({
+    $.ajax({
+      type: 'GET',
+      url: '/init',
+      success: function(data) {
+        var connectionObject = JSON.parse(data);
+        SC.initialize({
+          client_id: connectionObject.client_id,
+          redirect_uri: connectionObject.redirect_uri
+        });
+        SC.connect(function() {
+          SC.get('/me', function(me) {
+            // Check to see if we have a record for this user
+            var found = $.ajax({
+              type: 'GET',
+              url: '/find/?username=' + me.username + '&scid=' + me.id,
+              success: function(data) {
+                $('.splash').hide();
+                $('#sc-nav-login').hide();
+                $('header').attr('style', 'visibility: visible');
+                console.log(data);
+                data = JSON.parse(data);
+                if (data) {
+                  $.ajax({
                     type: 'GET',
-                    url: '/find/?username=' + me.username + '&scid=' + me.id,
-                    success: function(data) {
-                      data = JSON.parse(data);
-                      if (data) {
-                        user.soundmap_id = data.id;
-                        alert(user.soundmap_id);
-                      }
+                    url: '/login/?user=' + me.username + '&scid=' + me.id,
+                    success: function() {
+                      user.soundmap_id = data.id;
+                    }
+                  });
+                } else {
+                  // If not, create an account for them
+                  var create = $.ajax({
+                    type: 'POST',
+                    url: '/create',
+                    data: {
+                      sc_id: me.id,
+                      username: me.username,
+                      permalink: me.permalink_url,
+                      avatar_url: me.avatar_url,
+                      country: me.country,
+                      full_name: me.full_name,
+                      city: me.city
+                    },
+                    success: function() {
+                      $('.splash').hide();
+                      $('header').attr('style', 'visibility: visible');
+                      // User has been created. Now to retrieve their id and log them in
+                      var findUser = $.ajax({
+                        type: 'GET',
+                        url: '/find/?username=' + me.username + '&scid=' + me.id,
+                        success: function(data) {
+                          data = JSON.parse(data);
+                          if (data) {
+                            user.soundmap_id = data.id;
+                            alert(user.soundmap_id);
+                          }
+                        }
+                      });
                     }
                   });
                 }
-              });
-            }
-          }
+              }
+            });
+            $(logoutButton).text('disconnect');
+            $('.userName').append(me.username);
+            // cache the user
+            _.extend(user, me);
+            favorites();
+          });
+          localStorage['token'] = SC.accessToken();
         });
-        $(logoutButton).text('disconnect');
-        $('.userName').append(me.username);
-        // cache the user
-        _.extend(user, me);
-        favorites();
-      });
-      localStorage['token'] = SC.accessToken();
+      }
     });
   };
 
