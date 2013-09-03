@@ -11,9 +11,9 @@ exports.initController = {
   },
 
   initialize: function(req, res) {
-    res.end(JSON.stringify({
+    res.json({
       client_id: process.env.SOUNDMAP_CLIENT_ID,
       redirect_uri: process.env.SOUNDMAP_REDIRECT_URI
-    }));
+    });
   }
 };
