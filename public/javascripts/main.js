@@ -57,6 +57,7 @@ $(function() {
     $('.logoBox img').hide();
     $('.splash').show();
     $('.intro').show();
+    $('.intro img').show();
   }
 
   var loadFirstTrack = function() {
@@ -611,8 +612,9 @@ $(function() {
       $('.host').hide();
       $('.host .container').empty();
     } else {
-      var output = '<div>Would you like to host a music room? Soundmap will need your location information to continue. Is that all right with you?\
-        <button id="hostAgree">Yep</button> <button id="hostReject">Hell Nah</button></div>';
+      // var output = '<div>Would you like to host a music room? Soundmap will need your location information to continue. Is that all right with you?\
+      //   <button id="hostAgree">Yep</button> <button id="hostReject">Hell Nah</button></div>';
+      var output = '<div>This feature is still under development but will be available soon</div>';
       $('.host .container').prepend(output);
       $('.host').show();
     }

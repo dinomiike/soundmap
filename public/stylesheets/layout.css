@@ -117,7 +117,7 @@ main {
   display: none;
   position: absolute;
   top: 60px;
-  left: 340px;
+  left: 310px;
   font-size: 0.45em;
   font-style: italic;
   letter-spacing: -0.11em;
@@ -125,9 +125,85 @@ main {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 
+.screenshot {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.screenshot h2 {
+  margin: 0 auto;
+  width: 330px;
+  padding-bottom: 10px;
+  font-size: 28px;
+  font-weight: normal;
+  letter-spacing: -3px;
+}
+
+.screenshot h2 strong {
+  letter-spacing: -2px;
+}
+
+.screenshot a:link, .screenshot a:visited, .screenshot a:active {
+  color: #000;
+}
+
+.screenshot a:hover {
+  color: #ef5b1a;
+}
+
+.screenshot img {
+  border: 1px solid rgba(68,68,68,0.3);
+  border-radius: 8px;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+}
+
 .pad {
   text-align: center;
-  padding-top: 20px;
+  padding-top: 50px;
+}
+
+.pad ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.pad li {
+  margin-bottom: 4px;
+  padding: 3px;
+  background: #1888ba;
+  color: #efecb9;
+  line-height: 33px;
+  height: 30px;
+  -webkit-transition: all 0.5s ease;
+}
+
+.pad li:hover {
+  background: #e73c45;
+}
+
+.pad p {
+  width: 550px;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  text-align: justify;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+p a:link, p a:visited, p a:active {
+  color: #1888ba;
+}
+
+p a:hover {
+  color: #e73c45;
+}
+
+h3 {
+  font-size: 28px;
+  font-weight: normal;
 }
 
 .homeItems {
@@ -557,18 +633,23 @@ aside.marker {
   top: 0;
   width: 1px;
   height: 90px;
-  background: rgba(234,151,19,0.7);
+  background: rgba(24,136,186,0.7);
   opacity: 0.8;
-  padding: 0 1px 0 1px;
+  border-width: 0 1px 0 1px;
+  border-color: #1675b8;
+  border-style: solid;
 }
 
 aside.note {
   position: absolute;
   top: 0;
   font-size: 0.7em;
-  background: #ea9713;
-  border: 1px solid #d09517;
+  background: #1888ba;
+  background-image: -webkit-linear-gradient(top, #1888ba, #1675b8);
+  border: 1px solid #1a7bbf;
   padding: 0 3px 0 3px;
+  color: #fff;
+  text-shadow: 0px 1px 0 #000;
 }
 
 .line {
