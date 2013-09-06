@@ -3,7 +3,7 @@ $(function() {
   user.hotspots = [];
   user.triggerPoint = '';
   user.triggerIndex = 0;
-  var WAVEFORM_LENGTH = 668; //580;
+  var WAVEFORM_LENGTH = 668;
   var canvas = document.getElementById('sc-widget');
   var context = '';
   var imageCache = ['/images/heart-btn-hover.png'];
@@ -66,13 +66,13 @@ $(function() {
   };
 
   // Helper functions
-  var songIntensity = function() {
-    for (var n = 3; n < 140; n+=3) {
-      if (pixels[Math.floor(((1800 * n) + 1201.3408655357287) * 4)] === 0) {
-        console.log(n);
-      }
-    }
-  };
+  // var songIntensity = function() {
+  //   for (var n = 3; n < 140; n+=3) {
+  //     if (pixels[Math.floor(((1800 * n) + 1201.3408655357287) * 4)] === 0) {
+  //       console.log(n);
+  //     }
+  //   }
+  // };
 
   var simplifyOutput = function(str) {
     if (str.length > 50) {
@@ -106,38 +106,15 @@ $(function() {
   };
 
   var getHeatColor = function(n, max, min) {
-    // var limiter = Math.floor(max / 4);
     var limiter = Math.abs((min - max) / 4);
-    console.log('new limiter', limiter);
     var redUpperLimit = max;
     var redLowerLimit = max - limiter;
-    console.log('red', redUpperLimit, redLowerLimit);
     var orangeUpperLimit = decrement(redLowerLimit);
     var orangeLowerLimit = orangeUpperLimit - limiter;
-    console.log('orange', orangeUpperLimit, orangeLowerLimit);
     var yellowUpperLimit = decrement(orangeLowerLimit);
     var yellowLowerLimit = yellowUpperLimit - limiter;
-    console.log('yellow', yellowUpperLimit, yellowLowerLimit);
     var greenUpperLimit = decrement(yellowLowerLimit);
     var greenLowerLimit = 1;
-    console.log('green', greenUpperLimit, greenLowerLimit);
-
-    console.log('============================================');
-
-    var oldLimiter = Math.abs((min - max) / 4);
-    console.log('old limiter', oldLimiter);
-    var _redUpperLimit = max;
-    var _redLowerLimit = max - limiter;
-    console.log('red', _redUpperLimit, _redLowerLimit);
-    var _orangeUpperLimit = decrement(_redLowerLimit);
-    var _orangeLowerLimit = _orangeUpperLimit - oldLimiter;
-    console.log('orange', _orangeUpperLimit, _orangeLowerLimit);
-    var _yellowUpperLimit = decrement(_orangeLowerLimit);
-    var _yellowLowerLimit = _yellowUpperLimit - oldLimiter;
-    console.log('yellow', _yellowUpperLimit, _yellowLowerLimit);
-    var _greenUpperLimit = decrement(_yellowLowerLimit);
-    var _greenLowerLimit = 1;
-    console.log('green', _greenUpperLimit, _greenLowerLimit);
 
     if (n <= redUpperLimit && n >= redLowerLimit) {
       // return 'red';
@@ -160,29 +137,6 @@ $(function() {
       return false;
     }
   };
-
-  // var getHeatColor = function(n, max) {
-  //   var limiter = Math.floor(max / 4);
-  //   var redUpperLimit = max;
-  //   var redLowerLimit = max - limiter;
-  //   var orangeUpperLimit = redLowerLimit - 1;
-  //   var orangeLowerLimit = orangeUpperLimit - limiter;
-  //   var yellowUpperLimit = orangeLowerLimit - 1;
-  //   var yellowLowerLimit = yellowUpperLimit - limiter;
-  //   var greenUpperLimit = yellowLowerLimit - 1;
-  //   var greenLowerLimit = 1;
-  //   if (n <= redUpperLimit && n >= redLowerLimit) {
-  //     return '#c4451c';
-  //   } else if (n <= orangeUpperLimit && n >= orangeLowerLimit) {
-  //     return '#aa5828';
-  //   } else if (n <= yellowUpperLimit && n >= yellowLowerLimit) {
-  //     return '#906a34';
-  //   } else if (n <= greenUpperLimit && n >= greenLowerLimit) {
-  //     return '#767d41';
-  //   } else {
-  //     return false;
-  //   }
-  // };
 
   // Initialize the widget
   var setWidget = function(trackUrl, trackId) {
@@ -340,7 +294,7 @@ $(function() {
             context.lineTo((pos.currentPosition * WAVEFORM_LENGTH) / user.soundDuration,45);
             context.stroke();
             if (user.triggerPoint && pos.currentPosition > user.triggerPoint) {
-              console.log('fire event!', user.triggerIndex, user.triggerPoint);
+              // console.log('fire event!', user.triggerIndex, user.triggerPoint);
               user.triggerIndex += 1;
               user.triggerPoint = user.hotspots[user.triggerIndex];
               $('#cheer').show('fast');
@@ -428,7 +382,7 @@ $(function() {
                 $('.splash').hide();
                 $('#sc-nav-login').hide();
                 $('header').attr('style', 'visibility: visible');
-                console.log(data);
+                // console.log(data);
                 data = JSON.parse(data);
                 if (data) {
                   $.ajax({
@@ -552,7 +506,6 @@ $(function() {
           } else {
             toggle = '';
           }
-          console.log('time stamp: ', results[i].date_set);
           output += '<div class="recentLike">\
             <div class="userLike">\
             <div class="likeBlockUserName' + toggle + '" data-trackid="' + results[i].track_id + '" data-trackurl="' + results[i].uri + '">' + results[i].track_title + ' liked by ' + results[i].username + ' ' + moment(results[i].date_set).startOf('minute').fromNow() + '</div>\
@@ -577,19 +530,6 @@ $(function() {
     var loc = (pos * WAVEFORM_LENGTH) / user.soundDuration;
     $('.markers').append('<aside class="marker me" style="left: ' + loc + 'px;"></aside');
     $('.markers').append('<aside class="note me" style="left: ' + (loc - 23) + 'px;">Me</aside>');
-  };
-
-  // Event callbacks
-  var dragStart = function() {
-    console.log('drag start');
-  };
-
-  var dragOver = function() {
-    console.log('drag over');
-  };
-
-  var drop = function() {
-    console.log('drop');
   };
 
   // Event bindings
@@ -637,7 +577,6 @@ $(function() {
   });
 
   $('#sc-connect').on('click', function() {
-    console.log('login');
     authenticate();
   });
 
@@ -646,7 +585,6 @@ $(function() {
     var widget = SC.Widget(widgetIframe);
     var heart, heartCursor = widget.getPosition(function(pos) {
       heart = pos;
-      console.log('<3 ' + heart + '!');
       widget.getCurrentSound(function(sound) {
         var submitLikePoint = $.ajax({
           type: 'POST',
@@ -666,7 +604,7 @@ $(function() {
             eventPoint: heart
           },
           success: function() {
-            console.log('like point saved!');
+            // console.log('like point saved!');
             setMarker(heart);
           }
         });
@@ -745,13 +683,8 @@ $(function() {
   });
 
   $('.news').on('click', '#hostAgree', function() {
-    console.log('host ready to jam');
     user.host = true;
     getLocation();
-    console.log('creating a database entry for this session...');
-    console.log('tying this active queue to the aforementioned session db record...');
-    console.log('done');
-    console.log('==when a nearby user connects, they will be asked if they want to join the room==');
   });
 
   $('.news').on('click', '#hostReject', function() {
