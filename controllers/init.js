@@ -2,6 +2,8 @@
  * Initialization operations.
  */
 
+var db = require('../dbConnection').dbConnection;
+
 exports.initController = {
   root: function(req, res) {
     res.render('index', {
@@ -10,10 +12,10 @@ exports.initController = {
   },
 
   initialize: function(req, res) {
-    console.log('inside initialize:', process.env.SOUNDMAP_CLIENT_ID, process.env.SOUNDMAP_REDIRECT_URI);
+    console.log('api info:', db.SOUNDMAP_CLIENT_ID, db.SOUNDMAP_REDIRECT_URI);
     res.end(JSON.stringify({
-      client_id: process.env.SOUNDMAP_CLIENT_ID,
-      redirect_uri: process.env.SOUNDMAP_REDIRECT_URI
+      client_id: db.SOUNDMAP_CLIENT_ID,
+      redirect_uri: db.SOUNDMAP_REDIRECT_URI
     }));
   }
 };
