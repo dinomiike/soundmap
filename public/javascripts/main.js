@@ -580,6 +580,10 @@ $(function() {
     authenticate();
   });
 
+  $('#sc-connect').on('touchstart', function() {
+    authenticate();
+  });
+
   $('#heart').on('click', function() {
     var widgetIframe = $('#sc-widget')[0];
     var widget = SC.Widget(widgetIframe);

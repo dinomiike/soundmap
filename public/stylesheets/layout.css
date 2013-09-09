@@ -193,6 +193,117 @@ main {
   font-weight: normal;
 }
 
+.music-samples {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.music-samples .genre {
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  /*background: rgba(255,255,255,0.4);*/
+  /*border: 3px solid #fff;
+  border-radius: 8px;
+  margin: 0 5px 0 5px;
+  line-height: 150px;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.4);*/
+  cursor: pointer;
+}
+
+.policy-block {
+  height: 500px;
+}
+
+.policy-block h3 {
+  text-align: left;
+}
+
+.user-policy {
+  position: relative;
+  width: 345px;
+  height: 185px;
+  float: left;
+}
+
+.user-policy .under {
+  position: absolute;
+  top: 41px;
+  width: 345px;
+  font-size: 27px;
+  letter-spacing: 16px;
+  left: 7px;
+  opacity: 0.7;
+  color: red;
+}
+
+.user-policy .over {
+  position: absolute;
+  top: 20px;
+  width: 345px;
+  font-size: 70px;
+  letter-spacing: -2px;
+  opacity: 0.4;
+  color: blue;
+  font-family: GothicCustom, 'Helvetica Neue', Helvetica, Arial;
+}
+
+.user-policy .whoami {
+  position: relative;
+  top: 114px;
+  font-size: 22px;
+  letter-spacing: -1px;
+}
+
+.user-policy .thisguy {
+  position: relative;
+  top: 113px;
+  font-size: 11px;
+}
+
+.text {
+  width: 345px;
+  height: 185px;
+  float: left;
+}
+
+.text div {
+  text-align: left;
+  font-size: 12px;
+  font-weight: normal;
+  padding: 0 0 0 10px;
+}
+
+.indie {
+  background: #81a5d0;
+}
+
+.jazz {
+  background: #6e98c9;
+}
+
+.rock {
+  background: #5c8bc2;
+}
+
+.electronic {
+  background: #498ebb;
+}
+
+.pop {
+  background: #4071ab;
+}
+
+.rap {
+  background: #396598;
+}
+
+.music-samples .genre:nth-child(4) {
+  margin-top: 10px;
+}
+
 p a:link, p a:visited, p a:active {
   color: #1888ba;
 }
