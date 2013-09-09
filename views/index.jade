@@ -50,50 +50,69 @@ block content
           a(href='http://soundcloud.com', target='_blank') Soundcloud
         img(src='images/soundmap-screenshot.jpg')
       .pad
-        strong Play 
-        | a song from Soundcloud and vote on the part you like most to make a 
-        strong heat map 
-        | with your fellow fans and 
-        strong communicate 
-        | with your favorite artists, 
-        strong sharing 
-        | what you love most about their music.
+        .desc
+          strong Play 
+          | a song and vote on the part you like most to make a 
+          strong heat map 
+          | with your fellow fans and 
+          strong communicate 
+          | with your favorite artists, 
+          strong sharing 
+          | what you love most about their music.
+      //.pad
+      //  .policy-block
+      //    h3 No sign up or registration
+      //      br
+      //      em Connect with Soundcloud
+      //    .user-policy
+      //      .under transparent
+      //      .over USER DATA POLICY
+      //      .whoami Who am I?
+      //      .thisguy
+      //        | Miike Ramos, "dinomiike", San Francisco, United States
+      //        br
+      //        | http://soundcloud.com/dinomiike
+      //    .text
+      //      div To differentiate between people, I collect the public information you've saved on Soundcloud. Nothing else. When you come back, Soundmap will remember you and preserve your song likes. The specific information I collect is: Your Soundcloud user name, a link to your Soundcloud profile, avatarl url, full name, country and city. If you left it blank on Soundcloud, it won't show up here.
+            div You and I are here because we love music. This site doesn't collect any private information or attempt to access or save your password.
       .pad
-        .policy-block
-          h3 No sign up. Connect with Soundcloud
-          .user-policy
-            .under transparent
-            .over USER DATA POLICY
-            .whoami Who's asking?
-            .thisguy
-              | Miike Ramos, "dinomiike", San Francisco, United States
-              br
-              | http://soundcloud.com/dinomiike
-          .text
-            div To differentiate between people, I collect the public information you've saved on Soundcloud. Nothing else. When you come back, Soundmap will remember you and preserve your song likes. The specific information I collect is: Your Soundcloud user name, a link to your Soundcloud profile, avatarl url, full name, country and city.
-            div You and I are here because we love music. This site doesn't collect any private information or attempt to access or save your password. You now know as much about me as I do about you.
-      .pad
-        h3 Try it out! What kind of music do you like?
-          .music-samples
-            .genre.indie Indie
-            .genre.jazz Jazz
-            .genre.rock Rock
-            .genre.electronic Electronic
-            .genre.pop Pop
-            .genre.rap Rap
+        .music-samples
+          h3 What kind of music do you like?
+            br
+            em Select a genre to try it
+          .genre
+            a(href='https://soundcloud.com/satellitestories/campfire')
+              img(src='https://i3.sndcdn.com/artworks-000056743317-jammju-t120x120.jpg?5e64f12', width='120', height='120')
+            .sticker.indie Indie
+          .genre
+            a(href='https://soundcloud.com/okeh-records/deep-in-the-weeds')
+              img(src='https://i3.sndcdn.com/artworks-000043597238-zya7mh-t120x120.jpg?5e64f12', width='120', height='120')
+            .sticker.jazz Jazz
+          .genre
+            a(href='https://soundcloud.com/avengedsevenfold/hail-to-the-king')
+              img(src='https://i4.sndcdn.com/artworks-000056522524-oixx63-t120x120.jpg?5e64f12', width='120', height='120')
+            .sticker.rock Rock
+          .genre
+            a(href='https://soundcloud.com/jakubimusic/cant-afford-it-all')
+              img(src='http://i2.sndcdn.com/artworks-000052033306-y3sgvy-t120x120.jpg?5e64f12', width='120', height='120')
+            .sticker.pop Pop
+          .genre
+            a(href='https://soundcloud.com/trapmusic/untitled-booty-shaker-by-k')
+              img(src='https://i4.sndcdn.com/artworks-000055480818-76o6do-t120x120.jpg?5e64f12', width='120', height='120')
+            .sticker.rap Rap
       .pad
         h3 About this
-          p 
-            a(href='http://soundcloud.com', target='_blank') Soundcloud 
-            | is my favorite web site. It's the main avenue I have for finding new music. I use it everyday. I particularly love the feature to comment on the timeline as a song is playing. Finally, I can communicate with my favorite artists! I came to notice, in densely commented songs, some comments are easily missed. It also seemed to be the case that popular artists or songs would attract lots of spam or troll comments. I began to wonder if many artists even bother to read the comments anymore, since the info there may or may not be what they're looking for. I still think Soundcloud's commenting system is brilliant and necessary. Soundmap humbly suggests a layer on top of that, stripping away the words and getting to the core sentiment of liking a specific point in a song.
-          p
-            | Soundmap was built as a personal project in a little over 2 weeks by me, 
-            a(href='http://dinomiike.github.io', target='_blank') Miike Ramos. 
-            | I made it because of my fondness for music. I have a hunch that when you're listening to a song, there's a point where it goes from being just another song to being a song you love. I want to hightlight that point and celebrate the parts everyone likes together.
-          p
-            | My dream: for a musician to come to Soundmap and see the heat map for one of their songs and instantly understand the specific quality that makes their music loved. This project is a work-in-progress. I plan to publish new features and improvements that make it useful and fun for fans and musicians alike. If you're a musician and interested in getting a more detailed report on the data I'm collecting, holler at me on Twitter 
-            a(href='http://twitter.com/dinomiike', target='_blank') @dinomiike. 
-            | I'm honored to help.
+        p 
+          a(href='http://soundcloud.com', target='_blank') Soundcloud 
+          | is my favorite web site. It's the main avenue I have for finding new music. I use it everyday. I particularly love the feature to comment on the timeline as a song is playing. Finally, I can communicate with my favorite artists! I came to notice, in densely commented songs, some comments are easily missed. It also seemed to be the case that popular artists or songs would attract lots of spam or troll comments. I began to wonder if many artists even bother to read the comments anymore, since the info there may or may not be what they're looking for. I still think Soundcloud's commenting system is brilliant and necessary. Soundmap humbly suggests a layer on top of that, stripping away the words and getting to the core sentiment of liking a specific point in a song.
+        p
+          | Soundmap was built as a personal project in a little over 2 weeks by me, 
+          a(href='http://dinomiike.github.io', target='_blank') Miike Ramos. 
+          | I made it because of my fondness for music. I have a hunch that when you're listening to a song, there's a point where it goes from being just another song to being a song you love. I want to hightlight that point and celebrate the parts everyone likes together.
+        p
+          | My dream: for a musician to come to Soundmap and see the heat map for one of their songs and instantly understand the specific quality that makes their music loved. This project is a work-in-progress. I plan to publish new features and improvements that make it useful and fun for fans and musicians alike. If you're a musician and interested in getting a more detailed report on the data I'm collecting, holler at me on Twitter 
+          a(href='http://twitter.com/dinomiike', target='_blank') @dinomiike. 
+          | I'm honored to help.
   section.host
     .container
   section.queue
